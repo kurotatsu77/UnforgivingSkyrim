@@ -2,6 +2,7 @@ Scriptname US_Suits extends UD_PatchInit
 
 import UnforgivingDevicesMain
 UDCustomDeviceMain Property UDCDmain auto
+UD_AbadonQuest_script Property AbadonQuest auto
 
 UD_libs Property UDlibs Hidden;device/keyword library
     UD_libs Function get()
@@ -105,8 +106,11 @@ EndFunction
 Function EquipSuitCursed(Actor akActor)
     libs.strip(akActor,false)
     ;libs.SwapDevices(akActor,UDlibs.PunisherPiercing,libs.zad_DeviousPiercingsVaginal,true)
-    libs.SwapDevices(akActor,UDlibs.AbadonPlug,libs.zad_deviousPlugVaginal,true) ; maybe better do this at random basis? alhtough it's nice to have one suit with additional difficulty...
     UDmain.ItemManager.equipAbadonFinisherSuit(akActor)
+    ;need to add Abadon Quest stages check to avoid triggering it too early
+    if AbadonQuest.IsCompleted()
+        libs.SwapDevices(akActor,UDlibs.AbadonPlug,libs.zad_deviousPlugVaginal,true) ; maybe better do this at random basis? alhtough it's nice to have one suit with additional difficulty...
+    endif
     ;libs.strip(akActor,false)
 EndFunction
 
@@ -135,7 +139,189 @@ EndFunction
 Function EquipSuitRandom(Actor akActor)
     libs.strip(akActor,false)
     UDCDmain.DisableActor(akActor)
-    UDmain.UDRRM.LockAllSuitableRestrains(akActor,force = false)
+    
+    ; maybe replace this one with bunch of random Abadon restraints?
+    ;UDmain.UDRRM.LockAllSuitableRestrains(akActor,force = false)
+    
+    ; here's replacement
+    int _randomDevice
+    ; heavy bondage or straitjackets first
+    if (!akActor.WornhasKeyword(libs.zad_DeviousHeavyBondage))
+        if (!akActor.WornhasKeyword(libs.zad_DeviousSuit))
+            _randomDevice = Utility.randomInt(101,200) ; 101-200 is for straitjackets
+        else
+            _randomDevice = Utility.randomInt(0,100)
+        endif
+        if _randomDevice < 20
+            libs.LockDevice(akActor,UDlibs.AbadonElbowbinderEbonite)
+        elseif _randomDevice < 40
+            libs.LockDevice(akActor,UDlibs.AbadonArmbinderEbonite)
+        elseif _randomDevice < 60
+            libs.LockDevice(akActor,UDlibs.AbadonArmbinder)
+        elseif _randomDevice < 80
+            libs.LockDevice(akActor,UDlibs.RogueBinder)
+        elseif _randomDevice < 90
+            libs.LockDevice(akActor,UDlibs.PunisherArmbinder)
+        elseif _randomDevice < 101
+            libs.LockDevice(akActor,UDlibs.AbadonBlueArmbinder)
+        ;straitjackets section
+        elseif _randomDevice < 115
+            libs.LockDevice(akActor,US_AbadonBoxbinderOutfit)
+        elseif _randomDevice < 130
+            libs.LockDevice(akActor,US_AbadonBoxbinder)
+        elseif _randomDevice < 145
+            libs.LockDevice(akActor,UDlibs.AbadonStraitjacketEbonite)
+        elseif _randomDevice < 160
+            libs.LockDevice(akActor,UDlibs.AbadonStraitjacketEboniteOpen)
+        elseif _randomDevice < 175
+            libs.LockDevice(akActor,UDlibs.AbadonStraitjacket)
+        elseif _randomDevice < 190
+            libs.LockDevice(akActor,UDlibs.MageBinder)
+        elseif _randomDevice < 195
+            libs.LockDevice(akActor,UDlibs.AbadonCursedStraitjacket)    
+        endif
+    endif
+
+    ;piercings, vaginal and nipple, 50% for each
+    if (!akActor.WornhasKeyword(libs.zad_DeviousPiercingsVaginal))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonPiercingVaginal)    
+        endif
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousPiercingsNipple))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonPiercingNipple)    
+        endif
+    endif
+    
+    ;hoods/gasmasks, chance none will be applied is 50%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousHood))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 35
+            libs.LockDevice(akActor,UDlibs.AbadonGasmask)
+        elseif _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.CursedAbadonGasmask)
+        endif
+    endif
+
+    ;Corset or harness or nothing
+    if (!akActor.WornhasKeyword(libs.zad_DeviousCorset) && !akActor.WornhasKeyword(libs.zad_DeviousHarness))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 35
+            libs.LockDevice(akActor,UDlibs.AbadonCorset)
+        elseif _randomDevice < 50
+            libs.LockDevice(akActor,US_AbadonSlaveHarness)
+        elseif _randomDevice < 75 && !akActor.WornhasKeyword(libs.zad_DeviousBelt) && !akActor.WornhasKeyword(libs.zad_DeviousCollar)
+            libs.LockDevice(akActor,UDlibs.AbadonHarness)
+        endif
+    endif
+
+    ;gags
+    if (!akActor.WornhasKeyword(libs.zad_DeviousGag))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 15
+            libs.LockDevice(akActor,UDlibs.AbadonBallGag)
+        elseif _randomDevice < 30
+            libs.LockDevice(akActor,UDlibs.AbadonPanelGag)
+        elseif _randomDevice < 45
+            libs.LockDevice(akActor,UDlibs.AbadonRingGag)
+        elseif _randomDevice < 60
+            libs.LockDevice(akActor,UDlibs.AbadonGagTape)
+        elseif _randomDevice < 75
+            libs.LockDevice(akActor,UDlibs.AbadonExtremeBallGag)
+        elseif _randomDevice < 90
+            libs.LockDevice(akActor,UDlibs.AbadonExtremeInflatableGag)
+        else
+            libs.LockDevice(akActor,US_AbadonHeavyGag)
+        endif
+    endif
+    
+    ;blindfolds
+    if (!akActor.WornhasKeyword(libs.zad_DeviousGag))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonBlindfold)
+        else
+            libs.LockDevice(akActor,US_AbadonHeavyBlindfold)
+        endif
+    endif
+
+    ;belt, chance none will be applied is 25%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBelt))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 35
+            libs.LockDevice(akActor,UDlibs.AbadonBelt)
+        elseif _randomDevice < 75 && !akActor.WornhasKeyword(libs.zad_DeviousHarness) && !akActor.WornhasKeyword(libs.zad_DeviousCorset) && !akActor.WornhasKeyword(libs.zad_DeviousCollar)
+            libs.LockDevice(akActor,UDlibs.AbadonHarness)
+        endif
+    endif
+    
+    ;bra, chance none will be applied is 50%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBra))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonBra)
+        endif
+    endif
+
+    ;gloves/mittens, chance none is 25%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousGloves))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 35
+            libs.LockDevice(akActor,UDlibs.AbadonRestrictiveGloves)
+        elseif _randomDevice < 75
+            libs.LockDevice(akActor,UDlibs.AbadonMittens)
+        endif
+    endif
+
+    ;boots, chance none is 25%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBoots))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 35
+            libs.LockDevice(akActor,UDlibs.AbadonRestrictiveBoots)
+        elseif _randomDevice < 75
+            libs.LockDevice(akActor,UDlibs.AbadonBalletBoots)
+        endif
+    endif
+    
+    ;cuffs, arm and leg, 50% for each
+    if (!akActor.WornhasKeyword(libs.zad_DeviousArmCuffs))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonArmCuffs)    
+        endif
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousLegCuffs))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonLegsCuffs)    
+        endif
+    endif
+
+    ;finally plugs, vaginal and anal, chance none is 25%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousPlugVaginal))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.InflatablePlugVag)    
+        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() ; check for Abadon quest to avoid triggering it too early
+            libs.LockDevice(akActor,UDlibs.AbadonPlug)    
+        endif
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousPlugAnal))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 20
+            libs.LockDevice(akActor,UDlibs.InflatablePlugAnal)   
+        elseif _randomDevice < 40
+            libs.LockDevice(akActor,UDlibs.LittleHelper)    
+        elseif _randomDevice < 60
+            libs.LockDevice(akActor,UDlibs.CursedInflatablePlugAnal)    
+        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() ; check for Abadon quest to avoid triggering it too early
+            libs.LockDevice(akActor,UDlibs.AbadonPlugAnal)    
+        endif
+    endif
+
     UDCDmain.EnableActor(akActor)
     ;libs.strip(akActor,false)
 EndFunction

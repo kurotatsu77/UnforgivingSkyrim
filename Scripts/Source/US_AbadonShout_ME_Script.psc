@@ -77,11 +77,17 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         endif
     elseif !TargetFemale && CasterHuman && CasterFemale && CasterFree
         ;bind unbound woman caster and start SL scene with non-female target
+        USlibs.USCalm(akCaster)
+        USlibs.USCalm(akTarget)
         ASBindTarget(akCaster,loc_magn)
         ;Utility.Wait(3) ; replace this with better function to make sure all bondage is done before rape
         ASPerformRapeOrWhip(akTarget,akCaster,loc_magn)
+        USlibs.USUnCalm(akCaster)
+        USlibs.USUnCalm(akTarget)
     elseif !TargetFemale && CasterHuman && CasterFemale && !CasterFree
         ;Mess up or rape bound female caster after adding restraints to her. What's the best percentage for each outcome?
+        USlibs.USCalm(akCaster)
+        USlibs.USCalm(akTarget)
         UDCDmain.DisableActor(akCaster)
         UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
         UDCDmain.EnableActor(akCaster)
@@ -91,8 +97,12 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             ;Utility.Wait(3) ; replace this with better function to make sure all bondage is done before rape
             ASPerformRapeOrWhip(akTarget,akCaster,loc_magn)
         endif
+        USlibs.USUnCalm(akCaster)
+        USlibs.USUnCalm(akTarget)
     elseif TargetHuman && TargetFemale && !CasterFemale
         ;bind target and start SL scene with non-female caster
+        USlibs.USCalm(akCaster)
+        USlibs.USCalm(akTarget)
         if TargetFree
             ASBindTarget(akTarget,loc_magn)
         else 
@@ -104,6 +114,8 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         endif
         ;Utility.Wait(3) ; replace this with better function to make sure all bondage is done before rape
         ASPerformRapeOrWhip(akCaster,akTarget,loc_magn)
+        USlibs.USUnCalm(akCaster)
+        USlibs.USUnCalm(akTarget)
     else
         USlibs.MessUp(akTarget,loc_magn) ;unsupported target, mess them up, works for male on male too
     endif

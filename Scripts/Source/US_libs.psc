@@ -67,7 +67,27 @@ Function DHLPResume()
     ;UDCDmain.Print("Sending event DHLP-Resume")
 EndFunction
 
-;Play scene of akWhippee being whipped by akWhipper, based on script by vkj
+; Calms actor and place them into HavingSexFaction
+Function USCalm(Actor akActor)
+    akActor.StopCombatAlarm()
+    akActor.StopCombat()		
+    akActor.AddToFaction(HavingSexFaction)
+    akActor.StopCombatAlarm()
+    akActor.StopCombat()
+    ;stopping combat twice, just to be sure
+EndFunction
+
+; Calms actor and removes them from HavingSexFaction. Stopping combat seems like a good measure
+Function USUnCalm(Actor akActor)
+    akActor.StopCombatAlarm()
+    akActor.StopCombat()		
+    akActor.RemoveFromFaction(HavingSexFaction)
+    akActor.StopCombatAlarm()
+    akActor.StopCombat()
+    ;stopping combat twice, just to be sure
+EndFunction
+
+; Play scene of akWhippee being whipped by akWhipper, based on script by vkj
 Function USWhip(Actor akWhippee, Actor akWhipper)
     Float whippingDuration = 10
     whippingDuration = Utility.RandomInt(10,30)
