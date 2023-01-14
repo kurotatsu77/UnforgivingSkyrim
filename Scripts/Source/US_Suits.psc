@@ -116,23 +116,42 @@ EndFunction
 
 Function EquipSuitBoxbinder(Actor akActor)
     libs.strip(akActor,false)
-    if akActor.wornhaskeyword(libs.zad_deviousSuit)
-        libs.UnlockDeviceByKeyword(akActor,libs.zad_DeviousSuit)
-    endif
-    if Utility.randomInt(0,1)
-        libs.SwapDevices(akActor,US_AbadonBoxbinderOutfit,libs.zad_deviousHeavyBondage,true)
-    else
-        libs.SwapDevices(akActor,US_AbadonBoxbinder,libs.zad_deviousHeavyBondage,true)
+    if (!akActor.WornhasKeyword(libs.zad_DeviousHeavyBondage))
+        if akActor.wornhaskeyword(libs.zad_deviousSuit)
+            libs.UnlockDeviceByKeyword(akActor,libs.zad_DeviousSuit)
+        endif
+        if Utility.randomInt(0,1)
+            libs.LockDevice(akActor,US_AbadonBoxbinderOutfit)
+        else
+            libs.LockDevice(akActor,US_AbadonBoxbinder)
+        endif
     endif
     UDmain.ItemManager.LockAbadonPiercings(akActor)
     UDmain.ItemManager.lockAbadonHelperPlugs(akActor)
-    libs.SwapDevices(akActor,US_AbadonSlaveHarness,libs.zad_DeviousHarness,true)
-    libs.SwapDevices(akActor,UDlibs.AbadonBelt,libs.zad_DeviousBelt,true)
-    libs.SwapDevices(akActor,UDlibs.AbadonBra,libs.zad_DeviousBra,true)
-    libs.SwapDevices(akActor,US_AbadonHeavyBlindfold,libs.zad_DeviousBlindfold,true)
-    libs.SwapDevices(akActor,US_AbadonHeavyGag,libs.zad_DeviousGag,true)
-    libs.SwapDevices(akActor,US_AbadonHeavyCollar,libs.zad_DeviousCollar,true)
-    libs.SwapDevices(akActor,UDlibs.AbadonRestrictiveBoots,libs.zad_DeviousBoots,true)
+    if (!akActor.WornhasKeyword(libs.zad_DeviousHarness) && !akActor.WornhasKeyword(libs.zad_DeviousCorset))
+        libs.LockDevice(akActor,US_AbadonSlaveHarness)
+    endif
+    
+    ; 50% chance for each of belt and bra for variety
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBelt) && Utility.randomInt(0,1))
+        libs.LockDevice(akActor,UDlibs.AbadonBelt)
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBra) && Utility.randomInt(0,1))
+        libs.LockDevice(akActor,UDlibs.AbadonBra)
+    endif
+    
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBlindfold))
+        libs.LockDevice(akActor,US_AbadonHeavyBlindfold)
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousGag))
+        libs.LockDevice(akActor,US_AbadonHeavyGag)
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousCollar))
+        libs.LockDevice(akActor,US_AbadonHeavyCollar)
+    endif
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBoots))
+        libs.LockDevice(akActor,UDlibs.AbadonRestrictiveBoots)
+    endif
     ;libs.strip(akActor,false)
 EndFunction
 
@@ -148,7 +167,7 @@ Function EquipSuitRandom(Actor akActor)
     ; heavy bondage or straitjackets first
     if (!akActor.WornhasKeyword(libs.zad_DeviousHeavyBondage))
         if (!akActor.WornhasKeyword(libs.zad_DeviousSuit))
-            _randomDevice = Utility.randomInt(101,200) ; 101-200 is for straitjackets
+            _randomDevice = Utility.randomInt(0,400) ; 101-400 is for straitjackets, they have bigger weight to be seen more because catsuits block them
         else
             _randomDevice = Utility.randomInt(0,100)
         endif
@@ -165,33 +184,33 @@ Function EquipSuitRandom(Actor akActor)
         elseif _randomDevice < 101
             libs.LockDevice(akActor,UDlibs.AbadonBlueArmbinder)
         ;straitjackets section
-        elseif _randomDevice < 115
+        elseif _randomDevice < 150
             libs.LockDevice(akActor,US_AbadonBoxbinderOutfit)
-        elseif _randomDevice < 130
+        elseif _randomDevice < 200
             libs.LockDevice(akActor,US_AbadonBoxbinder)
-        elseif _randomDevice < 145
+        elseif _randomDevice < 250
             libs.LockDevice(akActor,UDlibs.AbadonStraitjacketEbonite)
-        elseif _randomDevice < 160
+        elseif _randomDevice < 300
             libs.LockDevice(akActor,UDlibs.AbadonStraitjacketEboniteOpen)
-        elseif _randomDevice < 175
+        elseif _randomDevice < 350
             libs.LockDevice(akActor,UDlibs.AbadonStraitjacket)
-        elseif _randomDevice < 190
+        elseif _randomDevice < 380
             libs.LockDevice(akActor,UDlibs.MageBinder)
-        elseif _randomDevice < 195
+        else
             libs.LockDevice(akActor,UDlibs.AbadonCursedStraitjacket)    
         endif
     endif
 
-    ;piercings, vaginal and nipple, 50% for each
+    ;piercings, vaginal and nipple, 75% for each
     if (!akActor.WornhasKeyword(libs.zad_DeviousPiercingsVaginal))
         _randomDevice = Utility.randomInt(0,100)
-        if _randomDevice < 50
+        if _randomDevice < 75
             libs.LockDevice(akActor,UDlibs.AbadonPiercingVaginal)    
         endif
     endif
     if (!akActor.WornhasKeyword(libs.zad_DeviousPiercingsNipple))
         _randomDevice = Utility.randomInt(0,100)
-        if _randomDevice < 50
+        if _randomDevice < 75
             libs.LockDevice(akActor,UDlibs.AbadonPiercingNipple)    
         endif
     endif
@@ -206,7 +225,7 @@ Function EquipSuitRandom(Actor akActor)
         endif
     endif
 
-    ;Corset or harness or nothing
+    ;Corset or harness or 25% for nothing
     if (!akActor.WornhasKeyword(libs.zad_DeviousCorset) && !akActor.WornhasKeyword(libs.zad_DeviousHarness))
         _randomDevice = Utility.randomInt(0,100)
         if _randomDevice < 35
@@ -258,10 +277,10 @@ Function EquipSuitRandom(Actor akActor)
         endif
     endif
     
-    ;bra, chance none will be applied is 50%
+    ;bra, chance none will be applied is 25%
     if (!akActor.WornhasKeyword(libs.zad_DeviousBra))
         _randomDevice = Utility.randomInt(0,100)
-        if _randomDevice < 50
+        if _randomDevice < 75
             libs.LockDevice(akActor,UDlibs.AbadonBra)
         endif
     endif
@@ -286,16 +305,28 @@ Function EquipSuitRandom(Actor akActor)
         endif
     endif
     
-    ;cuffs, arm and leg, 50% for each
+    ;collars, chance none is 25%
+    if (!akActor.WornhasKeyword(libs.zad_DeviousBoots))
+        _randomDevice = Utility.randomInt(0,100)
+        if _randomDevice < 25
+            libs.LockDevice(akActor,UDlibs.AbadonRestrictiveCollar)
+        elseif _randomDevice < 50
+            libs.LockDevice(akActor,UDlibs.AbadonCuffCollar)
+        elseif _randomDevice < 75
+            libs.LockDevice(akActor,US_AbadonHeavyCollar)
+        endif
+    endif
+    
+    ;cuffs, arm and leg, 75% for each
     if (!akActor.WornhasKeyword(libs.zad_DeviousArmCuffs))
         _randomDevice = Utility.randomInt(0,100)
-        if _randomDevice < 50
+        if _randomDevice < 75
             libs.LockDevice(akActor,UDlibs.AbadonArmCuffs)    
         endif
     endif
     if (!akActor.WornhasKeyword(libs.zad_DeviousLegCuffs))
         _randomDevice = Utility.randomInt(0,100)
-        if _randomDevice < 50
+        if _randomDevice < 75
             libs.LockDevice(akActor,UDlibs.AbadonLegsCuffs)    
         endif
     endif
