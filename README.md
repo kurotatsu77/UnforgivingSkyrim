@@ -9,9 +9,9 @@ Added 3 suits - Cursed, Boxbinder(uses Abadon Dasha's items) and Random(adds ran
 Currently there is Abadon Shout - complex shout which acts differently depending on who uses is (male or female) and on whom it used (male or female).
 Status: working, subtitles made and sounds used are empty ones until I get good ones. Only a thunder when cast at the moment. Good enough for now.
 Quest to obtain it is in planning phase.
-Added it to draugrs, not working yet...
+Added it to draugrs bosses (they have Unrelenting Force normally, now Abadon Shout too), they use it! Yesss!
 
 Known Problems:
-Draugrs are not using Abadon Shout despite everything looking like it should work...
 Goo Arrows are not working ATM. Trying to figure out why...
+Need to improve behavior of Abadon Shout actors in combat situations. Research on factions etc?
 
