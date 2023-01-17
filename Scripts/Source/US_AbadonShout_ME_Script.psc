@@ -179,7 +179,7 @@ Function ASPerformRapeOrWhip(Actor akRapist, Actor akVictim, int magn)
     ;RapistArousal = UDCDmain.UDOM.getArousal(akRapist) ; this returns exposure value, not summed arousal
     RapistArousal = libs.Aroused.GetActorArousal(akRapist)
     ;UDCDmain.Print(GetActorName(akRapist) + "s arousal is " + RapistArousal)
-    if RapistArousal < 25
+    if RapistArousal < 25 && GActorIsPlayer(akVictim)
         USlibs.USWhip(akVictim, akRapist)
         libs.UpdateExposure(akRapist, 30, true)
         libs.UpdateExposure(akVictim, 30, true)
@@ -271,7 +271,7 @@ Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
         ;UDCDmain.Print("Number of anims found is " + AS_SLAnim.Length)
         ;UDCDmain.Print("Starting animation for " + GetActorName(AS_SLActors[1]) + " to rape " + GetActorName(AS_SLActors[0]))
         libs.SexLab.StartSex(Positions = AS_SLActors, Anims = AS_SLAnim, Victim = akVictim)
-    else
+    elseif GActorIsPlayer(akVictim)
         UDCDmain.Print(GetActorName(akRapist) + " can't use " + GetActorName(akVictim) + " and gets angry!")
         AS_RapeResult = 3
         ;here add whipping scene if no way to have sex or spank victim

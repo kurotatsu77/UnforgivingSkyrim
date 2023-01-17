@@ -72,6 +72,10 @@ Function USCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
     akActor.AddToFaction(HavingSexFaction)
+    if !GActorIsPlayer(akActor) 
+        akActor.setAV("Aggression", 0)
+	    akActor.EvaluatePackage()
+    endif
     akActor.StopCombatAlarm()
     akActor.StopCombat()
     ;stopping combat twice, just to be sure
@@ -82,12 +86,16 @@ Function USUnCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
     akActor.RemoveFromFaction(HavingSexFaction)
+    if !GActorIsPlayer(akActor) 
+        akActor.setAV("Aggression", 1)
+	    akActor.EvaluatePackage()
+    endif
     akActor.StopCombatAlarm()
     akActor.StopCombat()
     ;stopping combat twice, just to be sure
 EndFunction
 
-; Play scene of akWhippee being whipped by akWhipper, based on script by vkj
+; Play scene of akWhippee being whipped by akWhipper, based on script by vkj, works only on player for now! Maybe rework it later.
 Function USWhip(Actor akWhippee, Actor akWhipper)
     Float whippingDuration = 10
     whippingDuration = Utility.RandomInt(10,30)
