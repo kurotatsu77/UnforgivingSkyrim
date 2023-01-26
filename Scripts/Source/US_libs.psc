@@ -3,8 +3,39 @@ Scriptname US_libs extends Quest conditional
 
 ;import UDCustomDeviceMain
 import UnforgivingDevicesMain
-UnforgivingDevicesMain Property UDmain auto
-UDCustomDeviceMain Property UDCDmain auto
+
+;UnforgivingDevicesMain Property UDmain auto
+UnforgivingDevicesMain  _udmain
+Quest                   _udquest ;kept for possible future optimization
+UnforgivingDevicesMain Property UDmain hidden ;main function
+    UnforgivingDevicesMain Function get()
+        if !_udmain
+            _udquest = Game.getFormFromFile(0x00005901,"UnforgivingDevices.esp") as Quest
+            _udmain = _udquest as UnforgivingDevicesMain
+        endif
+        return _udmain
+    EndFunction
+    Function set(UnforgivingDevicesMain akForm)
+        _udmain = akForm
+    EndFunction
+EndProperty
+
+;UDCustomDeviceMain Property UDCDmain auto
+UD_libs Property UDlibs Hidden;device/keyword library
+    UD_libs Function get()
+        return UDmain.UDlibs
+    EndFunction
+EndProperty
+UDCustomDeviceMain _udcdmain
+UDCustomDeviceMain Property UDCDmain Hidden
+    UDCustomDeviceMain Function get()
+        if !_udcdmain
+            _udcdmain = UDmain.UDCDmain
+        endif
+        return _udcdmain
+    EndFunction
+EndProperty
+
 zadlibs Property libs auto
 ;UD_AbadonQuest_script Property AbadonQuest auto
 ;Quest Property USlibsQuest auto
@@ -25,6 +56,24 @@ Spell Property ASExhaustion3 auto
 Spell Property ASMasoBuff1 auto
 Spell Property ASMasoBuff2 auto
 Spell Property ASMasoBuff3 auto
+
+Quest Property MQ104 Auto
+Quest Property ASQuest Auto
+Shout Property AbadonShout Auto
+WordOfPower Property AbadonShoutWord1 Auto
+WordOfPower Property AbadonShoutWord2 Auto
+WordOfPower Property AbadonShoutWord3 Auto
+Message Property US_ASQ_MSG_1_1 Auto
+Message Property US_ASQ_MSG_1_2 Auto
+Message Property US_ASQ_MSG_2_1 Auto
+Message Property US_ASQ_MSG_2_2 Auto
+Message Property US_ASQ_MSG_3_1 Auto
+Message Property US_ASQ_MSG_3_2 Auto
+Message Property US_AS_MSG_Reversal_1 Auto
+Message Property US_AS_MSG_Reversal_2 Auto
+
+int AbadonShoutUnderstanding = 0
+int Property AbadonShoutMinReversal = 5 Auto
 
 Event OnInit()
     UDmain.CLog("US_libs got Init event.")
@@ -257,4 +306,163 @@ Function MasoBuff(Actor MasoTarget, int BuffMagnitude)
         mes = mes + " at power 3"
     endif
     ;UDCDmain.Print(mes)
+EndFunction
+
+Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
+;result of the shout
+;0 - default result, target got simply messed up
+;1 - caster messed up
+;2 - got raped
+;3 - got whipped
+;4 - target bound
+;5 - target got all bound
+;6 - caster got bound
+;7 - caster got all bound
+;10 - shout got reversed
+;15 - shout got reversed and caster got all bound
+
+    if MQ104.IsCompleted() && !ASQuest.IsRunning() && !ASQuest.IsCompleted() ;starting the Abadon Shout learning quest if it not running and not complete yet
+        UDCDmain.Print("Starting Abadon Shout Quest")
+        ASQuest.Start()
+        ASQuest.SetObjectiveDisplayed(100)
+    elseif ASQuest.IsRunning()
+        int ASQStage = ASQuest.GetCurrentStageID()
+        int loc_random = Utility.RandomInt(1,100)
+        int loc_choice
+        if  ASQStage == 100 && akTarget == Game.GetPlayer(); Learning first Abadon Shout word
+            if loc_random < 50
+                loc_choice = US_ASQ_MSG_1_1.Show()
+            else
+                loc_choice = US_ASQ_MSG_1_2.Show()
+            endif
+            if loc_choice == 0
+                AbadonShoutUnderstanding -= 20
+            elseif loc_choice == 1
+                AbadonShoutUnderstanding += 10
+            else
+                AbadonShoutUnderstanding += 30
+            endif
+            if AbadonShoutUnderstanding < 0
+                AbadonShoutUnderstanding = 0
+            elseif AbadonShoutUnderstanding > 99
+                AbadonShoutUnderstanding = 0
+                debug.messagebox("Now you finally have full understanding, it makes perfect sense for Master to bind woman's hands before using her, bound sex is great!")
+                Game.GetPlayer().AddShout(AbadonShout)
+                Game.TeachWord(AbadonShoutWord1)
+                Game.UnlockWord(AbadonShoutWord1)
+                ASQuest.SetObjectiveCompleted(100)
+                ASQuest.SetStage(200)
+                ASQuest.SetObjectiveDisplayed(200)
+            endif
+        elseif  ASQStage == 200 ; Learning second Abadon Shout word
+            if akTarget == Game.GetPlayer() && aiMagnitude > 1
+                if loc_random < 50
+                    loc_choice = US_ASQ_MSG_2_1.Show()
+                else
+                    loc_choice = US_ASQ_MSG_2_2.Show()
+                endif
+                if loc_choice == 0
+                    AbadonShoutUnderstanding -= 10
+                elseif loc_choice == 1
+                    AbadonShoutUnderstanding += 10
+                else
+                    AbadonShoutUnderstanding += 20
+                endif
+            elseif akTarget == Game.GetPlayer() && aiMagnitude == 1
+                UDCDmain.Print("This Shout was too weak to learn anything from it")
+            elseif akCaster == Game.GetPlayer()
+                if aiResult == 10
+                    AbadonShoutUnderstanding += 10
+                    UDCDmain.Print("You reflect on the reflected Shout, it works!")
+                elseif aiResult == 15
+                    AbadonShoutUnderstanding += 20
+                    UDCDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
+                else
+                    AbadonShoutUnderstanding += 5
+                    UDCDmain.Print("Your understanding of the Abadon Shout increases slightly")
+                endif
+            endif
+            if AbadonShoutUnderstanding < 0
+                AbadonShoutUnderstanding = 0
+            elseif AbadonShoutUnderstanding > 99
+                AbadonShoutUnderstanding = 0
+                debug.messagebox("Second Word understanding is now clear to you - only through true helplessness of being bound, gagged and blindfolded woman can achieve a true masochist's delight.")
+                Game.TeachWord(AbadonShoutWord2)
+                Game.UnlockWord(AbadonShoutWord2)
+                ASQuest.SetObjectiveCompleted(200)
+                ASQuest.SetStage(300)
+                ASQuest.SetObjectiveDisplayed(300)
+            endif
+        elseif  ASQStage == 300 ; Learning third Abadon Shout word
+            if akTarget == Game.GetPlayer() && aiMagnitude > 2
+                if loc_random < 50
+                    loc_choice = US_ASQ_MSG_3_1.Show()
+                else
+                    loc_choice = US_ASQ_MSG_3_2.Show()
+                endif
+                if loc_choice == 0
+                    AbadonShoutUnderstanding -= 5
+                elseif loc_choice == 1
+                    AbadonShoutUnderstanding += 5
+                elseif loc_choice == 2
+                    AbadonShoutUnderstanding += 10
+                else
+                    AbadonShoutUnderstanding += 20
+                endif
+            elseif akTarget == Game.GetPlayer() && aiMagnitude < 3
+                UDCDmain.Print("This Shout was too weak to learn anything from it")
+            elseif akCaster == Game.GetPlayer() && aiMagnitude == 2
+                if aiResult == 10
+                    AbadonShoutUnderstanding += 10
+                    UDCDmain.Print("You reflect on the reflected Shout, it works!")
+                elseif aiResult == 15
+                    AbadonShoutUnderstanding += 20
+                    UDCDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
+                else
+                    AbadonShoutUnderstanding += 5
+                    UDCDmain.Print("Your understanding of the Abadon Shout increases slightly")
+                endif
+            elseif akCaster == Game.GetPlayer() && aiMagnitude == 1
+                UDCDmain.Print("This Shout was too weak to learn anything from it")
+            endif
+            if AbadonShoutUnderstanding < 0
+                AbadonShoutUnderstanding = 0
+            elseif AbadonShoutUnderstanding > 99
+                AbadonShoutUnderstanding = 0
+                debug.messagebox("It's very obvious now to you. Women are slaves to Master's whims, to be wrapped in restraints and used. Master does not needs permission from slave meat. Being reduced to bound playtoy without any rights feels wonderful!")
+                Game.TeachWord(AbadonShoutWord3)
+                Game.UnlockWord(AbadonShoutWord3)
+                ASQuest.SetObjectiveCompleted(300)
+                ASQuest.SetStage(1000)
+                ASQuest.CompleteQuest()
+                ASQuest.Stop()
+            endif
+        endif
+    else
+        if akCaster == Game.GetPlayer()
+            if aiResult > 9
+                int loc_random = Utility.RandomInt(1,100)
+                int loc_choice
+                if loc_random < 50
+                    loc_choice = US_AS_MSG_Reversal_1.Show()
+                else
+                    loc_choice = US_AS_MSG_Reversal_2.Show()
+                endif
+                if loc_choice == 0
+                    AbadonShoutMinReversal = AbadonShoutMinReversal - (5 * Round((aiResult/5) - 1) * aiMagnitude) ; -5 ... -30
+                elseif loc_choice == 1
+                    ;AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude) ; no change
+                else
+                    AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude)  ; +5 ... +30
+                endif
+                if AbadonShoutMinReversal < 5
+                    AbadonShoutMinReversal = 5
+                endif
+                if AbadonShoutMinReversal > 95
+                    AbadonShoutMinReversal = 95
+                endif
+                UDCDmain.Print("You feel like you will be bound with at least " + AbadonShoutMinReversal + "% probability.")
+            endif
+        endif
+    endif
 EndFunction

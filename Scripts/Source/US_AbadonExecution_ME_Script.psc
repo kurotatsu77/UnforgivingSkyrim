@@ -44,6 +44,9 @@ UDCustomDeviceMain Property UDCDmain Hidden
 EndProperty
 
 Event OnEffectStart(Actor akTarget, Actor akCaster)
+    if !UDCDMain.UDmain.ActorIsValidForUD(akTarget)
+        return ;non valid actor, return
+    endif
     libsp.strip(akTarget,false)
     if !akTarget.wornhaskeyword(libs.zad_DeviousPiercingsVaginal)
         libs.LockDevice(akTarget,UDlibs.PunisherPiercing)

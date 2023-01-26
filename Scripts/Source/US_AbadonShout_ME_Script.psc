@@ -24,8 +24,25 @@ Idle Property IdleDef  Auto
 
 Sound Property dd_sound_moan Auto
 
+int _ASResult = 0
+;result of the shout
+;0 - default result, target got simply messed up
+;1 - caster messed up
+;2 - got raped
+;3 - got whipped
+;4 - target bound
+;5 - target got all bound
+;6 - caster got bound
+;7 - caster got all bound
+;10 - shout got reversed
+;15 - shout got reversed and caster got all bound
+
+int loc_magn
+
 Event OnEffectStart(Actor akTarget, Actor akCaster)
+    loc_magn = iRange(Round(GetMagnitude()),1,3)
     AS_Main(akTarget, akCaster)
+    USlibs.ASHook(akTarget, akCaster, loc_magn, _ASResult)
 EndEvent
 
 Function AS_Main(Actor akTarget, Actor akCaster)
@@ -35,48 +52,90 @@ Function AS_Main(Actor akTarget, Actor akCaster)
     ;UDmain.DHLPSuspend() ; works
     Utility.Wait(1)
     ;this is enraging... DHLP-Suspend is sent properly, but DHLP-Resume not! Why?!
-    
     Actorbase loc_actorbasetarget = akTarget.GetLeveledActorBase()
     Actorbase loc_actorbasecaster = akCaster.GetLeveledActorBase()
-    bool CasterHuman = loc_actorbasetarget.IsPlayable()
-    bool TargetHuman = loc_actorbasetarget.IsPlayable()
+    ;bool CasterHuman = loc_actorbasetarget.IsPlayable()
+    bool CasterHuman = UDmain.ActorIsValidForUD(akCaster)
+    ;bool TargetHuman = loc_actorbasetarget.IsPlayable()
+    bool TargetHuman = UDmain.ActorIsValidForUD(akTarget)
     bool CasterFemale = loc_actorbasecaster.GetSex() == 1
     bool TargetFemale = loc_actorbasetarget.GetSex() == 1
     ;add here draugrs later
-    int loc_magn = iRange(Round(GetMagnitude()),1,3)
     ;UDCDmain.Print("Target is " + loc_TargetIsHuman + "H " + loc_TargetIsFemale + "F")
     bool TargetFree = !akTarget.wornhaskeyword(libs.zad_deviousheavybondage)
     bool CasterFree = !akCaster.wornhaskeyword(libs.zad_deviousheavybondage)
+    
     if TargetHuman && TargetFemale && CasterHuman && CasterFemale 
     ;if UDmain.ActorIsValidForUD(akTarget) && loc_actorbasetarget.GetSex() == 1 && UDmain.ActorIsValidForUD(akCaster) && loc_actorbasecaster.GetSex() == 1 
     ; ActorIsValidForUD was failing when checked against guards and bandits, probably because of using GetLeveledActorBase 
     ;both females, check arousal and then call lock restraints on target or caster with check for bondage, bound targets get messed up instead
         if ASReverse(akTarget, akCaster)
+            _ASResult = 10
             UDCDmain.Print(GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
             if CasterFree
                 ASBindTarget(akCaster,loc_magn)
             else
                 UDCDmain.DisableActor(akCaster)
                 if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
+                    _ASResult = 15
                     UDCDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
                 endif
                 UDCDmain.EnableActor(akCaster)
                 USlibs.MessUp(akCaster,loc_magn)
             endif
         else
+            _ASResult = 4
             if TargetFree
                 ASBindTarget(akTarget,loc_magn)
             else
                 UDCDmain.DisableActor(akTarget)
                 if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+                    _ASResult = 5
                     UDCDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
                 endif
                 UDCDmain.EnableActor(akCaster)
                 USlibs.MessUp(akTarget,loc_magn)
-            endif
+            endif            
         endif
+
+    elseif TargetHuman && TargetFemale && !CasterHuman && CasterFemale
+    ;female creature shouts at human female
+        UDCDmain.Print(GetActorName(akCaster) + " laughs as restraints appear on " + GetActorName(akTarget) + "!")
+        _ASResult = 4
+        if TargetFree
+            ASBindTarget(akTarget,loc_magn)
+        else
+            UDCDmain.DisableActor(akTarget)
+            if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+                _ASResult = 5
+                UDCDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
+            endif
+            UDCDmain.EnableActor(akCaster)
+        endif
+        USlibs.MessUp(akTarget,loc_magn)
+
+    elseif !TargetHuman && TargetFemale && CasterHuman && CasterFemale
+    ;human female shouts at female creature
+        if ASReverse(akTarget, akCaster)    
+            _ASResult = 10
+            UDCDmain.Print(GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
+            if CasterFree
+                ASBindTarget(akCaster,loc_magn)
+            else
+                UDCDmain.DisableActor(akCaster)
+                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
+                    _ASResult = 15
+                    UDCDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
+                endif
+                UDCDmain.EnableActor(akCaster)
+                USlibs.MessUp(akCaster,loc_magn)
+            endif
+        else
+            USlibs.MessUp(akTarget,loc_magn)
+        endif
+
     elseif !TargetFemale && CasterHuman && CasterFemale && CasterFree
-        ;bind unbound woman caster and start SL scene with non-female target
+    ;bind unbound woman caster and start SL scene with non-female target
         USlibs.USCalm(akCaster)
         USlibs.USCalm(akTarget)
         ASBindTarget(akCaster,loc_magn)
@@ -84,14 +143,16 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         ASPerformRapeOrWhip(akTarget,akCaster,loc_magn)
         USlibs.USUnCalm(akCaster)
         USlibs.USUnCalm(akTarget)
+    
     elseif !TargetFemale && CasterHuman && CasterFemale && !CasterFree
-        ;Mess up or rape bound female caster after adding restraints to her. What's the best percentage for each outcome?
+    ;Mess up or rape bound female caster for shouting at male target after adding restraints to her. What's the best percentage for each outcome?
         USlibs.USCalm(akCaster)
         USlibs.USCalm(akTarget)
         UDCDmain.DisableActor(akCaster)
         UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
         UDCDmain.EnableActor(akCaster)
         if Utility.RandomInt(0,100) < 33
+            _ASResult = 1
             USlibs.Messup(akCaster,loc_magn)
         else
             ;Utility.Wait(3) ; replace this with better function to make sure all bondage is done before rape
@@ -99,6 +160,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         endif
         USlibs.USUnCalm(akCaster)
         USlibs.USUnCalm(akTarget)
+    
     elseif TargetHuman && TargetFemale && !CasterFemale
         ;bind target and start SL scene with non-female caster
         USlibs.USCalm(akCaster)
@@ -108,6 +170,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         else 
             UDCDmain.DisableActor(akTarget)
             if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+                _ASResult = 5
                 UDCDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
             endif
             UDCDmain.EnableActor(akTarget)
@@ -135,11 +198,19 @@ EndFunction
 bool Function ASReverse(Actor loc_target, Actor loc_caster)
     int ReversalChance = Round(UDCDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDOM.getArousal(loc_target))
     ; Reversal chance is 5-95%
-    if ReversalChance < 5
-        ReversalChance = 5
+    if ReversalChance < 5 
+        if GActorIsPlayer(loc_caster)
+            ReversalChance = USlibs.AbadonShoutMinReversal
+        else
+            ReversalChance = 5
+        endif
     endif
     if ReversalChance > 95
-        ReversalChance = 95
+        if GActorIsPlayer(loc_target)
+            ReversalChance = 100 - USlibs.AbadonShoutMinReversal
+        else
+            ReversalChance = 95
+        endif
     endif
     if Utility.randomInt(0,100) < ReversalChance
         return true
@@ -185,8 +256,10 @@ Function ASPerformRapeOrWhip(Actor akRapist, Actor akVictim, int magn)
         libs.UpdateExposure(akVictim, 30, true)
         USlibs.MessUp(akVictim,1)
         USlibs.MasoBuff(akVictim,1)
+        _ASResult = 3
     Else
         ASPerformRape(akRapist, akVictim, magn)
+        _ASResult = 2
     endif
 EndFunction
 
