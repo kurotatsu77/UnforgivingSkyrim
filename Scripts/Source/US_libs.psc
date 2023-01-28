@@ -309,7 +309,7 @@ Function MasoBuff(Actor MasoTarget, int BuffMagnitude)
 EndFunction
 
 Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
-;result of the shout
+;aiResult is result of the shout
 ;0 - default result, target got simply messed up
 ;1 - caster messed up
 ;2 - got raped
@@ -321,15 +321,27 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
 ;10 - shout got reversed
 ;15 - shout got reversed and caster got all bound
 
-    if MQ104.IsCompleted() && !ASQuest.IsRunning() && !ASQuest.IsCompleted() ;starting the Abadon Shout learning quest if it not running and not complete yet
-        UDCDmain.Print("Starting Abadon Shout Quest")
+    if !MQ104.IsCompleted() && !ASQuest.IsRunning() && !ASQuest.IsCompleted() ;starting the Abadon Shout learning quest at pre-MQ014 stage, depending on who got hit 
+        if akTarget == Game.GetPlayer()
+            ASQuest.Start()
+            ASQuest.SetStage(50)
+        else
+            ASQuest.Start()
+            ASQuest.SetStage(51)
+        endif
+    elseif MQ104.IsCompleted() && !ASQuest.IsRunning() && !ASQuest.IsCompleted() ;starting the Abadon Shout learning quest if it not running and not complete yet
+        ;UDCDmain.Print("Starting Abadon Shout Quest")
         ASQuest.Start()
+        ASQuest.SetStage(100)
         ASQuest.SetObjectiveDisplayed(100)
     elseif ASQuest.IsRunning()
         int ASQStage = ASQuest.GetCurrentStageID()
         int loc_random = Utility.RandomInt(1,100)
         int loc_choice
-        if  ASQStage == 100 && akTarget == Game.GetPlayer(); Learning first Abadon Shout word
+        if  (ASQStage == 50 || ASQStage == 51) && MQ104.IsCompleted() ; catching event of finishing MQ104 is a bit tricky, so we just wait to witness another use of Abadon Shout 
+            ASQuest.SetStage(100)
+            ASQuest.SetObjectiveDisplayed(100)
+        elseif  ASQStage == 100 && akTarget == Game.GetPlayer(); Learning first Abadon Shout word
             if loc_random < 50
                 loc_choice = US_ASQ_MSG_1_1.Show()
             else
