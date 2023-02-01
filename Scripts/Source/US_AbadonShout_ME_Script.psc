@@ -196,7 +196,7 @@ EndFunction
 ;At 100 arousal difference chance of reverse is 95%, i.e. aroused caster most likely would bind herself instead of completely unaroused target.
 ;If target's arousal higher than caster's - reversal chance is 5%. Maybe add MCM setting for it later, although sticking with 5% is essentially 1 on 1d20 throw, might be the best.
 bool Function ASReverse(Actor loc_target, Actor loc_caster)
-    int ReversalChance = Round(UDCDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDOM.getArousal(loc_target))
+    int ReversalChance = Round(UDCDmain.UDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDmain.UDOM.getArousal(loc_target))
     ; Reversal chance is 5-95%
     if ReversalChance < 5 
         if GActorIsPlayer(loc_caster)
@@ -247,7 +247,7 @@ EndFunction
 ; If rapist is not aroused enough - whip victim, else perform rape
 Function ASPerformRapeOrWhip(Actor akRapist, Actor akVictim, int magn)
     int RapistArousal = 50
-    ;RapistArousal = UDCDmain.UDOM.getArousal(akRapist) ; this returns exposure value, not summed arousal
+    ;RapistArousal = UDCDmain.UDmain.UDOM.getArousal(akRapist) ; this returns exposure value, not summed arousal
     RapistArousal = libs.Aroused.GetActorArousal(akRapist)
     ;UDCDmain.Print(GetActorName(akRapist) + "s arousal is " + RapistArousal)
     if RapistArousal < 25 && GActorIsPlayer(akVictim)
