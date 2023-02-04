@@ -325,9 +325,11 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
         if akTarget == Game.GetPlayer()
             ASQuest.Start()
             ASQuest.SetStage(50)
+            ASQuest.SetObjectiveDisplayed(50)
         else
             ASQuest.Start()
             ASQuest.SetStage(51)
+            ASQuest.SetObjectiveDisplayed(50)
         endif
     elseif MQ104.IsCompleted() && !ASQuest.IsRunning() && !ASQuest.IsCompleted() ;starting the Abadon Shout learning quest if it not running and not complete yet
         ;UDCDmain.Print("Starting Abadon Shout Quest")
