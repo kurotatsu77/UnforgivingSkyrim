@@ -341,6 +341,7 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
         int loc_random = Utility.RandomInt(1,100)
         int loc_choice
         if  (ASQStage == 50 || ASQStage == 51) && MQ104.IsCompleted() ; catching event of finishing MQ104 is a bit tricky, so we just wait to witness another use of Abadon Shout 
+            ASQuest.SetObjectiveCompleted(50)
             ASQuest.SetStage(100)
             ASQuest.SetObjectiveDisplayed(100)
         elseif  ASQStage == 100 && akTarget == Game.GetPlayer(); Learning first Abadon Shout word
