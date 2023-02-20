@@ -161,7 +161,7 @@ Function USWhip(Actor akWhippee, Actor akWhipper)
 
     UDCDmain.DisableActor(akWhippee)
     if GActorIsPlayer(akWhippee)
-        Game.SetPlayerAIDriven()
+        Game.SetPlayerAIDriven(true)
     endif
 
     akWhippee.AddToFaction(HavingSexFaction)
