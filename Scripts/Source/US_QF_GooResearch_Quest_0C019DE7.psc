@@ -1,6 +1,6 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 ;NEXT FRAGMENT INDEX 4
-Scriptname QF_US_GooResearch_Quest_0C019DE7 Extends Quest Hidden
+Scriptname US_QF_GooResearch_Quest_0C019DE7 Extends Quest Hidden
 
 ;BEGIN ALIAS PROPERTY Hub
 ;ALIAS PROPERTY TYPE LocationAlias
@@ -53,7 +53,7 @@ Actor akNodaba = kmyQuest.Nodaba.GetActorRef()
 akNodaba.addItem(kmyQuest.HubKey, 1)
 Game.GetPlayer().AddItem(kmyQuest.HubKey, 1)
 Game.GetPlayer().AddToFaction(kmyQuest.US_GRQFaction)
-akNodaba .EvaluatePackage()
+akNodaba.EvaluatePackage()
 ; Utility.Wait(5)
 SetObjectiveCompleted(20)
 SetObjectiveDisplayed(20, False)

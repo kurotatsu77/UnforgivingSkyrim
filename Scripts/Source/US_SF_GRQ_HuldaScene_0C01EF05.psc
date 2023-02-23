@@ -1,6 +1,6 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 ;NEXT FRAGMENT INDEX 5
-Scriptname SF_US_GRQ_HuldaScene_0C01EF05 Extends Scene Hidden
+Scriptname US_SF_GRQ_HuldaScene_0C01EF05 Extends Scene Hidden
 
 ;BEGIN FRAGMENT Fragment_0
 Function Fragment_0()
