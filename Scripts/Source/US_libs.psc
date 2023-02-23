@@ -145,7 +145,8 @@ Function USUnCalm(Actor akActor)
 EndFunction
 
 ; Play scene of akWhippee being whipped by akWhipper, based on script by vkj, works only on player for now! Maybe rework it later.
-Function USWhip(Actor akWhippee, Actor akWhipper)
+Function USWhip(Actor akWhippee, Actor akWhipper, Scene akNextScene = None)
+    Int loc_isPlayer = GActorIsPlayer(akWhippee) as Int
     Float whippingDuration = 10
     whippingDuration = Utility.RandomInt(10,30)
     String caneModel = WeaponCane.GetModelPath()
@@ -158,11 +159,8 @@ Function USWhip(Actor akWhippee, Actor akWhipper)
 	WeaponCane.SetCritDamage(0); Being cautious; it should be zero anyway.
     float zazDialogType = zazActions.zbfSlaveDialogueType.GetValue()
 	zazActions.zbfSlaveDialogueType.SetValue(-1); suppress whipping dialog
-
-    UDCDmain.DisableActor(akWhippee)
-    if GActorIsPlayer(akWhippee)
-        Game.SetPlayerAIDriven(true)
-    endif
+    
+    UDCDmain.DisableActor(akWhippee, loc_isPlayer)
 
     akWhippee.AddToFaction(HavingSexFaction)
 	akWhipper.AddToFaction(HavingSexFaction)
@@ -181,7 +179,7 @@ Function USWhip(Actor akWhippee, Actor akWhipper)
 
 	float angleZ = akWhippee.GetAngleZ()
     akWhipper.MoveTo(akWhippee, 80.0 * Math.Sin(angleZ), 80.0 * Math.Cos(angleZ), 0.0, false)
-	akWhipper.PlayIdle(IdleDef)
+;	akWhipper.PlayIdle(IdleDef)
 
     ;unequip spells
     Spell aSpell = akWhipper.GetEquippedSpell(0)
@@ -228,11 +226,15 @@ Function USWhip(Actor akWhippee, Actor akWhipper)
     ;akWhippee.PlayIdle(IdleDef)
 	akWhippee.RemoveFromFaction(HavingSexFaction)
 	akWhipper.RemoveFromFaction(HavingSexFaction)
-
-    UDCDmain.EnableActor(akWhippee)
-    if GActorIsPlayer(akWhippee)
-        Game.SetPlayerAIDriven(false)
-    endif
+    
+    UDCDmain.EnableActor(akWhippee, loc_isPlayer)
+    Debug.SendAnimationEvent(akWhippee, "IdleForceDefaultState")
+    
+    If akNextScene != None
+        akNextScene.ForceStart()
+    Else
+;        UDCDmain.EnableActor(akWhippee, loc_isPlayer)
+    EndIf
 EndFunction
 
 ; Makes target kneel for KneelTime seconds

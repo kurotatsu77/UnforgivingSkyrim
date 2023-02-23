@@ -11,7 +11,6 @@ Event OnLocationChange(Location akOldLoc, Location akNewLoc)
         if (Game.GetPlayer().GetItemCount(BlackGoo) > 0)
             if BlackGoo.GetIsNthEffectKnown(0)
                 GRQ.SetStage(10)
-                GRQ.SetObjectiveDisplayed(10,1)
                 GRQStarter.Stop()
             endif
         endif
