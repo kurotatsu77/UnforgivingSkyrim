@@ -11,6 +11,8 @@ GetOwningQuest().SetObjectiveCompleted(40)
 GetOwningQuest().SetObjectiveDisplayed(40,0)
 GetOwningQuest().SetObjectiveDisplayed(50,1)
 GetOwningQuest().SetStage(50)
+RLog.Enable()
+RLog.StartTimer()
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -18,3 +20,4 @@ EndFunction
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
 MiscObject Property Gold  Auto  
+US_GRQ_RLogScript Property RLog Auto

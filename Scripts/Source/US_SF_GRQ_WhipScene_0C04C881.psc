@@ -23,6 +23,7 @@ EndFunction
 Function Fragment_1()
 ;BEGIN CODE
 Game.GetPlayer().EquipItem(ConcBlackGoo)
+GRQ.Masochism = GRQ.Masochism + 3
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -33,3 +34,4 @@ US_Libs Property USLibs Auto
 Ingredient Property ConcBlackGoo Auto
 ReferenceAlias Property Nodaba  Auto
 Scene Property HuldaScene  Auto  
+US_GooResearch_Script Property GRQ auto

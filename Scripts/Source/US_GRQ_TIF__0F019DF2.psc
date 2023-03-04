@@ -16,6 +16,7 @@ Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 Game.GetPlayer().EquipItem(BlackGoo)
+GRQ.Masochism = GRQ.Masochism + 3
 GetOwningQuest().SetStage(20)
 ;END CODE
 EndFunction
@@ -24,3 +25,4 @@ EndFunction
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
 Ingredient Property BlackGoo  Auto  
+US_GooResearch_Script Property GRQ auto

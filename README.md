@@ -15,3 +15,18 @@ After using someone (player or follower, doesn't matter) they are happy and will
 Known Problems:
 Goo Arrows are not working ATM. Trying to figure out why...
 Current implementation of USWhip function support whipping of player only, maybe rewrite is some time later... For now added checks to not to call it when victim is not player.
+
+Unforgiving SKyrim Goo Quest - done all initial quest, cell now has all items in, prepared alchemy station and enchant station to be opened by side quests.
+Research now works, added overrides to lock almost all crafts behind the research.
+Research report has hints to how progress.
+Generic ingredients effects are researched too.
+Now it is a solid foundation to build bunch of content in form of side quests and repeatable activities.
+Added Masochism stat tracking for possible future use in dialogues and events.
+
+Current ideas in various stages of planning:
+Side quest (one time, possible side activity later based on choices) - get Alchemy station. Possible idea - Arcadia, she could've liked the show quite a lot. Can offer 2 or 3 choices to player, including fun ones.
+Side quest (one time, possible side activity later based on choices) - get Enchanting station. Who would be the best? Maybe Cancelmo in Markarth?
+Side quest (one time, possible side activity later based on choices) - get Devious Devices book, which will increase research points produce per day, maybe reduce base costs a bit. The old orc in the college library sounds like a good basis for some naughy action.
+Repeatable activity - become bondage entertainment at Bannered Mare  for Hulda.
+
+Known problem - ledger still gives out the standard message, didn't found a way to disable it. Maybe simply ignore it?
