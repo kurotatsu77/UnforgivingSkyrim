@@ -1,7 +1,6 @@
 Scriptname US_Suits extends UD_PatchInit
 
 import UnforgivingDevicesMain
-UDCustomDeviceMain Property UDCDmain auto
 UD_AbadonQuest_script Property AbadonQuest auto
 
 UD_libs Property UDlibs Hidden;device/keyword library
