@@ -24,9 +24,13 @@ Now it is a solid foundation to build bunch of content in form of side quests an
 Added Masochism stat tracking for possible future use in dialogues and events.
 
 Current ideas in various stages of planning:
-Side quest (one time, possible side activity later based on choices) - get Alchemy station. Possible idea - Arcadia, she could've liked the show quite a lot. Can offer 2 or 3 choices to player, including fun ones.
-Side quest (one time, possible side activity later based on choices) - get Enchanting station. Who would be the best? Maybe Cancelmo in Markarth?
-Side quest (one time, possible side activity later based on choices) - get Devious Devices book, which will increase research points produce per day, maybe reduce base costs a bit. The old orc in the college library sounds like a good basis for some naughy action.
-Repeatable activity - become bondage entertainment at Bannered Mare  for Hulda.
+-Add some "meat" into the quest already done - add some explanations to give player more motivation to get involved in it
+-Side quest (one time, possible side activity later based on choices) - get Alchemy station. Possible idea - Arcadia, she could've liked the show quite a lot. Can offer 2 or 3 choices to player, including fun ones.
+-Side quest (one time, possible side activity later based on choices) - get Enchanting station. Who would be the best? Maybe Cancelmo in Markarth?
+-Side quest (one time, possible side activity later based on choices) - get Devious Devices book, which will increase research points produce per day, maybe reduce base costs a bit. The old orc in the college library sounds like a good basis for some naughy action.
+-Repeatable activity - become bondage entertainment at Bannered Mare  for Hulda.
+-NPC bondage rescue radiant quest: 
+-NPC bondage punishment radiant quest: idea of getting orders to punish bad girls by coming to them, binding and leaving them locked at public place (maybe inn?) in stocks or other furniture to humiliate them. And imagine choices player would have if one day she would receive order to punish herself! :D Boring option would be to pay out bounty to the client, maybe with a bit of extra. Fun options would be going through it or even offer more harsh treatment, because gold is good!
+-Repeatable quest of small chance for research to fail, which will cause Nodaba to be locked in devices. This will prompt a side quest which will tell the player to return to the house and help her out. Player can ignore it, in which can she have to help her self (hopefully AI will work as intended). But by helping her, there might be some kind of reward (bonus research points, discount on research or just money).
 
 Known problem - ledger still gives out the standard message, didn't found a way to disable it. Maybe simply ignore it?
