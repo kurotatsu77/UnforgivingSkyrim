@@ -35,6 +35,3 @@ NPC bondage punishment radiant quest: idea of getting orders to punish bad girls
 Repeatable quest of small chance for research to fail, which will cause Nodaba to be locked in devices. This will prompt a side quest which will tell the player to return to the house and help her out. Player can ignore it, in which can she have to help herself (hopefully AI will work as intended). But by helping her, there might be some kind of reward (bonus research points, discount on research or just money).
 
 Known problem - ledger still gives out the standard message, didn't found a way to disable it. Maybe simply ignore it?
-
-
-
