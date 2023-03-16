@@ -175,7 +175,7 @@ Event OnActivate(ObjectReference akActionRef)
                             RChest.RemoveItem(ConcBlackGoo,10,true)
                             ResearchFound = true
                             ;loc_i = 0
-                            ShowResearchResult("Managed to find a way to combine a lot of goo to form a nice gooey ball. \n Placing it into other's pockets would make the ball pop and unsuspecting victm will get all bound up!")
+                            ShowResearchResult("Managed to find a way to combine a lot of goo to form a nice gooey ball. \n Placing it into other's pockets would make the ball pop and unsuspecting victim will get all bound up!")
                             GRQ.GooRecipesAdvanced = true
                         else
                             MaterialHints = "\n Got to get more time to research and more gold..."

@@ -2,24 +2,9 @@
 ;NEXT FRAGMENT INDEX 4
 Scriptname US_QF_GooResearch_Quest_0C019DE7 Extends Quest Hidden
 
-;BEGIN ALIAS PROPERTY Hub
-;ALIAS PROPERTY TYPE LocationAlias
-LocationAlias Property Alias_Hub Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Nodaba
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Nodaba Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY Hulda
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Hulda Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Whiterun
-;ALIAS PROPERTY TYPE LocationAlias
-LocationAlias Property Alias_Whiterun Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY Player
@@ -27,9 +12,24 @@ LocationAlias Property Alias_Whiterun Auto
 ReferenceAlias Property Alias_Player Auto
 ;END ALIAS PROPERTY
 
+;BEGIN ALIAS PROPERTY Hub
+;ALIAS PROPERTY TYPE LocationAlias
+LocationAlias Property Alias_Hub Auto
+;END ALIAS PROPERTY
+
 ;BEGIN ALIAS PROPERTY Arcadia
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Arcadia Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Nodaba
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Nodaba Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Whiterun
+;ALIAS PROPERTY TYPE LocationAlias
+LocationAlias Property Alias_Whiterun Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN FRAGMENT Fragment_2
@@ -53,6 +53,7 @@ Actor akNodaba = kmyQuest.Nodaba.GetActorRef()
 akNodaba.addItem(kmyQuest.HubKey, 1)
 Game.GetPlayer().AddItem(kmyQuest.HubKey, 1)
 Game.GetPlayer().AddToFaction(kmyQuest.US_GRQFaction)
+ActorUtil.AddPackageOverride(akNodaba,kmyQuest.US_NodabaToHubPackage,99)
 akNodaba.EvaluatePackage()
 ; Utility.Wait(5)
 SetObjectiveCompleted(20)

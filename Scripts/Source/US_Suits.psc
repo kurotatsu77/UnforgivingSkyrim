@@ -2,6 +2,7 @@ Scriptname US_Suits extends UD_PatchInit
 
 import UnforgivingDevicesMain
 UD_AbadonQuest_script Property AbadonQuest auto
+US_MCM Property USMCM auto
 
 UD_libs Property UDlibs Hidden;device/keyword library
     UD_libs Function get()
@@ -107,7 +108,7 @@ Function EquipSuitCursed(Actor akActor)
     ;libs.SwapDevices(akActor,UDlibs.PunisherPiercing,libs.zad_DeviousPiercingsVaginal,true)
     UDmain.ItemManager.equipAbadonFinisherSuit(akActor)
     ;need to add Abadon Quest stages check to avoid triggering it too early
-    if AbadonQuest.IsCompleted()
+    if AbadonQuest.IsCompleted() && USMCM.AllowSuitAbadonPlug
         libs.SwapDevices(akActor,UDlibs.AbadonPlug,libs.zad_deviousPlugVaginal,true) ; maybe better do this at random basis? alhtough it's nice to have one suit with additional difficulty...
     endif
     ;libs.strip(akActor,false)
@@ -335,7 +336,7 @@ Function EquipSuitRandom(Actor akActor)
         _randomDevice = Utility.randomInt(0,100)
         if _randomDevice < 50
             libs.LockDevice(akActor,UDlibs.InflatablePlugVag)    
-        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() ; check for Abadon quest to avoid triggering it too early
+        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() && USMCM.AllowSuitAbadonPlug ; check for Abadon quest to avoid triggering it too early
             libs.LockDevice(akActor,UDlibs.AbadonPlug)    
         endif
     endif
@@ -347,7 +348,7 @@ Function EquipSuitRandom(Actor akActor)
             libs.LockDevice(akActor,UDlibs.LittleHelper)    
         elseif _randomDevice < 60
             libs.LockDevice(akActor,UDlibs.CursedInflatablePlugAnal)    
-        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() ; check for Abadon quest to avoid triggering it too early
+        elseif _randomDevice < 75 && AbadonQuest.IsCompleted() && USMCM.AllowSuitAbadonPlug ; check for Abadon quest to avoid triggering it too early
             libs.LockDevice(akActor,UDlibs.AbadonPlugAnal)    
         endif
     endif

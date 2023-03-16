@@ -23,3 +23,5 @@ bool Property AbadonRingRecipes         = false auto conditional    ; make Abado
 bool Property ControllablePlugsRecipes  = false auto conditional    ; make Controllable Plugs
 bool Property ChargablePlugsRecipes     = false auto conditional    ; make Chargable Plugs
 bool Property ExecutionPotionRecipes    = false auto conditional    ; make Abadon Execution Potion
+
+Package Property US_NodabaToHubPackage  Auto  
