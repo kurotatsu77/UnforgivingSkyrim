@@ -386,17 +386,17 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                     AbadonShoutUnderstanding += 20
                 endif
             elseif akTarget == Game.GetPlayer() && aiMagnitude == 1
-                UDCDmain.Print("This Shout was too weak to learn anything from it")
+                UDmain.Print("This Shout was too weak to learn anything from it")
             elseif akCaster == Game.GetPlayer()
                 if aiResult == 10
                     AbadonShoutUnderstanding += 10
-                    UDCDmain.Print("You reflect on the reflected Shout, it works!")
+                    UDmain.Print("You reflect on the reflected Shout, it works!")
                 elseif aiResult == 15
                     AbadonShoutUnderstanding += 20
-                    UDCDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
+                    UDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
                 else
                     AbadonShoutUnderstanding += 5
-                    UDCDmain.Print("Your understanding of the Abadon Shout increases slightly")
+                    UDmain.Print("Your understanding of the Abadon Shout increases slightly")
                 endif
             endif
             if AbadonShoutUnderstanding < 0
@@ -427,20 +427,20 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                     AbadonShoutUnderstanding += 20
                 endif
             elseif akTarget == Game.GetPlayer() && aiMagnitude < 3
-                UDCDmain.Print("This Shout was too weak to learn anything from it")
+                UDmain.Print("This Shout was too weak to learn anything from it")
             elseif akCaster == Game.GetPlayer() && aiMagnitude == 2
                 if aiResult == 10
                     AbadonShoutUnderstanding += 10
-                    UDCDmain.Print("You reflect on the reflected Shout, it works!")
+                    UDmain.Print("You reflect on the reflected Shout, it works!")
                 elseif aiResult == 15
                     AbadonShoutUnderstanding += 20
-                    UDCDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
+                    UDmain.Print("You reflect on the reflected Shout, tight bondage helps tremendously!")
                 else
                     AbadonShoutUnderstanding += 5
-                    UDCDmain.Print("Your understanding of the Abadon Shout increases slightly")
+                    UDmain.Print("Your understanding of the Abadon Shout increases slightly")
                 endif
             elseif akCaster == Game.GetPlayer() && aiMagnitude == 1
-                UDCDmain.Print("This Shout was too weak to learn anything from it")
+                UDmain.Print("This Shout was too weak to learn anything from it")
             endif
             if AbadonShoutUnderstanding < 0
                 AbadonShoutUnderstanding = 0
@@ -478,7 +478,7 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                 if AbadonShoutMinReversal > 95
                     AbadonShoutMinReversal = 95
                 endif
-                UDCDmain.Print("You feel like you will be bound with at least " + AbadonShoutMinReversal + "% probability.")
+                UDmain.Print("You feel like you will be bound with at least " + AbadonShoutMinReversal + "% probability.")
             endif
         endif
     endif

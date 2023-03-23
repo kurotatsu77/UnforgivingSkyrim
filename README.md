@@ -6,6 +6,8 @@ Added Dasha's items. Added their meshes and textures to package.
 
 Added 3 suits - Cursed, Boxbinder(uses Abadon Dasha's items) and Random(adds random Abadon items).
 
+Draugr Replacers.7z - optional, contains replacers for draugrs with MNC support, courtesy of Audhol. Makes them look nice and shiny!
+
 Currently there is Abadon Shout - complex shout which acts differently depending on who uses is (male or female) and on whom it used (male or female).
 Status: working, subtitles made and sounds used are empty ones until I get good ones. Only a thunder when cast at the moment. Good enough for now.
 Quest to obtain it will be launched after observing it from draugrs or getting hit with it after completing MQ104 (Dragons Rising).
@@ -28,7 +30,7 @@ Added stubs for two more sidequests (Enchanting and Book ones) and ability to st
 
 Current ideas in various stages of planning:
 Side quest (one time, possible side activity later based on choices) - get Enchanting station. Who would be the best? Maybe Cancelmo in Markarth?
-Side quest (one time, possible side activity later based on choices) - get Devious Devices book, which will increase research points produce per day, maybe reduce base costs a bit. The old orc in the college library sounds like a good basis for some naughy action.
+Side quest (one time, possible side activity later based on choices) - get Devious Devices book, which will increase research points produce per day, maybe reduce base costs a bit. The old orc in the college library sounds like a good basis for some naughy action. And great chance to do ommage to the original DD quest...
 Repeatable activity - become bondage entertainment at Bannered Mare  for Hulda.
 NPC bondage rescue radiant quest. 
 NPC bondage punishment radiant quest: idea of getting orders to punish bad girls by coming to them, binding and leaving them locked at public place (maybe inn?) in stocks or other furniture to humiliate them. And imagine choices player would have if one day she would receive order to punish herself! :D Boring option would be to pay out bounty to the client, maybe with a bit of extra. Fun options would be going through it or even offer more harsh treatment, because gold is good! 
