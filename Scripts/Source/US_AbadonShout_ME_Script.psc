@@ -238,7 +238,7 @@ Function ASBindTarget(Actor TargetToBind, int BindStrength = 1)
             AbadonQuest.AbadonEquipSuit(TargetToBind,0)    
         else
             UDCDmain.DisableActor(TargetToBind)
-            UDCDmain.UDmain.UDRRM.LockAllSuitableRestrains(TargetToBind,force = false)
+            UDCDmain.UDmain.UDRRM.LockAllSuitableRestrains(TargetToBind,abForce = false)
             UDCDmain.EnableActor(TargetToBind)
         endif
     endif
