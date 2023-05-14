@@ -1,0 +1,41 @@
+Nodaba tells about Urag:
+Heard about librarian Orc in the College, descriptions of him hint at him being interested in kinky things.
+Imporve wording here?
+
+Outcome 1 Make option to turn in the quest if the book in inventory, add comments about missed opportunity
+Outcome 2 Bought for 1000 gold
+Outcome 3 Bought for 100 gold
+Outcome 4 Got for free
+
+3 and 4 allow for research share
+
+Bookcase trap:
+	Simple - paralyze, blackout, follower dismiss, player jailed. Probably not worth too much of effort.
+
+Initial dialogue:
+	Ask about book
+	He offers it for 1000 gold and asks what for
+		Not your business - results in 2 options, buy for 1000, leave
+		Tell about research, can be a good discussion here
+			He wants demonstration of the effect and willing to drop price to 100 gold for the book - check inventory for black goo present, make dialogue options for both variants, plus previous 2 options.
+				talk to him after getting bound (check for heavy bondage) and get offer to be used for reward, if yes - trap disabled, free access to bookcase, no - move stage to allow to get book for 100. Relationship caps at 1
+
+Research share: Check vars on the research and this quests, make initial dialogues.
+	tell about goo balls, get some reward
+	tell about abadon weapons, get some reward
+	tell about abadon ring, get some reward
+	tell about chargable plugs, get some reward
+	tell about controllable plugs, get some reward
+tell about these and get offer to demonstrate effects:	
+	conc black goo, purified, abadon plug - bound and whipped? (whipping optional?) (Think about possible other things to do here...) Relationship caps at 2
+	cursed goo - both fucked and whipped as finale, non-optional because punishment? Relationship caps at 3
+	execution - big reward, maybe make scene of legs bound and pumped plug if possible. Relationship caps at 4. 
+
+Additional research (repeats): simple this quest vars check, all dialogues are assumed to be repeats. Probably not all? 
+No checks for having these potions, provided by Urag for variety? 
+Maybe disallow softcore on these repeats?
+How to pace these and is it needed? Maybe add some kind of gold gathered counter, more vars on - faster it goes?
+	black goo - getting bound and fucked (make the latter optional?)
+	conc black goo and purified goo, abadon plug - same?
+	cursed goo - same?
+	execution - same scene? Another idea - to dismiss follower, lock up all items in the chest, any attempt to talk to Urag ends with sex until all out of restraints. Possible addition - hanging on bondage pole head down. Say because it wasn't tight enough previously. Overkill?
