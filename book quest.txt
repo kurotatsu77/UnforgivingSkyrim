@@ -1,6 +1,6 @@
 Nodaba tells about Urag:
 Heard about librarian Orc in the College, descriptions of him hint at him being interested in kinky things.
-Imporve wording here?
+Improve wording here?
 
 Outcome 1 Make option to turn in the quest if the book in inventory, add comments about missed opportunity
 Outcome 2 Bought for 1000 gold
@@ -11,6 +11,7 @@ Outcome 4 Got for free
 
 Bookcase trap:
 	Simple - paralyze, blackout, follower dismiss, player jailed. Probably not worth too much of effort.
+	Another - paralyze, blackout, follower dismiss, player bound in set of restraints (which ones?), whipped and fucked. Maybe use iron harness set, yoke, and mask of shame? As additional "fuck you" all keys and lockpicks can be seized and all locks jammed. Later with research going on set can be changed into use of some punishing potions, but probably will not be seen...
 
 Initial dialogue:
 	Ask about book
@@ -30,6 +31,7 @@ tell about these and get offer to demonstrate effects:
 	conc black goo, purified, abadon plug - bound and whipped? (whipping optional?) (Think about possible other things to do here...) Relationship caps at 2
 	cursed goo - both fucked and whipped as finale, non-optional because punishment? Relationship caps at 3
 	execution - big reward, maybe make scene of legs bound and pumped plug if possible. Relationship caps at 4. 
+	abadon shout - can we detect it properly?
 
 Additional research (repeats): simple this quest vars check, all dialogues are assumed to be repeats. Probably not all? 
 No checks for having these potions, provided by Urag for variety? 
@@ -39,3 +41,4 @@ How to pace these and is it needed? Maybe add some kind of gold gathered counter
 	conc black goo and purified goo, abadon plug - same?
 	cursed goo - same?
 	execution - same scene? Another idea - to dismiss follower, lock up all items in the chest, any attempt to talk to Urag ends with sex until all out of restraints. Possible addition - hanging on bondage pole head down. Say because it wasn't tight enough previously. Overkill?
+	if abadon shout implemented - offer to become bondage slave toy after training shout to bind in 95% the player.
