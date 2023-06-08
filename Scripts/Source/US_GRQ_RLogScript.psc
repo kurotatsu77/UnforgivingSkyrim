@@ -56,6 +56,8 @@ bool BoostEnchant
 
 string MaterialHints
 
+bool ResearchPaused = false
+
 Event OnActivate(ObjectReference akActionRef)
     BoostAlchemy = StationAlchemy.IsEnabled()
     BoostEnchant = StationEnchant.IsEnabled()
@@ -68,6 +70,11 @@ Event OnActivate(ObjectReference akActionRef)
     int CheckResult
 
     MaterialHints = "\n No further ideas for now. Maybe later..."
+    if ResearchPaused
+        LastTimeActivated = Utility.GetCurrentGameTime()
+        Debug.MessageBox("Looks like no research has been made due to the problems arisen!")
+        return
+    endif
     ResearchPoints = ResearchPoints + Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
     LastTimeActivated = Utility.GetCurrentGameTime()
 
@@ -75,7 +82,7 @@ Event OnActivate(ObjectReference akActionRef)
     ItemsInChest =  RChest.GetNumItems()
 ;check before even starting the cycle to save up some time
     if DeductRPandGold(AlchemyRPCost,AlchemyGoldCost, true, false, true)
-        loc_i=0
+        loc_i = 0
     else
         loc_i = ItemsInChest
     endif
@@ -306,6 +313,17 @@ EndEvent
 Function StartTimer()
     LastTimeActivated = Utility.GetCurrentGameTime()
     ResearchPoints = 0
+EndFunction
+
+Function PauseTimer()
+    ResearchPoints = ResearchPoints + Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
+    LastTimeActivated = Utility.GetCurrentGameTime()
+    ResearchPaused = true
+EndFunction
+
+Function UnpauseTimer()
+    LastTimeActivated = Utility.GetCurrentGameTime()
+    ResearchPaused = false
 EndFunction
 
 ; returns -1 if nothing to open or -2 if not ingredient, else returns first unknown effect number (0..3)

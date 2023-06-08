@@ -61,6 +61,7 @@ GetOwningQuest().SetStage(3000)
 GetOwningQuest().SetObjectiveCompleted(20)
 GetOwningQuest().SetObjectiveDisplayed(40)
 UragGRQ.Start()
+UragGRQ.StartTimer()
 
 GRQ.Masochism = GRQ.Masochism + 2
 ;END CODE
@@ -82,7 +83,7 @@ US_libs Property USlibs auto
 UnforgivingDevicesMain Property UDmain auto
 
 Spell Property MasoSpell auto
-Quest Property UragGRQ  Auto  
+US_UragGRQ_Script Property UragGRQ  Auto  
 
 US_GooResearch_Script Property GRQ  Auto  
 

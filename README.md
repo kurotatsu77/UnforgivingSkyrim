@@ -18,7 +18,7 @@ Known Problems:
 Goo Arrows are not working ATM. Trying to figure out why...
 Current implementation of USWhip function support whipping of player only, maybe rewrite is some time later... For now added checks to not to call it when victim is not player.
 
-Unforgiving Skyrim Goo Quest - done all initial quest, cell now has all items in, prepared alchemy station and enchant station to be opened by side quests.
+Unforgiving Skyrim Goo Quest - done all initial quest, started by visiting Whiterun area while having Black Goo in inventory and knowing it's first effect. Cell now has all items in, prepared alchemy station and enchant station to be opened by side quests.
 Research now works, added overrides to lock almost all crafts behind the research.
 Research report has hints to how progress.
 Generic ingredients effects are researched too.
@@ -26,7 +26,8 @@ Now it is a solid foundation to build bunch of content in form of side quests an
 Added Masochism stat tracking for possible future use in dialogues and events.
 Expanded dialogues on the Goo Research Quest to provide better motivation for player to get involved.
 Side quest to get Alchemy station done, if player chooses fun payment options - there will be repeatable action with Arcadia.
-Added stubs for two more sidequests (Enchanting and Book ones) and ability to start them. Quests themselves are not done yet.
+Side quest to get the DD Book is done, quest for the Urag research sharing is mostly done, done actions with Black Goo and Concentrated Black Goo. Rest in progress.
+Added stub for sidequest to get Enchanting Station. Quest is not done yet, just a placeholder.
 
 Current ideas in various stages of planning:
 Side quest (one time, possible side activity later based on choices) - get Enchanting station. Who would be the best? Maybe Cancelmo in Markarth?

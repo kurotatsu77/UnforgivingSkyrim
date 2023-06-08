@@ -12,7 +12,7 @@ GetOwningQuest().SetStage(2000)
 GetOwningQuest().SetObjectiveCompleted(20)
 GetOwningQuest().SetObjectiveDisplayed(30)
 UragGRQ.Start()
-
+UragGRQ.StartTimer()
 Player.GetActorRef().EquipItem(BlackGoo)
 GRQ.Masochism = GRQ.Masochism + 1
 ;END CODE
@@ -27,7 +27,7 @@ MiscObject Property Gold  Auto
 
 Book Property DDBook  Auto  
 
-Quest Property UragGRQ  Auto  
+US_UragGRQ_Script Property UragGRQ  Auto  
 
 US_GooResearch_Script Property GRQ  Auto  
 

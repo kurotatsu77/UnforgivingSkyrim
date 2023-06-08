@@ -452,7 +452,7 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                 ASQuest.SetObjectiveCompleted(300)
                 ASQuest.SetStage(1000)
                 ASQuest.CompleteQuest()
-                ASQuest.Stop()
+                ;ASQuest.Stop() ;  no need for this, better allow it to remain in the completed quests
             endif
         endif
     else
