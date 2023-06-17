@@ -122,10 +122,10 @@ Event OnActivate(ObjectReference akActionRef)
         ResearchFound = false
         if !GRQ.GooRecipesBasic
             If CheckForAllEffects(UDlibs.BlackGoo) && CheckForAllEffects(ConcBlackGoo)
-                If (RChest.GetItemCount(UDlibs.BlackGoo) > 2)
+                If (RChest.GetItemCount(UDlibs.BlackGoo) > 9)
                     If (RChest.GetItemCount(ConcBlackGoo) > 2)
                         if DeductRPandGold(AlchemyRPCost * 3,AlchemyGoldCost * 3, true, false)
-                            RChest.RemoveItem(UDlibs.BlackGoo,3,true)
+                            RChest.RemoveItem(UDlibs.BlackGoo,10,true)
                             RChest.RemoveItem(ConcBlackGoo,3,true)
                             ResearchFound = true
                             ;loc_i = 0

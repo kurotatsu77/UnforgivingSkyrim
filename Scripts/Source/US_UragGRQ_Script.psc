@@ -56,7 +56,7 @@ Function GiveReward(float afReward, bool abMakeProfit = false)
     loc_gold = Round((BaseReward * afReward))
     Player.GetActorRef().AddItem(Gold, loc_gold)
     if abMakeProfit
-        GoldAvailable = GoldAvailable + Round(loc_gold * 3)
+        GoldAvailable = GoldAvailable + Round(loc_gold)
     else
         GoldAvailable = GoldAvailable - loc_gold
     endif
