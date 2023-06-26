@@ -2,9 +2,15 @@ Scriptname US_MCM extends SKI_ConfigBase
 
 int Property version auto
 bool Property AllowSuitAbadonPlug auto
+int Property UragBaseReward = 500 Auto
 
-int AllowSuitAbadonPlugMenu
+US_UragGRQ_Script Property UragGRQ Auto
+
+bool WeaponsRegistered
+int AllowSuitAbadonPlug_T
 String _lastPage
+int WeaponsRegistered_T
+int UragBaseReward_S
 
 Event OnGameReload()
 	parent.OnGameReload()
@@ -49,9 +55,20 @@ Event OnPageReset(string page)
 	if (page == "General" || page == "")
 		SetTitleText("General")
 				
-		AddHeaderOption("Suit sets")		
-		AllowSuitAbadonPlugMenu = AddToggleOption("Abadon Plug in suits", AllowSuitAbadonPlug)
-				
+		AddHeaderOption("Suit sets")
+		AllowSuitAbadonPlug_T = AddToggleOption("Abadon Plug in suits", AllowSuitAbadonPlug)
+		
+		AddHeaderOption("Urag's research")
+		UragBaseReward_S = AddSliderOption("Base Reward:", UragBaseReward, "{0} x")
+		
+		AddHeaderOption("Abadon weapons")
+		;If WeaponsRegistered
+		;	WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
+		;elseif !UragGRQ.IsRunning()
+		;	WeaponsRegistered_T = AddTextOption("", "Can't register", OPTION_FLAG_DISABLED)
+		;Else
+			WeaponsRegistered_T = AddTextOption("Register Abadon Weapons", "REGISTER")
+		;EndIf
 		;AddToggleOption("$dtr_mcm_powers_nippleCum",DTActor.npcs_chastitynipplecum[slot],OPTION_FLAG_DISABLED)
 		;AddEmptyOption()   		
 		;nullo = AddTextOption("$dtr_mcm_version", DTMain.getDisplayVersion(),OPTION_FLAG_DISABLED)		
@@ -59,7 +76,7 @@ Event OnPageReset(string page)
 EndEvent
 
 Event OnOptionSelect(Int Menu)
-	if Menu == AllowSuitAbadonPlugMenu
+	if Menu == AllowSuitAbadonPlug_T
 		if  AllowSuitAbadonPlug == true
 			AllowSuitAbadonPlug = false
 		else			
@@ -68,6 +85,15 @@ Event OnOptionSelect(Int Menu)
 		SetToggleOptionValue(Menu, AllowSuitAbadonPlug)
 		ForcePageReset()
 		return
+	elseif Menu == WeaponsRegistered_T
+		if  WeaponsRegistered == true
+			;WeaponsRegistered = false
+		else			
+			WeaponsRegistered = true
+			;register here
+			UragGRQ.AddAbadonWeaponsToLL()
+		endIf
+		ForcePageReset()
 	endIf	
 endEvent
 
@@ -86,10 +112,37 @@ event OnOptionMenuAccept(int Menu, int a_index)
 ;	endIf
 EndEvent
 
+event OnOptionSliderOpen(int Menu)
+	if Menu == UragBaseReward_S
+		SetSliderDialogStartValue(UragBaseReward)
+        SetSliderDialogDefaultValue(500.0)
+        SetSliderDialogRange(1.0, 10000.0)
+        SetSliderDialogInterval(1)    
+	endIf	
+endEvent
+
+event OnOptionSliderAccept(int Menu, float value)
+    if (Menu == UragBaseReward_S)
+        UragBaseReward = Round(value)
+		;if UragGRQ.IsRunning()
+			UragGRQ.BaseReward = UragBaseReward
+		;endif
+        SetSliderOptionValue(UragBaseReward_S, UragBaseReward, "{1}")
+	endif
+endEvent
+
 Event OnOptionHighlight(int option)
     if (_lastPage == "General")
-        if(option == AllowSuitAbadonPlugMenu)
+        if(option == AllowSuitAbadonPlug_T)
 			SetInfoText("Allow using of Abadon Plug in suit sets, Execution set always uses it no matter what this set to.")
+		elseif(option == WeaponsRegistered_T)
+			SetInfoText("Injects Abadon Weapons into leveled lists to be available to use by NPCs. Normally done via Urag's quest and not needed to be used.")
+		elseif(option == UragBaseReward_S)
+			SetInfoText("Sets base reward size for Urag. All rewards for various researches are multiplied by this value. Default: 500.")
 		endif
     endif
 EndEvent
+
+int Function Round(float value) global
+    return Math.floor(value + 0.5)
+EndFunction

@@ -338,7 +338,7 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
         ASQuest.Start()
         ASQuest.SetStage(100)
         ASQuest.SetObjectiveDisplayed(100)
-    elseif ASQuest.IsRunning()
+    elseif ASQuest.IsRunning() && !ASQuest.IsCompleted()
         int ASQStage = ASQuest.GetCurrentStageID()
         int loc_random = Utility.RandomInt(1,100)
         int loc_choice

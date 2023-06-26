@@ -3,12 +3,26 @@ Scriptname US_UragGRQ_Script extends Quest Conditional
 
 US_libs Property USlibs auto
 US_GooResearch_Script Property GRQ  Auto  
+;US_MCM Property USMCM  Auto  
 Spell Property MasoSpell auto
 ReferenceAlias Property Player  Auto
 ReferenceAlias Property Urag  Auto
 MiscObject Property Gold auto
 Ingredient Property BlackGoo auto
 Ingredient Property ConcBlackGoo auto
+Ingredient Property PureBlackGoo auto
+Potion Property CursedGoo auto
+Potion Property ExecutionPotion auto
+Scene Property UragScene auto
+Package Property UragPackage auto
+
+LeveledItem[] Property LLDagger auto
+LeveledItem[] Property LLSword auto
+LeveledItem[] Property LLGreatsword auto
+
+Weapon Property AbadonDagger auto
+Weapon Property AbadonSword auto
+Weapon Property AbadonGreatsword auto
 
 float Property LastTimeActivated = 0.0  auto
 int Property BaseReward = 500 auto      ; base reward, all rewards are done as multipliers of this
@@ -36,6 +50,7 @@ float Property ShoutReward          = 2.0   auto
 
 ;rework and change names?
 bool Property ConcGoo                   = false auto conditional    ; shown Concentrated Black Goo
+bool Property AncientSeed               = false auto conditional    ; shown Ancient Seed
 bool Property GooRecipesBasic           = false auto conditional    ; convert Black Goo into Concentrated
 bool Property GooRecipesAdvanced        = false auto conditional    ; make (Concentrated) Goo Balls
 bool Property GooRecipesCursed          = false auto conditional    ; make Cursed Goo
@@ -50,13 +65,13 @@ bool Property ChargablePlugsRecipes     = false auto conditional    ; make Charg
 bool Property ExecutionPotionRecipes    = false auto conditional    ; make Abadon Execution Potion
 bool Property AbadonShout               = false auto conditional    ; demonstrated Abadon Shout
 
-; Gives to player reward, afReward is multiplier to be applied to BaseReward, if abMakeProfit set - adds triple amount of gold to available reward instead of deducting it
+; Gives to player reward, afReward is multiplier to be applied to BaseReward, if abMakeProfit set - adds same amount of gold to available reward instead of deducting it
 Function GiveReward(float afReward, bool abMakeProfit = false)
     int loc_gold
     loc_gold = Round((BaseReward * afReward))
     Player.GetActorRef().AddItem(Gold, loc_gold)
     if abMakeProfit
-        GoldAvailable = GoldAvailable + Round(loc_gold)
+        GoldAvailable = GoldAvailable + loc_gold
     else
         GoldAvailable = GoldAvailable - loc_gold
     endif
@@ -159,6 +174,7 @@ EndFunction
 ; used to fire off timer when quest starts
 Function StartTimer()
     LastTimeActivated = Utility.GetCurrentGameTime()
+    ;BaseReward = USMCM.UragBaseReward
     ;GoldAvailable = 500
 EndFunction
 
@@ -169,7 +185,7 @@ EndFunction
 ;performs sexscene between player and Urag with tag defined by asTag
 Function StartSex(string asTag="MF")
     USlibs.DHLPSuspend() 
-    Utility.Wait(3)
+    ;Utility.Wait(3)
     USlibs.UDCDmain.DisableActor(Player.GetActorRef())
     Game.SetPlayerAIDriven(true)
 
@@ -184,13 +200,15 @@ Function StartSex(string asTag="MF")
     else
         loc_SLAnim = USlibs.UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, true, asTag)
     endif
-    ; fallback to consensual MF if nothing found
+    ; fallback to consensual if nothing found
     If loc_SLAnim.Length == 0
         loc_SLAnim = USlibs.UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, false, asTag)
     EndIf
 
     If loc_SLAnim.Length > 0
         USlibs.UDmain.libs.SexLab.StartSex(Positions = loc_SLActors, Anims = loc_SLAnim, Victim = Player.GetActorRef())
+        MasoSpell.Cast(Player.GetActorRef())
+        USlibs.UDmain.Print("You feel strangely invigorated by this encounter!")
     endif
 
     while USlibs.UDmain.libs.IsAnimating(Player.GetActorRef())
@@ -200,15 +218,47 @@ Function StartSex(string asTag="MF")
     USlibs.UDCDmain.EnableActor(Player.GetActorRef())
     Game.SetPlayerAIDriven(false)
     USlibs.DHLPResume()
+EndFunction
 
-    MasoSpell.Cast(Player.GetActorRef())
-    USlibs.UDmain.Print("You feel strangely invigorated by this encounter!")
+bool Function Strip(Keyword akKeyword)
+    Actor loc_PlayerRef = Player.GetActorRef()
+    if !loc_PlayerRef.wornhaskeyword(akKeyword)
+        return true
+    else
+        Armor loc_device = USlibs.libs.getWornDevice(loc_PlayerRef, akKeyword) 
+        string loc_device_name = loc_device.GetName()
+        bool loc_DeviceWasStripped = false
+        if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = akKeyword, destroydevice = true, genericonly = true)
+            loc_DeviceWasStripped = true
+        endif
+        Utility.Wait(1) ; giving time to strip
+        ; if after stripping belt still some belt detected - it's harness, they are not stripped by belt keywords! DD bug?
+        if !loc_DeviceWasStripped && akKeyword == USlibs.libs.zad_DeviousBelt && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousHarness) && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousBelt)
+            loc_device = USlibs.libs.getWornDevice(loc_PlayerRef,USlibs.libs.zad_DeviousHarness) 
+            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHarness, destroydevice = true, genericonly = true)
+                loc_DeviceWasStripped = true
+                loc_device_name = loc_device.GetName()
+            endif
+        endif
+        ;same thing with gags and hoods
+        if !loc_DeviceWasStripped && akKeyword == USlibs.libs.zad_DeviousGag && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousHood) && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousGag)
+            loc_device = USlibs.libs.getWornDevice(loc_PlayerRef,USlibs.libs.zad_DeviousHood) 
+            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHood, destroydevice = true, genericonly = true)
+                loc_DeviceWasStripped = true
+                loc_device_name = loc_device.GetName()
+            endif
+        endif
+        if loc_DeviceWasStripped
+            USlibs.UDmain.Print("Urag uses his key to unlock " + loc_device_name)
+        endif   
+        return loc_DeviceWasStripped
+    endif
 EndFunction
 
 ; makes Urag to whip player
 Function Whip()
     USlibs.DHLPSuspend() 
-    Utility.Wait(3)
+    ;Utility.Wait(3)
     USlibs.UDCDmain.DisableActor(Player.GetActorRef())
     Game.SetPlayerAIDriven(true)
 
@@ -224,11 +274,12 @@ EndFunction
 
 Function DoResearch()
     int loc_relation = Urag.GetActorRef().GetRelationshipRank(Player.GetActorRef())    
+    Actor loc_PlayerRef = Player.GetActorRef()
     if ChosenResearch == 0
         return
     elseif ChosenResearch == 1
-        USlibs.UDmain.Print("Doing Black Goo action.")
-        Player.GetActorRef().AddItem(BlackGoo, 1)
+        ;USlibs.UDmain.Print("Doing Black Goo action.")
+        Player.GetActorRef().AddItem(BlackGoo, 1, true)
         Player.GetActorRef().EquipItem(BlackGoo)
         Utility.Wait(1)
         StartSex()
@@ -239,10 +290,10 @@ Function DoResearch()
         GRQ.Masochism = GRQ.Masochism + 2
         ChosenResearch = 0
     elseif ChosenResearch == 2
-        USlibs.UDmain.Print("Doing Concentrated Black Goo action.")
-        Player.GetActorRef().AddItem(ConcBlackGoo, 1)
+        ;USlibs.UDmain.Print("Doing Concentrated Black Goo action.")
+        Player.GetActorRef().AddItem(ConcBlackGoo, 1, true)
         Player.GetActorRef().EquipItem(ConcBlackGoo)
-        Utility.Wait(1)
+        Utility.Wait(3)
         Whip()
         GiveReward(ConcBlackGooReward)
         if loc_relation < 2
@@ -251,22 +302,199 @@ Function DoResearch()
         GRQ.Masochism = GRQ.Masochism + 3
         ChosenResearch = 0
     elseif ChosenResearch == 3
-        USlibs.UDmain.Print("Doing Purified Black Goo action.")
+        ;USlibs.UDmain.Print("Doing Purified Black Goo action.")
+        USlibs.libs.strip(loc_PlayerRef, false)
+        
+        ; add here package for Urag to follow player
+        ActorUtil.AddPackageOverride(Urag.GetActorRef(),UragPackage,99)
+        Urag.GetActorRef().EvaluatePackage()
+
+        Player.GetActorRef().AddItem(PureBlackGoo, 1, true)
+        Player.GetActorRef().EquipItem(PureBlackGoo)
+        ;Giving Urag keys if he don't have them
+        int loc_keysnum
+        bool loc_stripgag
+        bool loc_stripbelt
+        bool loc_stripplug
+        loc_keysnum = Urag.GetActorRef().GetItemCount(USlibs.libs.restraintsKey)
+        if loc_keysnum == 0
+            Urag.GetActorRef().AddItem(USlibs.libs.restraintsKey, 1)
+        endif
+        loc_keysnum = Urag.GetActorRef().GetItemCount(USlibs.libs.chastityKey)
+        if loc_keysnum == 0
+            Urag.GetActorRef().AddItem(USlibs.libs.chastityKey, 1)
+        endif
+        loc_keysnum = Urag.GetActorRef().GetItemCount(USlibs.libs.piercingKey)
+        if loc_keysnum == 0
+            Urag.GetActorRef().AddItem(USlibs.libs.piercingKey, 1)
+        endif
+        Utility.Wait(10) ; Maybe tweak this more to ensure player all bound up before action. Maybe search for something better?
+        loc_stripgag = Strip(USlibs.libs.zad_DeviousGag)    
+        if loc_stripgag
+            StartSex("Blowjob")
+        endif
+        ;Utility.Wait(1)
+        ;while USlibs.libs.IsAnimating(loc_PlayerRef)
+        ;    Utility.Wait(1)
+        ;endwhile
+        loc_stripbelt = Strip(USlibs.libs.zad_DeviousBelt)    
+        if loc_stripbelt   
+            loc_stripplug = Strip(USlibs.libs.zad_DeviousPlugVaginal)    
+            if loc_stripplug
+                StartSex("Vaginal")
+            endif
+        endif
+        ;Utility.Wait(1)
+        ;while USlibs.libs.IsAnimating(loc_PlayerRef)
+        ;    Utility.Wait(1)
+        ;endwhile
+        loc_stripbelt = Strip(USlibs.libs.zad_DeviousBelt)    
+        if loc_stripbelt
+            loc_stripplug = Strip(USlibs.libs.zad_DeviousPlugAnal)    
+            if loc_stripplug
+                StartSex("Anal")
+            endif
+        endif
+        Utility.Wait(1)
+        ;while USlibs.libs.IsAnimating(loc_PlayerRef)
+        ;    Utility.Wait(1)
+        ;endwhile
+        
+        ; remove Urag's package here
+        ActorUtil.ClearPackageOverride(Urag.GetActorRef())
+        Urag.GetActorRef().EvaluatePackage()
+
+        GiveReward(PureBlackGooReward)
+        if loc_relation < 2
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        GRQ.Masochism = GRQ.Masochism + 3
         ChosenResearch = 0
     elseif ChosenResearch == 4
-        USlibs.UDmain.Print("Doing Cursed Goo action.")
+        ;USlibs.UDmain.Print("Doing Cursed Goo action.")
+        
+        ; add here package for Urag to follow player
+        ActorUtil.AddPackageOverride(Urag.GetActorRef(),UragPackage,99)
+        Urag.GetActorRef().EvaluatePackage()
+        
+        Player.GetActorRef().AddItem(CursedGoo, 1, true)
+        Player.GetActorRef().EquipItem(CursedGoo)
+        Utility.Wait(3)
+
+        int loc_i = 3
+
+        while loc_i > 0 && !Player.GetActorRef().WornHasKeyword(USlibs.libs.zad_DeviousGag)
+            StartSex("Blowjob")
+            loc_i -= 1
+        endwhile
+
+        StartSex("Spank")
+
+        Whip()
+
+        ; remove Urag's package here
+        ActorUtil.ClearPackageOverride(Urag.GetActorRef())
+        Urag.GetActorRef().EvaluatePackage()
+
+        if loc_relation < 3
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        GiveReward(CursedGooReward)
+        GRQ.Masochism = GRQ.Masochism + 5
         ChosenResearch = 0
     elseif ChosenResearch == 5
-        USlibs.UDmain.Print("Doing Abadon Execution action.")
+        ;USlibs.UDmain.Print("Doing Abadon Execution action.")
+        Player.GetActorRef().AddItem(ExecutionPotion, 1, true)
+        Player.GetActorRef().EquipItem(ExecutionPotion)
+        Utility.Wait(10)
+
+        UragScene.Start()
+                
+        if loc_relation < 4
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        GiveReward(ExecutionGooReward)
+        GRQ.Masochism = GRQ.Masochism + 10
         ChosenResearch = 0
     elseif ChosenResearch == 6
-        USlibs.UDmain.Print("Doing Abadon Plug action.")
+        ;USlibs.UDmain.Print("Doing Abadon Plug action.")
+        Player.GetActorRef().AddItem(USlibs.UDlibs.AbadonPlug, 1)
+        USlibs.libs.LockDevice(Player.GetActorRef(), USlibs.UDlibs.AbadonPlug)
+        Utility.Wait(3)
+        Whip()
+        GiveReward(PlugReward)
+        if loc_relation < 2
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        GRQ.Masochism = GRQ.Masochism + 3
         ChosenResearch = 0
     elseif ChosenResearch == 7
-        USlibs.UDmain.Print("Doing Abadon Shout action.")
-        ChosenResearch = 0
+        USlibs.UDmain.Print("Hit Urag with your Abadon Shout.")
+        ;ChosenResearch = 0
     else
         ChosenResearch = 0
     endif
+EndFunction
+
+Function ProcessShout(int aiShoutLevel)
+    if ChosenResearch == 7
+        int loc_relation = Urag.GetActorRef().GetRelationshipRank(Player.GetActorRef())    
+        if aiShoutLevel == 1
+            ;USlibs.UDmain.Print("Urag was hit with one-word Abadon Shout.")
+            GiveReward(ShoutReward / 3)
+            GRQ.Masochism = GRQ.Masochism + 1
+        elseif aiShoutLevel == 2
+            ;USlibs.UDmain.Print("Urag was hit with two-word Abadon Shout.")
+            GiveReward((ShoutReward * 2) / 3)
+            GRQ.Masochism = GRQ.Masochism + 2
+        elseif aiShoutLevel == 3
+            ;USlibs.UDmain.Print("Urag was hit with three-word Abadon Shout.")
+            GiveReward(ShoutReward)
+            GRQ.Masochism = GRQ.Masochism + 3
+        endif
+        if loc_relation < 2
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        ChosenResearch = 0
+    endif
+EndFunction
+
+Bool Function LeveledItemContains(LeveledItem list, Form target)
+	Int size = list.GetNumForms()
+	Int i = 0
+	While i < size
+	  If list.GetNthForm(i) == target
+		Return True
+	  EndIf
+	  i += 1
+	EndWhile
+	Return False
+EndFunction
+
+Function PatchLL(LeveledItem alLL, Form afItem)
+    if !LeveledItemContains(alLL, afItem)
+        alLL.AddForm(afItem, 1, 1)
+        USlibs.UDmain.CLog("Adding form " + afItem + " into LL " + alLL)
+    endif
+EndFunction
+
+Function PatchLLL(LeveledItem[] alLLL, Form afItem)
+    int loc_i
+    loc_i = alLLL.Length
+    while loc_i > 0
+        PatchLL(alLLL[loc_i - 1], afItem)
+        loc_i -= 1
+    endwhile
+EndFunction
+
+; Injects abadon weapons into leveled lists to be used by NPCs
+Function AddAbadonWeaponsToLL()
+    Form loc_weapon
+    loc_weapon = AbadonDagger as Form
+    PatchLLL(LLDagger,loc_weapon)
+    loc_weapon = AbadonSword as Form
+    PatchLLL(LLSword,loc_weapon)
+    loc_weapon = AbadonGreatsword as Form
+    PatchLLL(LLGreatsword,loc_weapon)
 EndFunction
 

@@ -26,7 +26,7 @@ Now it is a solid foundation to build bunch of content in form of side quests an
 Added Masochism stat tracking for possible future use in dialogues and events.
 Expanded dialogues on the Goo Research Quest to provide better motivation for player to get involved.
 Side quest to get Alchemy station done, if player chooses fun payment options - there will be repeatable action with Arcadia.
-Side quest to get the DD Book is done, quest for the Urag research sharing is mostly done, done actions with Black Goo and Concentrated Black Goo. Rest in progress.
+Side quest to get the DD Book is done, quest for the Urag research sharing is done. It turned out quite big and complicated.
 Added stub for sidequest to get Enchanting Station. Quest is not done yet, just a placeholder.
 
 Current ideas in various stages of planning:
