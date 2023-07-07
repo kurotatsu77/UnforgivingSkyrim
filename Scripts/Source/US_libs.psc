@@ -40,6 +40,14 @@ zadlibs Property libs auto
 ;UD_AbadonQuest_script Property AbadonQuest auto
 ;Quest Property USlibsQuest auto
 
+Armor Property AbadonBoxbinder auto
+Armor Property AbadonBoxbinderOutfit auto
+Armor Property AbadonHeavyBlindfold auto
+Armor Property AbadonHeavyGag auto
+Armor Property AbadonHeavyCollar auto
+Armor Property AbadonSlaveHarness auto
+Armor Property AbadonStraitJacketCatsuit auto
+
 Weapon Property WeaponCane Auto
 zbfSlaveActions property zazActions auto
 Faction Property HavingSexFaction Auto 

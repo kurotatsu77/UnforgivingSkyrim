@@ -59,16 +59,16 @@ Event OnPageReset(string page)
 		AllowSuitAbadonPlug_T = AddToggleOption("Abadon Plug in suits", AllowSuitAbadonPlug)
 		
 		AddHeaderOption("Urag's research")
-		UragBaseReward_S = AddSliderOption("Base Reward:", UragBaseReward, "{0} x")
+		UragBaseReward_S = AddSliderOption("Base Reward:", UragBaseReward, "{0} gold")
 		
 		AddHeaderOption("Abadon weapons")
-		;If WeaponsRegistered
-		;	WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
-		;elseif !UragGRQ.IsRunning()
-		;	WeaponsRegistered_T = AddTextOption("", "Can't register", OPTION_FLAG_DISABLED)
-		;Else
+		If WeaponsRegistered
+			WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
+		elseif !UragGRQ.IsRunning()
+			WeaponsRegistered_T = AddTextOption("", "Can't register", OPTION_FLAG_DISABLED)
+		Else
 			WeaponsRegistered_T = AddTextOption("Register Abadon Weapons", "REGISTER")
-		;EndIf
+		EndIf
 		;AddToggleOption("$dtr_mcm_powers_nippleCum",DTActor.npcs_chastitynipplecum[slot],OPTION_FLAG_DISABLED)
 		;AddEmptyOption()   		
 		;nullo = AddTextOption("$dtr_mcm_version", DTMain.getDisplayVersion(),OPTION_FLAG_DISABLED)		
@@ -127,7 +127,7 @@ event OnOptionSliderAccept(int Menu, float value)
 		;if UragGRQ.IsRunning()
 			UragGRQ.BaseReward = UragBaseReward
 		;endif
-        SetSliderOptionValue(UragBaseReward_S, UragBaseReward, "{1}")
+        SetSliderOptionValue(UragBaseReward_S, UragBaseReward, "{0}")
 	endif
 endEvent
 
