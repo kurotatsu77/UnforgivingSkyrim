@@ -48,6 +48,15 @@ Armor Property AbadonHeavyCollar auto
 Armor Property AbadonSlaveHarness auto
 Armor Property AbadonStraitJacketCatsuit auto
 
+;Bound Cunt items
+Armor Property BoundCuntBoxbinder auto
+Armor Property BoundCuntCorset auto
+Armor Property BoundCuntBoots auto
+Armor Property BoundCuntBlindfold auto
+Armor Property BoundCuntFaceMask auto
+Armor Property BoundCuntHood auto
+Armor Property BoundCuntCollar auto
+
 Weapon Property WeaponCane Auto
 zbfSlaveActions property zazActions auto
 Faction Property HavingSexFaction Auto 
