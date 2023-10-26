@@ -500,3 +500,21 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
         endif
     endif
 EndFunction
+
+string Function GetActorName(Actor akActor)
+    if !akActor
+        return "ERROR:NONE"
+    endif
+    ActorBase loc_actorbase = akActor.GetLeveledActorBase()
+    string loc_res = loc_actorbase.getName()
+    if loc_res == "" ;actor have no name
+        if loc_actorbase.GetSex() == 0
+            loc_res = "Unnamed man"
+        elseif loc_actorbase.GetSex() == 1
+            loc_res = "Unnamed woman"
+        else
+            loc_res = "Unnamed person"
+        endif
+    endif
+    return loc_res
+EndFunction
