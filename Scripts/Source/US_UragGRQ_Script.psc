@@ -3,7 +3,8 @@ Scriptname US_UragGRQ_Script extends Quest Conditional
 
 US_libs Property USlibs auto
 US_GooResearch_Script Property GRQ  Auto  
-;US_MCM Property USMCM  Auto  
+US_GRQ_Enchanting_Quest_script Property GRQE auto
+US_MCM Property USMCM  Auto  
 Spell Property MasoSpell auto
 ReferenceAlias Property Player  Auto
 ReferenceAlias Property Urag  Auto
@@ -19,10 +20,12 @@ Package Property UragPackage auto
 LeveledItem[] Property LLDagger auto
 LeveledItem[] Property LLSword auto
 LeveledItem[] Property LLGreatsword auto
+LeveledItem[] Property LLBow auto
 
 Weapon Property AbadonDagger auto
 Weapon Property AbadonSword auto
 Weapon Property AbadonGreatsword auto
+Weapon Property AbadonBow auto
 
 float Property LastTimeActivated = 0.0  auto
 int Property BaseReward = 500 auto      ; base reward, all rewards are done as multipliers of this
@@ -38,6 +41,16 @@ int Property ChosenResearch = 0 auto conditional ; which research Urag chose to 
 ; 5 - Abadon Execution 
 ; 6 - Abadon Plug
 ; 7 - Abadon Shout
+; 8 - Bound Cunt Outfit
+
+int Property WeightBlackGoo		= 100 	auto
+int Property WeightConcGoo		= 50 	auto
+int Property WeightPureGoo 		= 50 	auto
+int Property WeightCursedGoo 	= 20 	auto
+int Property WeightExecutionGoo = 10 	auto
+int Property WeightPlug 		= 30 	auto
+int Property WeightShout 		= 50 	auto
+int Property WeightBoundCunt 	= 40 	auto
 
 ; rewards multipliers list
 float Property BlackGooReward       = 1.0   auto
@@ -47,6 +60,7 @@ float Property CursedGooReward      = 5.0   auto
 float Property ExecutionGooReward   = 10.0  auto
 float Property PlugReward           = 3.0   auto
 float Property ShoutReward          = 2.0   auto
+float Property BCReward          = 2.0   auto
 
 ;rework and change names?
 bool Property ConcGoo                   = false auto conditional    ; shown Concentrated Black Goo
@@ -64,17 +78,19 @@ bool Property ControllablePlugsRecipes  = false auto conditional    ; make Contr
 bool Property ChargablePlugsRecipes     = false auto conditional    ; make Chargable Plugs
 bool Property ExecutionPotionRecipes    = false auto conditional    ; make Abadon Execution Potion
 bool Property AbadonShout               = false auto conditional    ; demonstrated Abadon Shout
+bool Property BoundCunt               = false auto conditional    ; demonstrated Bound Cunt items
 
 ; Gives to player reward, afReward is multiplier to be applied to BaseReward, if abMakeProfit set - adds same amount of gold to available reward instead of deducting it
 Function GiveReward(float afReward, bool abMakeProfit = false)
     int loc_gold
     loc_gold = Round((BaseReward * afReward))
     Player.GetActorRef().AddItem(Gold, loc_gold)
-    if abMakeProfit
-        GoldAvailable = GoldAvailable + loc_gold
-    else
+    ;Urag already makes serious gold, so no need to buff him with sold materials, lets drain him instead
+    ;if abMakeProfit
+    ;    GoldAvailable = GoldAvailable + loc_gold
+    ;else
         GoldAvailable = GoldAvailable - loc_gold
-    endif
+    ;endif
 EndFunction
 
 ; Calculates income at this moment in time, applies to GoldAvailable, more he knows - more he earns
@@ -125,6 +141,9 @@ Function CalculateIncome()
     if ExecutionPotionRecipes
         GoldAvailable = GoldAvailable + Round(GoldPerDay * ExecutionGooReward * loc_DaysPassed)
     endif
+    if BoundCunt
+        GoldAvailable = GoldAvailable + Round(GoldPerDay * BCReward* loc_DaysPassed)
+    endif
     LastTimeActivated = Utility.GetCurrentGameTime()
 EndFunction
 
@@ -133,40 +152,72 @@ Function ChooseResearch()
     if ((Utility.GetCurrentGameTime() - LastTimeActivated) > 0.5) || (ChosenResearch == 0) ; if already chosen research - change it once per 12 hours
         CalculateIncome()
         ChosenResearch = 0
-        int[] loc_researches = new int [7]
+        int[] loc_researches = new int [8]
+        int[] loc_weights = new int [8]
         int loc_total = 0
+        int loc_total_weights = 0
         if GoldAvailable > Round(BaseReward * BlackGooReward)
             loc_researches[loc_total] = 1
+            loc_weights[loc_total] = WeightBlackGoo
+            loc_total_weights += WeightBlackGoo
             loc_total += 1
         endif
         if ConcGoo && (GoldAvailable > Round(BaseReward * ConcBlackGooReward))
             loc_researches[loc_total] = 2
+            loc_weights[loc_total] = WeightConcGoo
+            loc_total_weights += WeightConcGoo
             loc_total += 1
         endif
         if GooRecipesPurified && (GoldAvailable > Round(BaseReward * PureBlackGooReward))
             loc_researches[loc_total] = 3
+            loc_weights[loc_total] = WeightPureGoo
+            loc_total_weights += WeightPureGoo
             loc_total += 1
         endif
         if GooRecipesCursed && (GoldAvailable > Round(BaseReward * CursedGooReward))
             loc_researches[loc_total] = 4
+            loc_weights[loc_total] = WeightCursedGoo
+            loc_total_weights += WeightCursedGoo
             loc_total += 1
         endif
         if ExecutionPotionRecipes && (GoldAvailable > Round(BaseReward * ExecutionGooReward))
             loc_researches[loc_total] = 5
+            loc_weights[loc_total] = WeightExecutionGoo
+            loc_total_weights += WeightExecutionGoo
             loc_total += 1
         endif
         if AbadonPlug && (GoldAvailable > Round(BaseReward * PlugReward))
             loc_researches[loc_total] = 6
+            loc_weights[loc_total] = WeightPlug
+            loc_total_weights += WeightPlug
             loc_total += 1
         endif
         if AbadonShout && (GoldAvailable > Round(BaseReward * ShoutReward))
             loc_researches[loc_total] = 7
+            loc_weights[loc_total] = WeightShout
+            loc_total_weights += WeightShout
             loc_total += 1
         endif
-        if loc_total > 0
+        if BoundCunt && (GoldAvailable > Round(BaseReward * BCReward))
+            loc_researches[loc_total] = 8
+            loc_weights[loc_total] = WeightBoundCunt
+            loc_total_weights += WeightBoundCunt
+            loc_total += 1
+        endif
+        if loc_total > 0 && loc_total_weights > 0
             int loc_random
-            loc_random = Utility.RandomInt(1,loc_total)
-            ChosenResearch = loc_researches[loc_random - 1]
+            loc_random = Utility.RandomInt(1, loc_total_weights)
+            int loc_temp = 0
+            int loc_i = 0
+            while loc_i < loc_total
+                ChosenResearch = loc_researches[loc_i]
+                loc_temp += loc_weights[loc_i]
+                if loc_random > loc_temp
+                    loc_i += 1
+                else
+                    loc_i = loc_total
+                endif
+            endwhile
         endif
     endif
 EndFunction
@@ -431,6 +482,23 @@ Function DoResearch()
     elseif ChosenResearch == 7
         USlibs.UDmain.Print("Hit Urag with your Abadon Shout.")
         ;ChosenResearch = 0
+    elseif ChosenResearch == 8
+        ;USlibs.UDmain.Print("Doing Bondage Cunt action.")
+        ;add Bound Cunt outfit here
+        GRQE.LockBoundCuntCollar(Urag.GetActorRef())
+        GRQE.LockBoundCuntOutfit(Urag.GetActorRef())
+        Utility.Wait(3)
+        ;Whip()
+        StartSex("Vaginal")
+        Utility.Wait(1)
+        StartSex("Anal")
+        Utility.Wait(1)
+        GiveReward(BCReward)
+        if loc_relation < 3
+            Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
+        endif
+        GRQ.Masochism = GRQ.Masochism + 3
+        ChosenResearch = 0
     else
         ChosenResearch = 0
     endif
@@ -496,5 +564,7 @@ Function AddAbadonWeaponsToLL()
     PatchLLL(LLSword,loc_weapon)
     loc_weapon = AbadonGreatsword as Form
     PatchLLL(LLGreatsword,loc_weapon)
+    loc_weapon = AbadonBow as Form
+    PatchLLL(LLBow,loc_weapon)
 EndFunction
 

@@ -20,8 +20,11 @@ GRQ.Masochism = GRQ.Masochism + 5
 ;add set here and start sex
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.DHLPSuspend()
 OQ.LockBoundCuntOutfit(akSpeaker)
+OQ.UnlockBeltPlugs(akSpeaker)
 OQ.StartSex(akSpeaker)
+OQ.USlibs.DHLPResume()
 ;END CODE
 EndFunction
 ;END FRAGMENT

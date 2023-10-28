@@ -8,9 +8,11 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.DHLPSuspend()
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)
 OQ.StartSex(akSpeaker)
+OQ.USlibs.DHLPResume()
 ;END CODE
 EndFunction
 ;END FRAGMENT

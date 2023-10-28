@@ -11,6 +11,7 @@ OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)
 OQ.StartSex(akSpeaker)
+OQ.USlibs.DHLPResume()
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -19,6 +20,9 @@ EndFunction
 Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
+US_GRQ_Enchanting_Quest_script OQ
+OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.DHLPSuspend()
 Game.GetPlayer().AddItem(Gold,1000)
 Game.GetPlayer().AddItem(ConcGoo,1)
 Game.GetPlayer().EquipItem(ConcGoo)

@@ -5,6 +5,10 @@ Scriptname US_GRQ_Enchanting_Quest_script extends Quest
 ;UnforgivingDevicesMain Property UDmain auto
 US_libs Property USlibs auto
 
+US_GooResearch_Script Property GRQ auto
+
+MiscObject Property Gold  Auto
+
 Function LockBoundCuntCollar(Actor akActor)
     Actor loc_Player = Game.GetPlayer()
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousCollar) 

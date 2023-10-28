@@ -1,6 +1,23 @@
 ;BEGIN FRAGMENT CODE - Do not edit anything between this and the end comment
 ;NEXT FRAGMENT INDEX 2
-Scriptname US_TIF__0C1E62D4 Extends TopicInfo Hidden
+Scriptname US_TIF__0C1FA6E9 Extends TopicInfo Hidden
+
+;BEGIN FRAGMENT Fragment_0
+Function Fragment_0(ObjectReference akSpeakerRef)
+Actor akSpeaker = akSpeakerRef as Actor
+;BEGIN CODE
+;dress up here
+US_GRQ_Enchanting_Quest_script OQ
+OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.DHLPSuspend()
+Game.GetPlayer().AddItem(OQ.Gold, 3000)
+OQ.LockBoundCuntCollar(akSpeaker)
+OQ.LockBoundCuntOutfit(akSpeaker)
+OQ.GRQ.Masochism = OQ.GRQ.Masochism + 3
+Utility.Wait(2)
+;END CODE
+EndFunction
+;END FRAGMENT
 
 ;BEGIN FRAGMENT Fragment_1
 Function Fragment_1(ObjectReference akSpeakerRef)
@@ -17,25 +34,4 @@ OQ.USlibs.DHLPResume()
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_0
-Function Fragment_0(ObjectReference akSpeakerRef)
-Actor akSpeaker = akSpeakerRef as Actor
-;BEGIN CODE
-;add black goo here
-US_GRQ_Enchanting_Quest_script OQ
-OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
-OQ.USlibs.DHLPSuspend()
-Game.GetPlayer().AddItem(Goo,1)
-Game.GetPlayer().EquipItem(Goo)
-GRQ.Masochism = GRQ.Masochism + 1
-Utility.Wait(2)
-;END CODE
-EndFunction
-;END FRAGMENT
-
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
-
-US_GooResearch_Script Property GRQ auto
-
-
-Ingredient Property Goo  Auto  

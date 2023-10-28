@@ -12,6 +12,7 @@ OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)
 OQ.StartSex(akSpeaker)
+OQ.USlibs.DHLPResume()
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -23,6 +24,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;dress up here
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.DHLPSuspend()
 OQ.LockBoundCuntCollar(akSpeaker)
 OQ.LockBoundCuntOutfit(akSpeaker)
 GRQ.Masochism = GRQ.Masochism + 3

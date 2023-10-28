@@ -18,10 +18,12 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;start sex here
 GRQ.Masochism = GRQ.Masochism + 1
 US_GRQ_Enchanting_Quest_script OQ
+OQ.USlibs.DHLPSuspend()
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)
 OQ.StartSex(akSpeaker)
+OQ.USlibs.DHLPResume()
 ;END CODE
 EndFunction
 ;END FRAGMENT
