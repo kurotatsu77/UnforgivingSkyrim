@@ -50,7 +50,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
     ;SendModEvent("DHLP-Suspend") ; works
     USlibs.DHLPSuspend() ; works!
     ;UDmain.DHLPSuspend() ; works
-    Utility.Wait(1)
+    ;Utility.Wait(1)
     ;this is enraging... DHLP-Suspend is sent properly, but DHLP-Resume not! Why?!
     Actorbase loc_actorbasetarget = akTarget.GetLeveledActorBase()
     Actorbase loc_actorbasecaster = akCaster.GetLeveledActorBase()
@@ -188,7 +188,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
     ;SendModEvent("DHLP-Resume") ; not working, really weird
     USlibs.DHLPResume() ; works!
     ;UDmain.DHLPResume() ; works
-    Utility.Wait(1)
+    ;Utility.Wait(1)
     ;UDCDmain.Print("Abadon shout event ended.")
 EndFunction
 
@@ -309,7 +309,23 @@ Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
         if ASBeltIsStripped
             UDmain.Print("Somehow " + GetActorName(akRapist) + " tears " + loc_belt_name + " to pieces like it's made of paper!")
         endif    
-        akVictim.removeitem(loc_belt, 1, true) ;strangely despite using destroydevice still somehow inventory item stays... DD bug?
+        ;akVictim.removeitem(loc_belt, 1, true) ;strangely despite using destroydevice still somehow inventory item stays... DD bug?
+        Armor loc_plug
+        string loc_plug_name
+        if akVictim.wornhaskeyword(libs.zad_DeviousPlugVaginal)
+            loc_plug = libs.getWornDevice(akVictim,libs.zad_DeviousPlugVaginal) 
+            if libs.UnlockDevice(akVictim, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_DeviousPlugVaginal, destroydevice = true, genericonly = true)
+                loc_plug_name = loc_plug.GetName()
+                UDmain.Print(GetActorName(akRapist) + " pulls out " + loc_plug_name)
+            endif
+        endif    
+        if akVictim.wornhaskeyword(libs.zad_DeviousPlugAnal)
+            loc_plug = libs.getWornDevice(akVictim,libs.zad_DeviousPlugAnal) 
+            if libs.UnlockDevice(akVictim, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_DeviousPlugAnal, destroydevice = true, genericonly = true)
+                loc_plug_name = loc_plug.GetName()
+                UDmain.Print(GetActorName(akRapist) + " pulls out " + loc_plug_name)
+            endif
+        endif    
     endif
 
     Utility.Wait(1)
