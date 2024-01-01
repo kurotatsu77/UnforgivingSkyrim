@@ -110,13 +110,13 @@ bool Function RemoveRestraint(Actor akRemover, keyword kwFirst, keyword kwSecond
         Armor loc_restraint = USlibs.UDmain.libs.getWornDevice(loc_player, kwFirst) 
         string loc_restraint_name = loc_restraint.GetName()
         bool loc_IsStripped = false
-        if USlibs.UDmain.libs.UnlockDevice(loc_player, deviceInventory = loc_restraint, zad_DeviousDevice = kwFirst, destroydevice = true, genericonly = true)
+        if USlibs.UDmain.libs.UnlockDevice(loc_player, deviceInventory = loc_restraint, zad_DeviousDevice = kwFirst, destroydevice = false, genericonly = true)
             loc_IsStripped = true
         endif
         Utility.Wait(1) ; giving time to strip
         if !(kwSecond == none) && loc_player.wornhaskeyword(kwFirst) && loc_player.wornhaskeyword(kwSecond)
             loc_restraint = USlibs.UDmain.libs.getWornDevice(loc_player, kwSecond) 
-            if USlibs.UDmain.libs.UnlockDevice(loc_player, deviceInventory = loc_restraint, zad_DeviousDevice = kwSecond, destroydevice = true, genericonly = true)
+            if USlibs.UDmain.libs.UnlockDevice(loc_player, deviceInventory = loc_restraint, zad_DeviousDevice = kwSecond, destroydevice = false, genericonly = true)
                 loc_IsStripped = true
                 loc_restraint_name = loc_restraint.GetName()
             endif

@@ -279,14 +279,14 @@ bool Function Strip(Keyword akKeyword)
         Armor loc_device = USlibs.libs.getWornDevice(loc_PlayerRef, akKeyword) 
         string loc_device_name = loc_device.GetName()
         bool loc_DeviceWasStripped = false
-        if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = akKeyword, destroydevice = true, genericonly = true)
+        if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = akKeyword, destroydevice = false, genericonly = true)
             loc_DeviceWasStripped = true
         endif
         Utility.Wait(1) ; giving time to strip
         ; if after stripping belt still some belt detected - it's harness, they are not stripped by belt keywords! DD bug?
         if !loc_DeviceWasStripped && akKeyword == USlibs.libs.zad_DeviousBelt && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousHarness) && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousBelt)
             loc_device = USlibs.libs.getWornDevice(loc_PlayerRef,USlibs.libs.zad_DeviousHarness) 
-            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHarness, destroydevice = true, genericonly = true)
+            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHarness, destroydevice = false, genericonly = true)
                 loc_DeviceWasStripped = true
                 loc_device_name = loc_device.GetName()
             endif
@@ -294,7 +294,7 @@ bool Function Strip(Keyword akKeyword)
         ;same thing with gags and hoods
         if !loc_DeviceWasStripped && akKeyword == USlibs.libs.zad_DeviousGag && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousHood) && loc_PlayerRef.wornhaskeyword(USlibs.libs.zad_DeviousGag)
             loc_device = USlibs.libs.getWornDevice(loc_PlayerRef,USlibs.libs.zad_DeviousHood) 
-            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHood, destroydevice = true, genericonly = true)
+            if USlibs.libs.UnlockDevice(loc_PlayerRef, deviceInventory = loc_device, zad_DeviousDevice = USlibs.libs.zad_DeviousHood, destroydevice = false, genericonly = true)
                 loc_DeviceWasStripped = true
                 loc_device_name = loc_device.GetName()
             endif
