@@ -68,8 +68,18 @@ Event OnActivate(ObjectReference akActionRef)
     Form CurrentItem
     int CurrentItemNum
     int CheckResult
-
-    MaterialHints = "\n No further ideas for now. Maybe later..."
+    ; Giving clear hint of no more goo-related research to be done
+    if  GRQ.GooRecipesBasic && GRQ.GooRecipesPurified && GRQ.AbadoniumRecipes && GRQ.AbadonRingRecipes && GRQ.AbadonWeaponsRecipes && GRQ.ChargablePlugsRecipes && GRQ.ControllablePlugsRecipes && GRQ.DragonNutsRecipes && GRQ.ExecutionPotionRecipes && GRQ.GooRecipesAdvanced && GRQ.GooRecipesCursed
+        MaterialHints = "\n Looks like nothing left to research except for alchemy ingredients effects."
+        if !GRQ.IsCompleted()
+            GRQ.SetStage(70)
+            GRQ.SetObjectiveCompleted(50)
+            GRQ.SetObjectiveDisplayed(50, false)
+            GRQ.CompleteQuest()
+        endif
+    else
+        MaterialHints = "\n No further ideas for now. Maybe later, after my assistant brings more materials..."
+    endif
     if ResearchPaused
         LastTimeActivated = Utility.GetCurrentGameTime()
         Debug.MessageBox("Looks like no research has been made due to the problems arisen!")

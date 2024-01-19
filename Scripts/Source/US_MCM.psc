@@ -15,8 +15,11 @@ int Property WeightBoundCunt 	= 40 	auto
 
 US_UragGRQ_Script Property UragGRQ Auto
 
+GlobalVariable Property AllowCreaturesPoison auto
+
 bool WeaponsRegistered
 int AllowSuitAbadonPlug_T
+int AllowCreaturesPoison_T
 String _lastPage
 int WeaponsRegistered_T
 
@@ -77,6 +80,9 @@ Event OnPageReset(string page)
 		AddHeaderOption("Suit sets")
 		AllowSuitAbadonPlug_T = AddToggleOption("Abadon Plug in suits", AllowSuitAbadonPlug)
 				
+		AddHeaderOption("Creatures poisoning")
+		AllowCreaturesPoison_T = AddToggleOption("Creatures poison binds", CreaturesAllowed())
+		
 		AddHeaderOption("Abadon weapons")
 		If WeaponsRegistered
 			WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
@@ -117,6 +123,16 @@ Event OnOptionSelect(Int Menu)
 		SetToggleOptionValue(Menu, AllowSuitAbadonPlug)
 		ForcePageReset()
 		return
+
+	elseif Menu == AllowCreaturesPoison_T
+		if CreaturesAllowed()
+			AllowCreaturesPoison.SetValueInt(0)
+		else
+			AllowCreaturesPoison.SetValueInt(1)
+		endif
+		SetToggleOptionValue(Menu, CreaturesAllowed())
+		ForcePageReset()
+
 	elseif Menu == WeaponsRegistered_T
 		if  WeaponsRegistered == true
 			;WeaponsRegistered = false
@@ -239,6 +255,8 @@ Event OnOptionHighlight(int option)
     if (_lastPage == "General")
         if(option == AllowSuitAbadonPlug_T)
 			SetInfoText("Allow using of Abadon Plug in suit sets, Execution set always uses it no matter what this set to.")
+		elseif(option == AllowCreaturesPoison_T)
+			SetInfoText("Allow poison of falmers, chaurus and spiders to apply binding effect with small probability (3-12%).")
 		elseif(option == WeaponsRegistered_T)
 			SetInfoText("Injects Abadon Weapons into leveled lists to be available to use by NPCs. Normally done via Urag's quest and not needed to be used.")
 		endif
@@ -253,4 +271,12 @@ EndEvent
 
 int Function Round(float value) global
     return Math.floor(value + 0.5)
+EndFunction
+
+bool Function CreaturesAllowed()
+	if AllowCreaturesPoison.GetValueInt() == 0
+		return false
+	else
+		return true
+	endif
 EndFunction

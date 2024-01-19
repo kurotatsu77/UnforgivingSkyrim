@@ -53,7 +53,7 @@ Armor Property BoundCuntBoxbinder auto
 Armor Property BoundCuntCorset auto
 Armor Property BoundCuntBoots auto
 Armor Property BoundCuntBlindfold auto
-Armor Property BoundCuntFaceMask auto
+Armor Property BoundCuntGag auto
 Armor Property BoundCuntHood auto
 Armor Property BoundCuntCollar auto
 
