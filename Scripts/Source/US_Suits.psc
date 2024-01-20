@@ -83,7 +83,7 @@ Function EquipSuitCursed(Actor akActor)
             libs.LockDevice(akActor,UDmain.UDlibs.AbadonCuffCollar)
         endif
      
-        if UDmain.ItemManager.UD_useHoods
+        if UDmain.UDRRM.IsDeviceFiltered(7)
             libs.SwapDevices(akActor,UDmain.UDlibs.CursedAbadonGasmask,libs.zad_DeviousHood) ; force to wear cursed gasmask too
         endif
        

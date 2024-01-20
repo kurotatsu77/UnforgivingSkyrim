@@ -89,12 +89,12 @@ bool Function UnlockBeltPlugs(Actor akActor)
     
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousPlugVaginal)
         if !RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousPlugVaginal)
-            USlibs.UDmain.Print(USlibs.GetActorName(akActor) + " fails to pull out vaginal plug")
+            USlibs.UDmain.Print(UD_Native.GetActorName(akActor) + " fails to pull out vaginal plug")
         endif
     endif
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousPlugAnal)
         if !RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousPlugAnal)
-            USlibs.UDmain.Print(USlibs.GetActorName(akActor) + " fails to pull out anal plug")
+            USlibs.UDmain.Print(UD_Native.GetActorName(akActor) + " fails to pull out anal plug")
         endif
     endif
     if !loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousBelt) && !loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousPlugVaginal) && !loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousPlugAnal)
@@ -122,7 +122,7 @@ bool Function RemoveRestraint(Actor akRemover, keyword kwFirst, keyword kwSecond
             endif
         endif    
         if loc_IsStripped
-            USlibs.UDmain.Print(USlibs.GetActorName(akRemover) + " removes " + loc_restraint_name)
+            USlibs.UDmain.Print(UD_Native.GetActorName(akRemover) + " removes " + loc_restraint_name)
         endif
         return loc_IsStripped
     endif
@@ -148,7 +148,7 @@ Function StartSex(Actor akActor)
     
     If US_SLAnim.Length > 0
         ;UDCDmain.Print("Number of anims found is " + AS_SLAnim.Length)
-        ;UDCDmain.Print("Starting animation for " + GetActorName(AS_SLActors[1]) + " to rape " + GetActorName(AS_SLActors[0]))
+        ;UDCDmain.Print("Starting animation for " + UD_Native.GetActorName(AS_SLActors[1]) + " to rape " + UD_Native.GetActorName(AS_SLActors[0]))
         USlibs.UDmain.libs.SexLab.StartSex(Positions = US_SLActors, Anims = US_SLAnim, Victim = US_SLActors[0])
     endif
     USlibs.DHLPResume()
@@ -159,7 +159,7 @@ Function LockRandomGag(Actor akActor)
     Armor loc_restraint = USlibs.UDCDmain.UDmain.UDRRM.LockRandomRestrain(loc_Player,false,0x00000200)
     if loc_restraint
         string loc_restraint_name = loc_restraint.GetName()
-        USlibs.UDmain.Print(USlibs.GetActorName(akActor) + " locks " + loc_restraint_name + " on " + USlibs.GetActorName(loc_Player))
+        USlibs.UDmain.Print(UD_Native.GetActorName(akActor) + " locks " + loc_restraint_name + " on " + UD_Native.GetActorName(loc_Player))
     endif
 EndFunction
 
@@ -168,6 +168,6 @@ Function LockRandomArmRestraint(Actor akActor)
     Armor loc_restraint = USlibs.UDCDmain.UDmain.UDRRM.LockRandomRestrain(loc_Player,false,0x00000010)
     if loc_restraint
         string loc_restraint_name = loc_restraint.GetName()
-        USlibs.UDmain.Print(USlibs.GetActorName(akActor) + " locks " + loc_restraint_name + " on " + USlibs.GetActorName(loc_Player))
+        USlibs.UDmain.Print(UD_Native.GetActorName(akActor) + " locks " + loc_restraint_name + " on " + UD_Native.GetActorName(loc_Player))
     endif
 EndFunction

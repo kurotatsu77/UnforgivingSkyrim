@@ -40,7 +40,7 @@ int _ASResult = 0
 int loc_magn
 
 Event OnEffectStart(Actor akTarget, Actor akCaster)
-    loc_magn = iRange(UD_Native.Round(GetMagnitude()),1,3)
+    loc_magn = UD_Native.iRange(UD_Native.Round(GetMagnitude()),1,3)
     AS_Main(akTarget, akCaster)
     USlibs.ASHook(akTarget, akCaster, loc_magn, _ASResult)
 EndEvent
@@ -71,14 +71,14 @@ Function AS_Main(Actor akTarget, Actor akCaster)
     ;both females, check arousal and then call lock restraints on target or caster with check for bondage, bound targets get messed up instead
         if ASReverse(akTarget, akCaster)
             _ASResult = 10
-            UDmain.Print(GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
+            UDmain.Print(UD_Native.GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
             if CasterFree
                 ASBindTarget(akCaster,loc_magn)
             else
                 UDCDmain.DisableActor(akCaster)
                 if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 15
-                    UDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
+                    UDmain.Print(UD_Native.GetActorName(akCaster) + " is all wrapped up in restraints!")
                 endif
                 UDCDmain.EnableActor(akCaster)
                 USlibs.MessUp(akCaster,loc_magn)
@@ -91,7 +91,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
                 UDCDmain.DisableActor(akTarget)
                 if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 5
-                    UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
+                    UDmain.Print(UD_Native.GetActorName(akTarget) + " is all wrapped up in restraints!")
                 endif
                 UDCDmain.EnableActor(akCaster)
                 USlibs.MessUp(akTarget,loc_magn)
@@ -100,7 +100,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
 
     elseif TargetHuman && TargetFemale && !CasterHuman && CasterFemale
     ;female creature shouts at human female
-    UDmain.Print(GetActorName(akCaster) + " laughs as restraints appear on " + GetActorName(akTarget) + "!")
+    UDmain.Print(UD_Native.GetActorName(akCaster) + " laughs as restraints appear on " + UD_Native.GetActorName(akTarget) + "!")
         _ASResult = 4
         if TargetFree
             ASBindTarget(akTarget,loc_magn)
@@ -108,7 +108,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             UDCDmain.DisableActor(akTarget)
             if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                 _ASResult = 5
-                UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
+                UDmain.Print(UD_Native.GetActorName(akTarget) + " is all wrapped up in restraints!")
             endif
             UDCDmain.EnableActor(akCaster)
         endif
@@ -118,14 +118,14 @@ Function AS_Main(Actor akTarget, Actor akCaster)
     ;human female shouts at female creature
         if ASReverse(akTarget, akCaster)    
             _ASResult = 10
-            UDmain.Print(GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
+            UDmain.Print(UD_Native.GetActorName(akCaster) + " got too distracted and her shout got reflected back to her!")
             if CasterFree
                 ASBindTarget(akCaster,loc_magn)
             else
                 UDCDmain.DisableActor(akCaster)
                 if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 15
-                    UDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
+                    UDmain.Print(UD_Native.GetActorName(akCaster) + " is all wrapped up in restraints!")
                 endif
                 UDCDmain.EnableActor(akCaster)
                 USlibs.MessUp(akCaster,loc_magn)
@@ -171,7 +171,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             UDCDmain.DisableActor(akTarget)
             if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                 _ASResult = 5
-                UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
+                UDmain.Print(UD_Native.GetActorName(akTarget) + " is all wrapped up in restraints!")
             endif
             UDCDmain.EnableActor(akTarget)
         endif
@@ -199,14 +199,14 @@ bool Function ASReverse(Actor loc_target, Actor loc_caster)
     int ReversalChance = UD_Native.Round(UDCDmain.UDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDmain.UDOM.getArousal(loc_target))
     ; Reversal chance is 5-95%
     if ReversalChance < 5 
-        if GActorIsPlayer(loc_caster)
+        if UD_Native.IsPlayer(loc_caster)
             ReversalChance = USlibs.AbadonShoutMinReversal
         else
             ReversalChance = 5
         endif
     endif
     if ReversalChance > 95
-        if GActorIsPlayer(loc_target)
+        if UD_Native.IsPlayer(loc_target)
             ReversalChance = 100 - USlibs.AbadonShoutMinReversal
         else
             ReversalChance = 95
@@ -221,7 +221,7 @@ EndFunction
 
 ;Check for magnitude from 1 to 3 and bind accordingly, 1 - hands only, 2 - hands+gag+blindfold, 3 - full Abadon suit
 Function ASBindTarget(Actor TargetToBind, int BindStrength = 1)
-    ;UDCDmain.Print("Will bind " + GetActorName(TargetToBind))
+    ;UDCDmain.Print("Will bind " + UD_Native.GetActorName(TargetToBind))
     libs.strip(TargetToBind,false)
     if BindStrength == 1 ;bind hands only
         UDCDmain.DisableActor(TargetToBind)
@@ -249,8 +249,8 @@ Function ASPerformRapeOrWhip(Actor akRapist, Actor akVictim, int magn)
     int RapistArousal = 50
     ;RapistArousal = UDCDmain.UDmain.UDOM.getArousal(akRapist) ; this returns exposure value, not summed arousal
     RapistArousal = libs.Aroused.GetActorArousal(akRapist)
-    ;UDCDmain.Print(GetActorName(akRapist) + "s arousal is " + RapistArousal)
-    if RapistArousal < 25 && GActorIsPlayer(akVictim)
+    ;UDCDmain.Print(UD_Native.GetActorName(akRapist) + "s arousal is " + RapistArousal)
+    if RapistArousal < 25 && UD_Native.IsPlayer(akVictim)
         USlibs.USWhip(akVictim, akRapist)
         libs.UpdateExposure(akRapist, 30, true)
         libs.UpdateExposure(akVictim, 30, true)
@@ -265,7 +265,7 @@ EndFunction
 
 ;Strip belt if present and possible (not quest item), perform rape anim, add Ancient Seed depending on magnitude, apply exhaustion effects and maybe defeated anim
 Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
-    ;UDCDmain.Print(GetActorName(akRapist) + " will rape " + GetActorName(akVictim))
+    ;UDCDmain.Print(UD_Native.GetActorName(akRapist) + " will rape " + UD_Native.GetActorName(akVictim))
     Actor[] AS_SLActors = new Actor[2]
     sslBaseAnimation[] AS_SLAnim    
     AS_SLActors[0] = akVictim
@@ -307,7 +307,7 @@ Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
             endif
         endif    
         if ASBeltIsStripped
-            UDmain.Print("Somehow " + GetActorName(akRapist) + " tears " + loc_belt_name + " to pieces like it's made of paper!")
+            UDmain.Print("Somehow " + UD_Native.GetActorName(akRapist) + " tears " + loc_belt_name + " to pieces like it's made of paper!")
         endif    
         ;akVictim.removeitem(loc_belt, 1, true) ;strangely despite using destroydevice still somehow inventory item stays... DD bug?
         Armor loc_plug
@@ -316,14 +316,14 @@ Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
             loc_plug = libs.getWornDevice(akVictim,libs.zad_DeviousPlugVaginal) 
             if libs.UnlockDevice(akVictim, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_DeviousPlugVaginal, destroydevice = true, genericonly = true)
                 loc_plug_name = loc_plug.GetName()
-                UDmain.Print(GetActorName(akRapist) + " pulls out " + loc_plug_name)
+                UDmain.Print(UD_Native.GetActorName(akRapist) + " pulls out " + loc_plug_name)
             endif
         endif    
         if akVictim.wornhaskeyword(libs.zad_DeviousPlugAnal)
             loc_plug = libs.getWornDevice(akVictim,libs.zad_DeviousPlugAnal) 
             if libs.UnlockDevice(akVictim, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_DeviousPlugAnal, destroydevice = true, genericonly = true)
                 loc_plug_name = loc_plug.GetName()
-                UDmain.Print(GetActorName(akRapist) + " pulls out " + loc_plug_name)
+                UDmain.Print(UD_Native.GetActorName(akRapist) + " pulls out " + loc_plug_name)
             endif
         endif    
     endif
@@ -358,10 +358,10 @@ Function ASPerformRape(Actor akRapist, Actor akVictim, int MagnitudePower)
     endif
     If AS_SLAnim.Length > 0
         ;UDCDmain.Print("Number of anims found is " + AS_SLAnim.Length)
-        ;UDCDmain.Print("Starting animation for " + GetActorName(AS_SLActors[1]) + " to rape " + GetActorName(AS_SLActors[0]))
+        ;UDCDmain.Print("Starting animation for " + UD_Native.GetActorName(AS_SLActors[1]) + " to rape " + UD_Native.GetActorName(AS_SLActors[0]))
         libs.SexLab.StartSex(Positions = AS_SLActors, Anims = AS_SLAnim, Victim = akVictim)
-    elseif GActorIsPlayer(akVictim)
-        UDmain.Print(GetActorName(akRapist) + " can't use " + GetActorName(akVictim) + " and gets angry!")
+    elseif UD_Native.IsPlayer(akVictim)
+        UDmain.Print(UD_Native.GetActorName(akRapist) + " can't use " + UD_Native.GetActorName(akVictim) + " and gets angry!")
         AS_RapeResult = 3
         ;here add whipping scene if no way to have sex or spank victim
         USlibs.USWhip(akVictim, akRapist)
