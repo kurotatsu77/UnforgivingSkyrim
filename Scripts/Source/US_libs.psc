@@ -53,7 +53,7 @@ Armor Property BoundCuntBoxbinder auto
 Armor Property BoundCuntCorset auto
 Armor Property BoundCuntBoots auto
 Armor Property BoundCuntBlindfold auto
-Armor Property BoundCuntGag auto
+Armor Property BoundCuntFaceMask auto
 Armor Property BoundCuntHood auto
 Armor Property BoundCuntCollar auto
 
@@ -483,11 +483,11 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                     loc_choice = US_AS_MSG_Reversal_2.Show()
                 endif
                 if loc_choice == 0
-                    AbadonShoutMinReversal = AbadonShoutMinReversal - (5 * Round((aiResult/5) - 1) * aiMagnitude) ; -5 ... -30
+                    AbadonShoutMinReversal = AbadonShoutMinReversal - (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude) ; -5 ... -30
                 elseif loc_choice == 1
-                    ;AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude) ; no change
+                    ;AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude) ; no change
                 else
-                    AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude)  ; +5 ... +30
+                    AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude)  ; +5 ... +30
                 endif
                 if AbadonShoutMinReversal < 5
                     AbadonShoutMinReversal = 5

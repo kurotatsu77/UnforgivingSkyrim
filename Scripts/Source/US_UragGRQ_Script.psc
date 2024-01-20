@@ -83,7 +83,7 @@ bool Property BoundCunt               = false auto conditional    ; demonstrated
 ; Gives to player reward, afReward is multiplier to be applied to BaseReward, if abMakeProfit set - adds same amount of gold to available reward instead of deducting it
 Function GiveReward(float afReward, bool abMakeProfit = false)
     int loc_gold
-    loc_gold = Round((BaseReward * afReward))
+    loc_gold = UD_Native.Round((BaseReward * afReward))
     Player.GetActorRef().AddItem(Gold, loc_gold)
     ;Urag already makes serious gold, so no need to buff him with sold materials, lets drain him instead
     ;if abMakeProfit
@@ -101,48 +101,48 @@ Function CalculateIncome()
     endif
     float loc_DaysPassed
     loc_DaysPassed = Utility.GetCurrentGameTime() - LastTimeActivated
-    GoldAvailable = GoldAvailable + Round(GoldPerDay * loc_DaysPassed)
+    GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * loc_DaysPassed)
     if ConcGoo
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
     endif
     if GooRecipesBasic
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
     endif
     if GooRecipesAdvanced
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
     endif
     if GooRecipesCursed
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * CursedGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * CursedGooReward * loc_DaysPassed)
     endif
     if GooRecipesPurified
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
     endif
     if DragonNutsRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ConcBlackGooReward * loc_DaysPassed)
     endif
     if AbadonPlug
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if AbadoniumRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if AbadonWeaponsRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if AbadonRingRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if ControllablePlugsRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if ChargablePlugsRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * PlugReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * PlugReward * loc_DaysPassed)
     endif
     if ExecutionPotionRecipes
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * ExecutionGooReward * loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * ExecutionGooReward * loc_DaysPassed)
     endif
     if BoundCunt
-        GoldAvailable = GoldAvailable + Round(GoldPerDay * BCReward* loc_DaysPassed)
+        GoldAvailable = GoldAvailable + UD_Native.Round(GoldPerDay * BCReward* loc_DaysPassed)
     endif
     LastTimeActivated = Utility.GetCurrentGameTime()
 EndFunction
@@ -156,49 +156,49 @@ Function ChooseResearch()
         int[] loc_weights = new int [8]
         int loc_total = 0
         int loc_total_weights = 0
-        if GoldAvailable > Round(BaseReward * BlackGooReward)
+        if GoldAvailable > UD_Native.Round(BaseReward * BlackGooReward)
             loc_researches[loc_total] = 1
             loc_weights[loc_total] = WeightBlackGoo
             loc_total_weights += WeightBlackGoo
             loc_total += 1
         endif
-        if ConcGoo && (GoldAvailable > Round(BaseReward * ConcBlackGooReward))
+        if ConcGoo && (GoldAvailable > UD_Native.Round(BaseReward * ConcBlackGooReward))
             loc_researches[loc_total] = 2
             loc_weights[loc_total] = WeightConcGoo
             loc_total_weights += WeightConcGoo
             loc_total += 1
         endif
-        if GooRecipesPurified && (GoldAvailable > Round(BaseReward * PureBlackGooReward))
+        if GooRecipesPurified && (GoldAvailable > UD_Native.Round(BaseReward * PureBlackGooReward))
             loc_researches[loc_total] = 3
             loc_weights[loc_total] = WeightPureGoo
             loc_total_weights += WeightPureGoo
             loc_total += 1
         endif
-        if GooRecipesCursed && (GoldAvailable > Round(BaseReward * CursedGooReward))
+        if GooRecipesCursed && (GoldAvailable > UD_Native.Round(BaseReward * CursedGooReward))
             loc_researches[loc_total] = 4
             loc_weights[loc_total] = WeightCursedGoo
             loc_total_weights += WeightCursedGoo
             loc_total += 1
         endif
-        if ExecutionPotionRecipes && (GoldAvailable > Round(BaseReward * ExecutionGooReward))
+        if ExecutionPotionRecipes && (GoldAvailable > UD_Native.Round(BaseReward * ExecutionGooReward))
             loc_researches[loc_total] = 5
             loc_weights[loc_total] = WeightExecutionGoo
             loc_total_weights += WeightExecutionGoo
             loc_total += 1
         endif
-        if AbadonPlug && (GoldAvailable > Round(BaseReward * PlugReward))
+        if AbadonPlug && (GoldAvailable > UD_Native.Round(BaseReward * PlugReward))
             loc_researches[loc_total] = 6
             loc_weights[loc_total] = WeightPlug
             loc_total_weights += WeightPlug
             loc_total += 1
         endif
-        if AbadonShout && (GoldAvailable > Round(BaseReward * ShoutReward))
+        if AbadonShout && (GoldAvailable > UD_Native.Round(BaseReward * ShoutReward))
             loc_researches[loc_total] = 7
             loc_weights[loc_total] = WeightShout
             loc_total_weights += WeightShout
             loc_total += 1
         endif
-        if BoundCunt && (GoldAvailable > Round(BaseReward * BCReward))
+        if BoundCunt && (GoldAvailable > UD_Native.Round(BaseReward * BCReward))
             loc_researches[loc_total] = 8
             loc_weights[loc_total] = WeightBoundCunt
             loc_total_weights += WeightBoundCunt
@@ -227,10 +227,6 @@ Function StartTimer()
     LastTimeActivated = Utility.GetCurrentGameTime()
     ;BaseReward = USMCM.UragBaseReward
     ;GoldAvailable = 500
-EndFunction
-
-int Function Round(float afValue)
-    return Math.floor(afValue + 0.5)
 EndFunction
 
 ;performs sexscene between player and Urag with tag defined by asTag

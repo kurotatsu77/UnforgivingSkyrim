@@ -68,25 +68,14 @@ Event OnActivate(ObjectReference akActionRef)
     Form CurrentItem
     int CurrentItemNum
     int CheckResult
-    ; Giving clear hint of no more goo-related research to be done
-    if  GRQ.GooRecipesBasic && GRQ.GooRecipesPurified && GRQ.AbadoniumRecipes && GRQ.AbadonRingRecipes && GRQ.AbadonWeaponsRecipes && GRQ.ChargablePlugsRecipes && GRQ.ControllablePlugsRecipes && GRQ.DragonNutsRecipes && GRQ.ExecutionPotionRecipes && GRQ.GooRecipesAdvanced && GRQ.GooRecipesCursed
-        MaterialHints = "\n Looks like nothing left to research except for alchemy ingredients effects."
-        if GRQ.GetStage() < 70
-            GRQ.SetStage(70)
-            GRQ.SetObjectiveCompleted(50)
-            GRQ.SetObjectiveDisplayed(50, false)
-            GRQ.SetObjectiveDisplayed(60)
-            ;GRQ.CompleteQuest()
-        endif
-    else
-        MaterialHints = "\n No further ideas for now. Maybe later, after my assistant brings more materials..."
-    endif
+
+    MaterialHints = "\n No further ideas for now. Maybe later..."
     if ResearchPaused
         LastTimeActivated = Utility.GetCurrentGameTime()
         Debug.MessageBox("Looks like no research has been made due to the problems arisen!")
         return
     endif
-    ResearchPoints = ResearchPoints + Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
+    ResearchPoints = ResearchPoints + UD_Native.Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
     LastTimeActivated = Utility.GetCurrentGameTime()
 
 ;now processing all ingredients, generic and custom
@@ -317,7 +306,7 @@ Event OnActivate(ObjectReference akActionRef)
     endwhile
 
     Utility.Wait(0.5) ; to prevent final results box to pop over the research ones
-    debug.MessageBox("Research time idle: " + Round(ResearchPoints / ResearchPointsPerDay) + " day(s).\n" + Advice() + "\n End of report.")
+    debug.MessageBox("Research time idle: " + UD_Native.Round(ResearchPoints / ResearchPointsPerDay) + " day(s).\n" + Advice() + "\n End of report.")
     ;StartTimer() ; better keep this commented out, too nasty not to allow to gather up some RPs...
 EndEvent
 
@@ -327,7 +316,7 @@ Function StartTimer()
 EndFunction
 
 Function PauseTimer()
-    ResearchPoints = ResearchPoints + Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
+    ResearchPoints = ResearchPoints + UD_Native.Round((Utility.GetCurrentGameTime() - LastTimeActivated) * ResearchPointsPerDay)
     LastTimeActivated = Utility.GetCurrentGameTime()
     ResearchPaused = true
 EndFunction
@@ -382,14 +371,14 @@ EndFunction
 bool Function DeductRPandGold(int aiRP, int aiGold, bool abAlchemy, bool abEnchant, bool abTestOnly = false)
     if abAlchemy
         if BoostAlchemy
-            aiRP = Round(aiRP / BoostAlchemyMultiplier)
-            aiGold = Round(aiGold / BoostAlchemyMultiplier)
+            aiRP = UD_Native.Round(aiRP / BoostAlchemyMultiplier)
+            aiGold = UD_Native.Round(aiGold / BoostAlchemyMultiplier)
         EndIf
     endif
     if abEnchant
         If BoostEnchant
-            aiRP = Round(aiRP / BoostEnchantMultiplier)
-            aiGold = Round(aiGold / BoostEnchantMultiplier)
+            aiRP = UD_Native.Round(aiRP / BoostEnchantMultiplier)
+            aiGold = UD_Native.Round(aiGold / BoostEnchantMultiplier)
         EndIf
     endif
     if  ResearchPoints > aiRP

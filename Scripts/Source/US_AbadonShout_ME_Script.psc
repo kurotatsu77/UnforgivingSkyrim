@@ -40,7 +40,7 @@ int _ASResult = 0
 int loc_magn
 
 Event OnEffectStart(Actor akTarget, Actor akCaster)
-    loc_magn = iRange(Round(GetMagnitude()),1,3)
+    loc_magn = iRange(UD_Native.Round(GetMagnitude()),1,3)
     AS_Main(akTarget, akCaster)
     USlibs.ASHook(akTarget, akCaster, loc_magn, _ASResult)
 EndEvent
@@ -76,7 +76,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
                 ASBindTarget(akCaster,loc_magn)
             else
                 UDCDmain.DisableActor(akCaster)
-                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
+                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 15
                     UDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
                 endif
@@ -89,7 +89,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
                 ASBindTarget(akTarget,loc_magn)
             else
                 UDCDmain.DisableActor(akTarget)
-                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 5
                     UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
                 endif
@@ -106,7 +106,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             ASBindTarget(akTarget,loc_magn)
         else
             UDCDmain.DisableActor(akTarget)
-            if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+            if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                 _ASResult = 5
                 UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
             endif
@@ -123,7 +123,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
                 ASBindTarget(akCaster,loc_magn)
             else
                 UDCDmain.DisableActor(akCaster)
-                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
+                if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                     _ASResult = 15
                     UDmain.Print(GetActorName(akCaster) + " is all wrapped up in restraints!")
                 endif
@@ -149,7 +149,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
         USlibs.USCalm(akCaster)
         USlibs.USCalm(akTarget)
         UDCDmain.DisableActor(akCaster)
-        UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, Round(Math.Pow(3, (loc_magn - 1))))
+        UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akCaster, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
         UDCDmain.EnableActor(akCaster)
         if Utility.RandomInt(0,100) < 33
             _ASResult = 1
@@ -169,7 +169,7 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             ASBindTarget(akTarget,loc_magn)
         else 
             UDCDmain.DisableActor(akTarget)
-            if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, Round(Math.Pow(3, (loc_magn - 1))))
+            if !UDCDmain.UDmain.UDRRM.LockAnyRandomRestrain(akTarget, UD_Native.Round(Math.Pow(3, (loc_magn - 1))))
                 _ASResult = 5
                 UDmain.Print(GetActorName(akTarget) + " is all wrapped up in restraints!")
             endif
@@ -196,7 +196,7 @@ EndFunction
 ;At 100 arousal difference chance of reverse is 95%, i.e. aroused caster most likely would bind herself instead of completely unaroused target.
 ;If target's arousal higher than caster's - reversal chance is 5%. Maybe add MCM setting for it later, although sticking with 5% is essentially 1 on 1d20 throw, might be the best.
 bool Function ASReverse(Actor loc_target, Actor loc_caster)
-    int ReversalChance = Round(UDCDmain.UDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDmain.UDOM.getArousal(loc_target))
+    int ReversalChance = UD_Native.Round(UDCDmain.UDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDmain.UDOM.getArousal(loc_target))
     ; Reversal chance is 5-95%
     if ReversalChance < 5 
         if GActorIsPlayer(loc_caster)
