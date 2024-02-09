@@ -138,7 +138,7 @@ Function USCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
     akActor.AddToFaction(HavingSexFaction)
-    if !GActorIsPlayer(akActor) 
+    if !UD_Native.IsPlayer(akActor) 
         akActor.setAV("Aggression", 0)
 	    akActor.EvaluatePackage()
     endif
@@ -152,7 +152,7 @@ Function USUnCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
     akActor.RemoveFromFaction(HavingSexFaction)
-    if !GActorIsPlayer(akActor) 
+    if !UD_Native.IsPlayer(akActor) 
         akActor.setAV("Aggression", 1)
 	    akActor.EvaluatePackage()
     endif
@@ -163,7 +163,7 @@ EndFunction
 
 ; Play scene of akWhippee being whipped by akWhipper, based on script by vkj, works only on player for now! Maybe rework it later.
 Function USWhip(Actor akWhippee, Actor akWhipper, Scene akNextScene = None)
-    Int loc_isPlayer = GActorIsPlayer(akWhippee) as Int
+    Int loc_IsPlayer = UD_Native.IsPlayer(akWhippee) as Int
     Float whippingDuration = 10
     whippingDuration = Utility.RandomInt(10,30)
     String caneModel = WeaponCane.GetModelPath()
@@ -177,7 +177,7 @@ Function USWhip(Actor akWhippee, Actor akWhipper, Scene akNextScene = None)
     float zazDialogType = zazActions.zbfSlaveDialogueType.GetValue()
 	zazActions.zbfSlaveDialogueType.SetValue(-1); suppress whipping dialog
     
-    UDCDmain.DisableActor(akWhippee, loc_isPlayer)
+    UDCDmain.DisableActor(akWhippee, loc_IsPlayer)
 
     akWhippee.AddToFaction(HavingSexFaction)
 	akWhipper.AddToFaction(HavingSexFaction)
@@ -244,20 +244,20 @@ Function USWhip(Actor akWhippee, Actor akWhipper, Scene akNextScene = None)
 	akWhippee.RemoveFromFaction(HavingSexFaction)
 	akWhipper.RemoveFromFaction(HavingSexFaction)
     
-    UDCDmain.EnableActor(akWhippee, loc_isPlayer)
+    UDCDmain.EnableActor(akWhippee, loc_IsPlayer)
     Debug.SendAnimationEvent(akWhippee, "IdleForceDefaultState")
     
     If akNextScene != None
         akNextScene.ForceStart()
     Else
-;        UDCDmain.EnableActor(akWhippee, loc_isPlayer)
+;        UDCDmain.EnableActor(akWhippee, loc_IsPlayer)
     EndIf
 EndFunction
 
 ; Makes target kneel for KneelTime seconds
 Function USKneel(Actor akKneeler, int KneelTime = 3)
     UDCDmain.DisableActor(akKneeler)
-    if GActorIsPlayer(akKneeler)
+    if UD_Native.IsPlayer(akKneeler)
         Game.SetPlayerAIDriven()
     endif
 
@@ -281,7 +281,7 @@ Function USKneel(Actor akKneeler, int KneelTime = 3)
     Utility.Wait(KneelTime)
 
     UDCDmain.EnableActor(akKneeler)
-    if GActorIsPlayer(akKneeler)
+    if UD_Native.IsPlayer(akKneeler)
         Game.SetPlayerAIDriven(false)
     endif
 
@@ -295,7 +295,7 @@ EndFunction
 ;Do nasty things to the target, maybe stagger, add weakness to magic, drain stamina and magicka?
 Function MessUp(Actor MessedTarget, int MessMagnitude)
     ;USlibs.USKneel(MessedTarget, 10)
-    string mes = "Will mess up " + GetActorName(MessedTarget)
+    string mes = "Will mess up " + UD_Native.GetActorName(MessedTarget)
     if MessMagnitude < 2
         ASExhaustion1.Cast(MessedTarget,MessedTarget)
         mes = mes + " at power 1"
@@ -311,8 +311,8 @@ EndFunction
 
 ;Reward masochist with buffs
 Function MasoBuff(Actor MasoTarget, int BuffMagnitude)
-    string mes = "Will buff " + GetActorName(MasoTarget)
-    ;UDCDmain.Print("Will buff up " + GetActorName(MasoTarget))
+    string mes = "Will buff " + UD_Native.GetActorName(MasoTarget)
+    ;UDCDmain.Print("Will buff up " + UD_Native.GetActorName(MasoTarget))
     ;USlibs.USKneel(MasoTarget, 10)
     if BuffMagnitude < 2
         ASMasoBuff1.Cast(MasoTarget,MasoTarget)
@@ -483,11 +483,11 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                     loc_choice = US_AS_MSG_Reversal_2.Show()
                 endif
                 if loc_choice == 0
-                    AbadonShoutMinReversal = AbadonShoutMinReversal - (5 * Round((aiResult/5) - 1) * aiMagnitude) ; -5 ... -30
+                    AbadonShoutMinReversal = AbadonShoutMinReversal - (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude) ; -5 ... -30
                 elseif loc_choice == 1
-                    ;AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude) ; no change
+                    ;AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude) ; no change
                 else
-                    AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * Round((aiResult/5) - 1) * aiMagnitude)  ; +5 ... +30
+                    AbadonShoutMinReversal = AbadonShoutMinReversal + (5 * UD_Native.Round((aiResult/5) - 1) * aiMagnitude)  ; +5 ... +30
                 endif
                 if AbadonShoutMinReversal < 5
                     AbadonShoutMinReversal = 5
@@ -499,22 +499,4 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
             endif
         endif
     endif
-EndFunction
-
-string Function GetActorName(Actor akActor)
-    if !akActor
-        return "ERROR:NONE"
-    endif
-    ActorBase loc_actorbase = akActor.GetLeveledActorBase()
-    string loc_res = loc_actorbase.getName()
-    if loc_res == "" ;actor have no name
-        if loc_actorbase.GetSex() == 0
-            loc_res = "Unnamed man"
-        elseif loc_actorbase.GetSex() == 1
-            loc_res = "Unnamed woman"
-        else
-            loc_res = "Unnamed person"
-        endif
-    endif
-    return loc_res
 EndFunction

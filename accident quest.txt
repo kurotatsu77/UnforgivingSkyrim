@@ -1,0 +1,28 @@
+Possible names:
+Reset the Clock
+X Days Since Last Accident
+Working Hazard
+
+Repeatable, what timeout is the best? 1 day minimum, with some percentage each day to trigger? Definitely do MCM setting, with ability to turn the thing off.
+
+Ways to trigger? Clocktick script or figure out story manager thing? Maybe location change would be better?
+
+Quest start:
+a) Courier appears with letter like "If you're reading this please come to our house as soon as possible." Improve on this writing, add mention that this is kind of automated thing to be sent.
+b) Starts itself with journal entry like "It was quite some time since I've talked with Nodaba, I should go and check how she is." Improve this text if used.
+Which approach is better?
+C) Other option - Nobada gives player some kind of artifact/soulstone which will alarm if something goes wrong
+
+Research points regen paused, when is proper way to apply something to Nodaba? The devices should lock even if actors 3d is unloaded. 
+
+Should she to be prevented from struggling out on her own? Although she will not escape even one weak device if player immediately fast travels to the house...
+
+How player should help her out of everything else, usually NPCs won't allow it, except for arm binds. Ask IHMK, probably there's some simple way to do it.
+
+Can we catch events of devices being removed? Would be useful for running quest end conditions and future comments from NPCs. Although quest dialogue with condition would work as well.
+
+What reward player should receive? Based on level of accident, with no regard to actual effort put in? I.e. wait out for Nodaba to struggle herself out on her own and get reward? Should this be allowed?
+If we reward for actual effort - need to catch helper events with the result of them. Maybe count condition hp taken off the devices to count the gold in reward?
+
+
+On other note - add research costs reduce for having good relationship with Nodaba.
