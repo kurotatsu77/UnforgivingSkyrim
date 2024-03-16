@@ -20,6 +20,7 @@ int loc_relation = akSpeaker.GetRelationshipRank(UragGRQ.Player.GetActorRef())
 if loc_relation < 2
     akSpeaker.SetRelationshipRank(UragGRQ.Player.GetActorRef(), loc_relation + 1)
 endif
+UragGRQ.USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
 ;END CODE
 EndFunction
 ;END FRAGMENT

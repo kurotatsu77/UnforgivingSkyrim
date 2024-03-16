@@ -13,6 +13,10 @@ GetOwningQuest().SetObjectiveDisplayed(50,1)
 GetOwningQuest().SetStage(50)
 RLog.Enable()
 RLog.StartTimer()
+;force TP Nodaba to the hub, eat this, you damn navmesh!
+US_GooResearch_Script OQ = GetOwningQuest() as US_GooResearch_Script
+Actor akNodaba = OQ.Nodaba.GetActorRef()
+akNodaba.Moveto(RLog)
 ;END CODE
 EndFunction
 ;END FRAGMENT

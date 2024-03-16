@@ -21,10 +21,13 @@ EndFunction
 Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
+US_GRQ_Enchanting_Quest_script OQ
+OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
 Game.GetPlayer().AddItem(Gold, 300)
 Game.GetPlayer().AddItem(Goo,1)
 Game.GetPlayer().EquipItem(Goo)
 GRQ.Masochism = GRQ.Masochism + 1
+OQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
 Utility.Wait(1)
 ;END CODE
 EndFunction

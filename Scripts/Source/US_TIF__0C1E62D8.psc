@@ -19,6 +19,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;add random hand restraint
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 0, aiWhore = 0)
 OQ.LockRandomArmRestraint(akSpeaker)
 ;END CODE
 EndFunction

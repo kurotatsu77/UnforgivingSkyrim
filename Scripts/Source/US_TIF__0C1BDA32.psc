@@ -16,9 +16,10 @@ endif
 UragGRQ.AbadonPlug = true
 GRQ.Masochism = GRQ.Masochism + 2
 int loc_relation = akSpeaker.GetRelationshipRank(UragGRQ.Player.GetActorRef())
-;if loc_relation < 2
-;    akSpeaker.SetRelationshipRank(UragGRQ.Player.GetActorRef(), loc_relation + 1)
-;endif
+if loc_relation < 2
+    akSpeaker.SetRelationshipRank(UragGRQ.Player.GetActorRef(), loc_relation + 1)
+endif
+UragGRQ.USlibs.IncreaseSLFame(aiMasochist = 2, aiSlave = 2, aiSlut = 0, aiWhore = 0)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -32,4 +33,3 @@ US_GooResearch_Script Property GRQ  Auto
 Armor Property PlugVag  Auto  
 
 Armor Property PlugAnal  Auto  
-

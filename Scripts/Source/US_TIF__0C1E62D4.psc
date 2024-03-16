@@ -28,6 +28,7 @@ OQ.USlibs.DHLPSuspend()
 Game.GetPlayer().AddItem(Goo,1)
 Game.GetPlayer().EquipItem(Goo)
 GRQ.Masochism = GRQ.Masochism + 1
+OQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
 Utility.Wait(2)
 ;END CODE
 EndFunction

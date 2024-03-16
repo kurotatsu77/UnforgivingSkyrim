@@ -16,6 +16,7 @@ if loc_relation < 3
     akSpeaker.SetRelationshipRank(Game.GetPlayer(), loc_relation + 1)
 endif
 GRQ.Masochism = GRQ.Masochism + 3
+USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
 
 ;eat the goo here and move stages
 GooScene.Start()
@@ -29,3 +30,4 @@ Scene Property GooScene  Auto
 
 US_GooResearch_Script Property GRQ auto
 
+US_libs Property USlibs auto

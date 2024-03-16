@@ -63,7 +63,8 @@ GetOwningQuest().SetObjectiveDisplayed(40)
 UragGRQ.Start()
 UragGRQ.StartTimer()
 
-GRQ.Masochism = GRQ.Masochism + 2
+GRQ.Masochism = GRQ.Masochism + 3
+UragGRQ.USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
 ;END CODE
 EndFunction
 ;END FRAGMENT

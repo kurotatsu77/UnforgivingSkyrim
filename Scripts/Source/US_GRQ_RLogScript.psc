@@ -301,7 +301,7 @@ Event OnActivate(ObjectReference akActionRef)
                             RChest.RemoveItem(UDlibs.EmptySoulgem_Great,3,true)
                             ResearchFound = true
                             ;loc_i = 0
-                            ShowResearchResult("While fiddling with some big empty souldgems suddenly I've got idea and after quite some experimentation I've managed to develop recipes for chargable plugs. Wearer will fill the soulgems in them with her lust instead of some soul. Quite neat!")
+                            ShowResearchResult("While fiddling with some big empty soulgems suddenly I've got idea and after quite some experimentation I've managed to develop recipes for chargable plugs. Wearer will fill the soulgems in them with her lust instead of some soul. Quite neat!")
                             GRQ.ChargablePlugsRecipes = true
                         else
                             MaterialHints = "\n Got to get more time to research and more gold..."

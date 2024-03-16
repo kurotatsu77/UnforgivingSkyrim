@@ -16,12 +16,21 @@ int Property WeightBoundCunt 	= 40 	auto
 US_UragGRQ_Script Property UragGRQ Auto
 
 GlobalVariable Property AllowCreaturesPoison auto
+GlobalVariable Property AllowAbadonShout auto
+GlobalVariable Property AllowCreatureSex auto
+GlobalVariable Property EventsSuspended auto
 
 bool WeaponsRegistered
 int AllowSuitAbadonPlug_T
 int AllowCreaturesPoison_T
+int AllowAbadonShout_T
+int AllowCreatureSex_T
 String _lastPage
 int WeaponsRegistered_T
+int ModVersion_T
+int EventsSuspended_T
+int SuspendEvents_T
+int ResumeEvents_T
 
 int UragBaseReward_S
 int UragWeight1_S
@@ -55,9 +64,10 @@ endEvent
 Event OnConfigInit()
 	ModName = "Unforgiving Skyrim"
 
-	Pages = new String[2]
+	Pages = new String[3]
 	Pages[0] = "General"
 	Pages[1] = "Urag's Research"
+	Pages[2] = "Debug"
 
 	;Return
 EndEvent
@@ -82,18 +92,15 @@ Event OnPageReset(string page)
 				
 		AddHeaderOption("Creatures poisoning")
 		AllowCreaturesPoison_T = AddToggleOption("Creatures poison binds", CreaturesAllowed())
+
+		AddHeaderOption("Abadon Shout")
+		AllowAbadonShout_T = AddToggleOption("Allow Abadon Shout", ASAllowed())
+		AllowCreatureSex_T = AddToggleOption("Allow creature sex", CreatureSexAllowed())
 		
-		AddHeaderOption("Abadon weapons")
-		If WeaponsRegistered
-			WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
-		elseif !UragGRQ.IsRunning()
-			WeaponsRegistered_T = AddTextOption("", "Can't register", OPTION_FLAG_DISABLED)
-		Else
-			WeaponsRegistered_T = AddTextOption("Register Abadon Weapons", "REGISTER")
-		EndIf
 		;AddToggleOption("$dtr_mcm_powers_nippleCum",DTActor.npcs_chastitynipplecum[slot],OPTION_FLAG_DISABLED)
 		;AddEmptyOption()   		
 		;nullo = AddTextOption("$dtr_mcm_version", DTMain.getDisplayVersion(),OPTION_FLAG_DISABLED)		
+
 	elseif (page == "Urag's Research")
 		
 		SetTitleText("Urag's Research")
@@ -110,6 +117,29 @@ Event OnPageReset(string page)
 		UragWeight6_S = AddSliderOption("Abadon Plug:", WeightPlug, "{0}")
 		UragWeight7_S = AddSliderOption("Abadon Shout:", WeightShout, "{0}")
 		UragWeight8_S = AddSliderOption("Bound Cunt:", WeightBoundCunt, "{0}")
+
+	elseif (page == "Debug")
+        ModVersion_T = AddTextOption("Mod version ", ModVersion(), OPTION_FLAG_DISABLED)	
+
+		AddHeaderOption("Mod Events")
+        If bEventsSuspended()
+            EventsSuspended_T = AddTextOption("Mod events ", "Suspended", OPTION_FLAG_DISABLED)
+        else
+            EventsSuspended_T = AddTextOption("Mod events ", "Allowed", OPTION_FLAG_DISABLED)
+        endif
+        SuspendEvents_T = AddTextOption("Send DHLP-Suspend modevent", "SUSPEND")
+        ResumeEvents_T = AddTextOption("Send DHLP-Resume modevent", "RESUME")
+
+		AddHeaderOption("Abadon weapons")
+		If WeaponsRegistered
+			WeaponsRegistered_T = AddTextOption("", "Registered", OPTION_FLAG_DISABLED)
+		elseif !UragGRQ.IsRunning()
+			WeaponsRegistered_T = AddTextOption("", "Can't register", OPTION_FLAG_DISABLED)
+		Else
+			WeaponsRegistered_T = AddTextOption("Register Abadon Weapons", "REGISTER")
+		EndIf
+
+
 	endIf
 EndEvent
 
@@ -133,6 +163,24 @@ Event OnOptionSelect(Int Menu)
 		SetToggleOptionValue(Menu, CreaturesAllowed())
 		ForcePageReset()
 
+	elseif Menu == AllowAbadonShout_T
+		if ASAllowed()
+			AllowAbadonShout.SetValueInt(0)
+		else
+			AllowAbadonShout.SetValueInt(1)
+		endif
+		SetToggleOptionValue(Menu, ASAllowed())
+		ForcePageReset()
+
+	elseif Menu == AllowCreatureSex_T
+		if CreatureSexAllowed()
+			AllowCreatureSex.SetValueInt(0)
+		else
+			AllowCreatureSex.SetValueInt(1)
+		endif
+		SetToggleOptionValue(Menu, CreatureSexAllowed())
+		ForcePageReset()
+
 	elseif Menu == WeaponsRegistered_T
 		if  WeaponsRegistered == true
 			;WeaponsRegistered = false
@@ -142,6 +190,17 @@ Event OnOptionSelect(Int Menu)
 			UragGRQ.AddAbadonWeaponsToLL()
 		endIf
 		ForcePageReset()
+
+	elseif Menu == SuspendEvents_T
+        SendModEvent("DHLP-Suspend")
+        Debug.Messagebox("Sending DHLP-Suspend modevent.")
+		ForcePageReset()
+
+	elseif Menu == ResumeEvents_T
+        SendModEvent("DHLP-Resume")
+        Debug.Messagebox("Sending DHLP-Resume modevent.")
+		ForcePageReset()
+
 	endIf	
 endEvent
 
@@ -257,8 +316,10 @@ Event OnOptionHighlight(int option)
 			SetInfoText("Allow using of Abadon Plug in suit sets, Execution set always uses it no matter what this set to.")
 		elseif(option == AllowCreaturesPoison_T)
 			SetInfoText("Allow poison of falmers, chaurus and spiders to apply binding effect with small probability (3-12%).")
-		elseif(option == WeaponsRegistered_T)
-			SetInfoText("Injects Abadon Weapons into leveled lists to be available to use by NPCs. Normally done via Urag's quest and not needed to be used.")
+		elseif(option == AllowAbadonShout_T)
+			SetInfoText("Allow Abadon Shout for NPCs. Warning: you need to be hit by the shout with this enabled to learn it.")
+		elseif(option == AllowCreatureSex_T)
+			SetInfoText("Allows creature sex, for example by male draugrs when they shout at human females.")
 		endif
 	elseif (_lastPage == "Urag's Research")
 		if(option == UragBaseReward_S)
@@ -266,6 +327,18 @@ Event OnOptionHighlight(int option)
 		elseif(option == UragWeight1_S || UragWeight2_S || UragWeight3_S || UragWeight4_S || UragWeight5_S || UragWeight6_S || UragWeight7_S || UragWeight8_S)
 			SetInfoText("Weight of particular test being chosen, set to 0 to block it from appearing.")
 		endif
+	elseif (_lastpage == "Debug")
+        if (option == ModVersion_T)
+            SetInfoText("This mod's current version.")
+		elseif(option == EventsSuspended_T)
+			SetInfoText("DHLP-Suspend status. When suspend flag is set - no mod initiated events will occur. Player initiated events will occur normally.")
+		elseif(option == SuspendEvents_T)
+			SetInfoText("Sends DHLP-Suspend event, thus suspending actions of all compatible mods, including this one.")
+		elseif(option == ResumeEvents_T)
+			SetInfoText("Sends DHLP-Resume event, thus resuming actions of all compatible mods, including this one.")
+		elseif(option == WeaponsRegistered_T)
+			SetInfoText("Injects Abadon Weapons into leveled lists to be available to use by NPCs. Normally done via Urag's quest and not needed to be used.")
+        endif
     endif
 EndEvent
 
@@ -275,4 +348,37 @@ bool Function CreaturesAllowed()
 	else
 		return true
 	endif
+EndFunction
+
+bool Function ASAllowed()
+	if AllowAbadonShout.GetValueInt() == 0
+		return false
+	else
+		return true
+	endif
+EndFunction
+
+bool Function CreatureSexAllowed()
+	if AllowCreatureSex.GetValueInt() == 0
+		return false
+	else
+		return true
+	endif
+EndFunction
+
+bool Function bEventsSuspended()
+	if EventsSuspended.GetValueInt() == 0
+		return false
+	else
+		return true
+	endif
+EndFunction
+
+string Function ModVersion()
+    string _locVersion = ""
+	int _locVersion1 = UD_Native.Round(version/100)
+	int _locVersion2 = UD_Native.Round((version - (_locVersion1*100))/10)
+	int _locVersion3 = UD_Native.Round(version - (_locVersion1*100) - (_locVersion2*10))
+	_locVersion = _locVersion1 + "." + _locVersion2 + "." + _locVersion3
+    return _locVersion
 EndFunction

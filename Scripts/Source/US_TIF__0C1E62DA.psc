@@ -18,8 +18,9 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;start sex here
 GRQ.Masochism = GRQ.Masochism + 1
 US_GRQ_Enchanting_Quest_script OQ
-OQ.USlibs.DHLPSuspend()
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
+OQ.USlibs.DHLPSuspend()
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)
 OQ.StartSex(akSpeaker)

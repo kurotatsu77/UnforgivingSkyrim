@@ -59,6 +59,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;eat black goo
 GRQ.Masochism = GRQ.Masochism + 1
+USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
 ;END CODE
 EndFunction
 ;END FRAGMENT

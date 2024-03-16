@@ -15,6 +15,7 @@ OQ.LockBoundCuntCollar(akSpeaker)
 OQ.LockRandomArmRestraint(akSpeaker)
 OQ.LockRandomGag(akSpeaker)
 OQ.GRQ.Masochism = OQ.GRQ.Masochism + 1
+OQ.USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 1, aiWhore = 1)
 Utility.Wait(2)
 ;END CODE
 EndFunction

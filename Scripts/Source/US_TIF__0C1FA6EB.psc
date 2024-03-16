@@ -11,8 +11,8 @@ GRQE.LockBoundCuntCollar(akSpeaker)
 GRQE.LockRandomArmRestraint(akSpeaker)
 GRQE.LockRandomGag(akSpeaker)
 GRQE.GRQ.Masochism = GRQE.GRQ.Masochism + 1
+GRQE.USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 1, aiWhore = 1)
 Utility.Wait(2)
-GRQ.Masochism = GRQ.Masochism + 1
 ;END CODE
 EndFunction
 ;END FRAGMENT

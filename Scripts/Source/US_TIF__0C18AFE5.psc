@@ -10,6 +10,7 @@ UragGRQ.GiveReward(UragGRQ.ConcBlackGooReward)
 UragGRQ.Player.GetActorRef().EquipItem(ConcBlackGoo)
 UragGRQ.ConcGoo = true
 GRQ.Masochism = GRQ.Masochism + 1
+UragGRQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 0, aiWhore = 0)
 ;END CODE
 EndFunction
 ;END FRAGMENT

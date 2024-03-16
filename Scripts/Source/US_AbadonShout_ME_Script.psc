@@ -24,6 +24,8 @@ Idle Property IdleDef  Auto
 
 Sound Property dd_sound_moan Auto
 
+GlobalVariable Property AllowCreatureSex auto
+
 int _ASResult = 0
 ;result of the shout
 ;0 - default result, target got simply messed up
@@ -176,7 +178,11 @@ Function AS_Main(Actor akTarget, Actor akCaster)
             UDCDmain.EnableActor(akTarget)
         endif
         ;Utility.Wait(3) ; replace this with better function to make sure all bondage is done before rape
-        ASPerformRapeOrWhip(akCaster,akTarget,loc_magn)
+        if !CasterHuman && AllowCreatureSex.GetValueInt() == 0
+            USlibs.MessUp(akTarget, loc_magn) ; if it's creature and creature sex disabled - simply add debuffs
+        else
+            ASPerformRapeOrWhip(akCaster,akTarget,loc_magn)
+		endif
         USlibs.USUnCalm(akCaster)
         USlibs.USUnCalm(akTarget)
     else

@@ -89,6 +89,8 @@ Message Property US_ASQ_MSG_3_2 Auto
 Message Property US_AS_MSG_Reversal_1 Auto
 Message Property US_AS_MSG_Reversal_2 Auto
 
+GlobalVariable Property EventsSuspended auto
+
 int AbadonShoutUnderstanding = 0
 int Property AbadonShoutMinReversal = 5 Auto
 
@@ -104,13 +106,34 @@ EndEvent
 
 Function OnGameReload()
     UDmain.CLog("US_libs got onGameReload call event.")
-    RegisterForModEvent("DHLP-Suspend", "USEventDetect")
-    RegisterForModEvent("DHLP-Resume", "USEventDetect")
+    UnRegisterForModEvent("DHLP-Suspend")
+    UnRegisterForModEvent("DHLP-Resume")
+    RegisterForModEvent("DHLP-Suspend", "DHLPSuspendDetect")
+    RegisterForModEvent("DHLP-Resume", "DHLPResumeDetect")
 EndFunction
 
-Event USEventDetect(string eventName, string strArg, float numArg, Form sender)
-    UDmain.CLog("Event " + eventName + " with arguments " + strArg + " detected.")
-    ;UDCDmain.Print("Event " + eventName + " with arguments " + strArg + " detected.")
+;deprecated, leaving it for reference, delete later
+;Event USEventDetect(string eventName, string strArg, float numArg, Form sender)
+;    UDmain.CLog("Event " + eventName + " with arguments " + strArg + " detected.")
+;    ;UDCDmain.Print("Event " + eventName + " with arguments " + strArg + " detected.")
+;EndEvent
+
+Event DHLPSuspendDetect(string eventName, string strArg, float numArg, Form sender)
+    if EventsSuspended.GetValueInt() == 0
+        EventsSuspended.SetValueInt(1)
+        UDmain.CLog("Event " + eventName + " detected. Setting up Suspend flag, events suspended.")
+    else
+        UDmain.CLog("Event " + eventName + " detected. Suspend flag already set, no change.")
+    endif
+EndEvent
+
+Event DHLPResumeDetect(string eventName, string strArg, float numArg, Form sender)
+    if EventsSuspended.GetValueInt() == 0
+        UDmain.CLog("Event " + eventName + " detected. Suspend flag already down, no change.")
+    else
+        EventsSuspended.SetValueInt(0)
+        UDmain.CLog("Event " + eventName + " detected. Setting down Suspend flag, events resumed.")
+    endif
 EndEvent
 
 ; Sends event DHLP-Suspend
@@ -133,11 +156,10 @@ Function DHLPResume()
     ;UDCDmain.Print("Sending event DHLP-Resume")
 EndFunction
 
-; Calms actor and place them into HavingSexFaction
+; Calms actor
 Function USCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
-    akActor.AddToFaction(HavingSexFaction)
     if !UD_Native.IsPlayer(akActor) 
         akActor.setAV("Aggression", 0)
 	    akActor.EvaluatePackage()
@@ -147,11 +169,10 @@ Function USCalm(Actor akActor)
     ;stopping combat twice, just to be sure
 EndFunction
 
-; Calms actor and removes them from HavingSexFaction. Stopping combat seems like a good measure
+; Calms actor. Stopping combat seems like a good measure
 Function USUnCalm(Actor akActor)
     akActor.StopCombatAlarm()
     akActor.StopCombat()		
-    akActor.RemoveFromFaction(HavingSexFaction)
     if !UD_Native.IsPlayer(akActor) 
         akActor.setAV("Aggression", 1)
 	    akActor.EvaluatePackage()
@@ -499,4 +520,40 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
             endif
         endif
     endif
+EndFunction
+ 
+; Returns TRUE if SexLab Sexual Fame framework is present
+Bool Function IsSLSFLoaded()
+    Int Check = Game.GetModByName("SexLab - Sexual Fame [SLSF].esm")
+    If Check != 255
+        Return Check as Bool
+    Else
+        Return False
+    EndIf
+EndFunction
+
+SLSF_CompatibilityScript Function GetSLSFAPI()
+    Return Game.GetFormFromFile(0x0001E157, "SexLab - Sexual Fame [SLSF].esm") As SLSF_CompatibilityScript
+EndFunction
+
+; Soft ompatibility with SLSF, adds local fame
+Function IncreaseSLFame(int aiMasochist = 0, int aiSlave = 0, int aiSlut = 0, int aiWhore = 0)
+    If IsSLSFLoaded()    
+        SLSF_CompatibilityScript SLSF = GetSLSFAPI()
+        If SLSF != None
+            ;maybe drop these checks for zero and just send them up?
+			If aiMasochist != 0
+			    SLSF.RequestModFameValueByCurrent(1, 10, aiMasochist)
+			EndIf
+			If aiSlave != 0
+			    SLSF.RequestModFameValueByCurrent(1, 18, aiSlave)
+			EndIf
+			If aiSlut != 0
+			    SLSF.RequestModFameValueByCurrent(1, 17, aiSlut)
+			EndIf
+			If aiWhore != 0
+			    SLSF.RequestModFameValueByCurrent(1, 19, aiWhore)
+			EndIf
+        EndIf                
+    EndIf
 EndFunction
