@@ -28,6 +28,7 @@ OQ.USlibs.DHLPSuspend()
 OQ.LockBoundCuntCollar(akSpeaker)
 OQ.LockBoundCuntOutfit(akSpeaker)
 GRQ.Masochism = GRQ.Masochism + 3
+OQ.USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 3, aiWhore = 3)
 Utility.Wait(2)
 ;END CODE
 EndFunction

@@ -10,6 +10,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 GRQ.Masochism = GRQ.Masochism + 1
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
 OQ.USlibs.DHLPSuspend()
 OQ.UnlockBeltPlugs(akSpeaker)
 Utility.Wait(2)

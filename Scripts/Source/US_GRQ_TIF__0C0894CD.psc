@@ -19,6 +19,8 @@ USlibs.DHLPResume()
 
 ActorUtil.ClearPackageOverride(akSpeaker)
 akSpeaker.EvaluatePackage()
+
+USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 0, aiWhore = 0)
 ;END CODE
 EndFunction
 ;END FRAGMENT

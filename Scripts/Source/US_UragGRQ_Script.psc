@@ -335,6 +335,7 @@ Function DoResearch()
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
         endif
         GRQ.Masochism = GRQ.Masochism + 2
+        USlibs.IncreaseSLFame(aiMasochist = 2, aiSlave = 2, aiSlut = 2, aiWhore = 2)
         ChosenResearch = 0
     elseif ChosenResearch == 2
         ;USlibs.UDmain.Print("Doing Concentrated Black Goo action.")
@@ -347,6 +348,7 @@ Function DoResearch()
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
         endif
         GRQ.Masochism = GRQ.Masochism + 3
+        USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 1, aiWhore = 1)
         ChosenResearch = 0
     elseif ChosenResearch == 3
         ;USlibs.UDmain.Print("Doing Purified Black Goo action.")
@@ -416,6 +418,7 @@ Function DoResearch()
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
         endif
         GRQ.Masochism = GRQ.Masochism + 3
+        USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
         ChosenResearch = 0
     elseif ChosenResearch == 4
         ;USlibs.UDmain.Print("Doing Cursed Goo action.")
@@ -448,6 +451,7 @@ Function DoResearch()
         endif
         GiveReward(CursedGooReward)
         GRQ.Masochism = GRQ.Masochism + 5
+        USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 5, aiWhore = 5)
         ChosenResearch = 0
     elseif ChosenResearch == 5
         ;USlibs.UDmain.Print("Doing Abadon Execution action.")
@@ -462,6 +466,7 @@ Function DoResearch()
         endif
         GiveReward(ExecutionGooReward)
         GRQ.Masochism = GRQ.Masochism + 10
+        USlibs.IncreaseSLFame(aiMasochist = 10, aiSlave = 10, aiSlut = 1, aiWhore = 1)
         ChosenResearch = 0
     elseif ChosenResearch == 6
         ;USlibs.UDmain.Print("Doing Abadon Plug action.")
@@ -474,6 +479,7 @@ Function DoResearch()
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
         endif
         GRQ.Masochism = GRQ.Masochism + 3
+        USlibs.IncreaseSLFame(aiMasochist = 6, aiSlave = 6, aiSlut = 1, aiWhore = 1)
         ChosenResearch = 0
     elseif ChosenResearch == 7
         USlibs.UDmain.Print("Hit Urag with your Abadon Shout.")
@@ -493,7 +499,8 @@ Function DoResearch()
         if loc_relation < 3
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
         endif
-        GRQ.Masochism = GRQ.Masochism + 3
+        GRQ.Masochism = GRQ.Masochism + 5
+        USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 5, aiWhore = 5)
         ChosenResearch = 0
     else
         ChosenResearch = 0
@@ -507,14 +514,17 @@ Function ProcessShout(int aiShoutLevel)
             ;USlibs.UDmain.Print("Urag was hit with one-word Abadon Shout.")
             GiveReward(ShoutReward / 3)
             GRQ.Masochism = GRQ.Masochism + 1
+            USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
         elseif aiShoutLevel == 2
             ;USlibs.UDmain.Print("Urag was hit with two-word Abadon Shout.")
             GiveReward((ShoutReward * 2) / 3)
             GRQ.Masochism = GRQ.Masochism + 2
+            USlibs.IncreaseSLFame(aiMasochist = 2, aiSlave = 2, aiSlut = 2, aiWhore = 2)
         elseif aiShoutLevel == 3
             ;USlibs.UDmain.Print("Urag was hit with three-word Abadon Shout.")
             GiveReward(ShoutReward)
             GRQ.Masochism = GRQ.Masochism + 3
+            USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
         endif
         if loc_relation < 2
             Urag.GetActorRef().SetRelationshipRank(Player.GetActorRef(), loc_relation + 1)
@@ -563,4 +573,3 @@ Function AddAbadonWeaponsToLL()
     loc_weapon = AbadonBow as Form
     PatchLLL(LLBow,loc_weapon)
 EndFunction
-

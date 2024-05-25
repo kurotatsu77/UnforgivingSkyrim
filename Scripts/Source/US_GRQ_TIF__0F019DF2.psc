@@ -17,6 +17,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 Game.GetPlayer().EquipItem(BlackGoo)
 GRQ.Masochism = GRQ.Masochism + 1
+USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 0, aiWhore = 0)
 GetOwningQuest().SetStage(20)
 ;END CODE
 EndFunction
@@ -26,3 +27,4 @@ EndFunction
 
 Ingredient Property BlackGoo  Auto  
 US_GooResearch_Script Property GRQ auto
+US_libs Property USlibs auto

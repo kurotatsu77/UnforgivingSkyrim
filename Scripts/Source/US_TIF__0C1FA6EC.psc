@@ -9,9 +9,9 @@ Actor akSpeaker = akSpeakerRef as Actor
 ;dress up here
 GRQE.LockBoundCuntCollar(akSpeaker)
 GRQE.LockBoundCuntOutfit(akSpeaker)
-GRQE.GRQ.Masochism = GRQE.GRQ.Masochism + 1
+GRQE.GRQ.Masochism = GRQE.GRQ.Masochism + 3
+GRQE.USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 3, aiWhore = 3)
 Utility.Wait(2)
-GRQ.Masochism = GRQ.Masochism + 3
 ;END CODE
 EndFunction
 ;END FRAGMENT

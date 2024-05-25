@@ -48,7 +48,7 @@ Function LockBoundCuntOutfit(Actor akActor)
     endif
     USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntCorset)
 
-;hood and blindfold
+;gag and blindfold
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousHood) 
         RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousHood)
     endif
@@ -58,7 +58,7 @@ Function LockBoundCuntOutfit(Actor akActor)
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousBlindfold) 
         RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousBlindfold)
     endif
-    USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntHood)
+    USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntGag)
     USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntBlindfold)
 
 ;boots

@@ -1,0 +1,9 @@
+echo Y | copy draugrmale01_naked.nif draugrmale.nif
+echo Y | copy draugrmale01_naked.nif draugrmale_naked.nif
+echo Y | copy draugrmale.nif draugrmale02_naked.nif
+echo Y | copy draugrmale.nif draugrmale03_naked.nif
+echo Y | copy draugrmale.nif draugrmale04_naked.nif
+echo Y | copy draugrmale.nif draugrmale05_naked.nif
+echo Y | copy draugrmale.nif draugrmale06_naked.nif
+echo Y | copy draugrmale.nif draugrmale07_naked.nif
+echo Y | copy draugrmale.nif hulkingdraugr_naked.nif

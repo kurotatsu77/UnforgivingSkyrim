@@ -27,6 +27,7 @@ Game.GetPlayer().AddItem(Gold,1000)
 Game.GetPlayer().AddItem(ConcGoo,1)
 Game.GetPlayer().EquipItem(ConcGoo)
 GRQ.Masochism = GRQ.Masochism + 3
+OQ.USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
 Utility.Wait(5)
 ;END CODE
 EndFunction

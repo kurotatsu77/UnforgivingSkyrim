@@ -20,6 +20,7 @@ GRQ.Masochism = GRQ.Masochism + 5
 ;add set here and start sex
 US_GRQ_Enchanting_Quest_script OQ
 OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
+OQ.USlibs.IncreaseSLFame(aiMasochist = 5, aiSlave = 5, aiSlut = 3, aiWhore = 3)
 OQ.USlibs.DHLPSuspend()
 OQ.LockBoundCuntOutfit(akSpeaker)
 OQ.UnlockBeltPlugs(akSpeaker)

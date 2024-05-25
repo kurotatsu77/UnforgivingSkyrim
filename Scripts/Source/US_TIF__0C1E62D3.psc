@@ -27,6 +27,7 @@ OQ = GetOwningQuest() as US_GRQ_Enchanting_Quest_script
 OQ.USlibs.DHLPSuspend()
 OQ.LockBoundCuntBoxbinder(akSpeaker)
 GRQ.Masochism = GRQ.Masochism + 1
+OQ.USlibs.IncreaseSLFame(aiMasochist = 2, aiSlave = 2, aiSlut = 1, aiWhore = 1)
 Utility.Wait(2)
 ;END CODE
 EndFunction

@@ -68,8 +68,19 @@ Event OnActivate(ObjectReference akActionRef)
     Form CurrentItem
     int CurrentItemNum
     int CheckResult
-
-    MaterialHints = "\n No further ideas for now. Maybe later..."
+    ; Giving clear hint of no more goo-related research to be done
+    if  GRQ.GooRecipesBasic && GRQ.GooRecipesPurified && GRQ.AbadoniumRecipes && GRQ.AbadonRingRecipes && GRQ.AbadonWeaponsRecipes && GRQ.ChargablePlugsRecipes && GRQ.ControllablePlugsRecipes && GRQ.DragonNutsRecipes && GRQ.ExecutionPotionRecipes && GRQ.GooRecipesAdvanced && GRQ.GooRecipesCursed
+        MaterialHints = "\n Looks like nothing left to research except for alchemy ingredients effects."
+        if GRQ.GetStage() < 70
+            GRQ.SetStage(70)
+            GRQ.SetObjectiveCompleted(50)
+            GRQ.SetObjectiveDisplayed(50, false)
+            GRQ.SetObjectiveDisplayed(60)
+            ;GRQ.CompleteQuest()
+        endif
+    else
+        MaterialHints = "\n No further ideas for now. Maybe later, after my assistant brings more materials..."
+    endif
     if ResearchPaused
         LastTimeActivated = Utility.GetCurrentGameTime()
         Debug.MessageBox("Looks like no research has been made due to the problems arisen!")
@@ -290,7 +301,7 @@ Event OnActivate(ObjectReference akActionRef)
                             RChest.RemoveItem(UDlibs.EmptySoulgem_Great,3,true)
                             ResearchFound = true
                             ;loc_i = 0
-                            ShowResearchResult("While fiddling with some big empty souldgems suddenly I've got idea and after quite some experimentation I've managed to develop recipes for chargable plugs. Wearer will fill the soulgems in them with her lust instead of some soul. Quite neat!")
+                            ShowResearchResult("While fiddling with some big empty soulgems suddenly I've got idea and after quite some experimentation I've managed to develop recipes for chargable plugs. Wearer will fill the soulgems in them with her lust instead of some soul. Quite neat!")
                             GRQ.ChargablePlugsRecipes = true
                         else
                             MaterialHints = "\n Got to get more time to research and more gold..."

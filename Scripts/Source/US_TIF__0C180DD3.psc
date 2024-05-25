@@ -15,6 +15,7 @@ UragGRQ.Start()
 UragGRQ.StartTimer()
 Player.GetActorRef().EquipItem(BlackGoo)
 GRQ.Masochism = GRQ.Masochism + 1
+UragGRQ.USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 0, aiWhore = 0)
 ;END CODE
 EndFunction
 ;END FRAGMENT

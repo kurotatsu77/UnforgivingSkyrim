@@ -1,7 +1,8 @@
 # UnforgivingSkyrim
 Extension to Unforgiving Devices mod by iHateMyKite
 
-Requires DD 5.2Beta10 or newer.
+Requires DD NG and UD NG.
+
 Added Dasha's items. Added their meshes and textures to package. 
 
 Added 3 suits - Cursed, Boxbinder(uses Abadon Dasha's items) and Random(adds random Abadon items).
