@@ -183,7 +183,9 @@ Event OnActivate(ObjectReference akActionRef)
                         endif
                     Else
                         MaterialHints = "\n I need more of those nuts..."
-                    EndIf        
+                    EndIf
+                else
+                    MaterialHints = "\n I feel like getting more Dragon Nuts would help me..."
                 endif
             elseif !GRQ.GooRecipesAdvanced
                 If (RChest.GetItemCount(UDlibs.BlackGoo) > 9)
