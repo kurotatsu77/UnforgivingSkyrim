@@ -169,22 +169,6 @@ Event OnActivate(ObjectReference akActionRef)
                 Else
                     MaterialHints = "\n I feel like getting more Concentrated Black Goo would help me..."
                 EndIf        
-            elseif !GRQ.DragonNutsRecipes
-                If CheckForAllEffects(DragonNuts)
-                    If (RChest.GetItemCount(DragonNuts) > 0)
-                        if DeductRPandGold(AlchemyRPCost * 3,AlchemyGoldCost * 3, true, false)
-                            RChest.RemoveItem(DragonNuts,1,true)
-                            ResearchFound = true
-                            ;loc_i = 0
-                            ShowResearchResult("These strange nuts can be seriously altered by boiling them in salty Nord Mead. \n Need to cook more of these to research their effects.")
-                            GRQ.DragonNutsRecipes = true
-                        else
-                            MaterialHints = "\n Got to get more time to research and more gold..."
-                        endif
-                    Else
-                        MaterialHints = "\n I need more of those nuts..."
-                    EndIf        
-                endif
             elseif !GRQ.GooRecipesAdvanced
                 If (RChest.GetItemCount(UDlibs.BlackGoo) > 9)
                     If (RChest.GetItemCount(ConcBlackGoo) > 9)
@@ -232,6 +216,24 @@ Event OnActivate(ObjectReference akActionRef)
                 Else
                     MaterialHints = "\n I feel like getting more Concentrated Black Goo would help me..."
                 EndIf
+            elseif !GRQ.DragonNutsRecipes
+                If CheckForAllEffects(DragonNuts)
+                    If (RChest.GetItemCount(DragonNuts) > 0)
+                        if DeductRPandGold(AlchemyRPCost * 3,AlchemyGoldCost * 3, true, false)
+                            RChest.RemoveItem(DragonNuts,1,true)
+                            ResearchFound = true
+                            ;loc_i = 0
+                            ShowResearchResult("These strange nuts can be seriously altered by boiling them in salty Nord Mead. \n Need to cook more of these to research their effects.")
+                            GRQ.DragonNutsRecipes = true
+                        else
+                            MaterialHints = "\n Got to get more time to research and more gold..."
+                        endif
+                    Else
+                        MaterialHints = "\n I need more of those Dragon Nuts..."
+                    EndIf
+                else
+                    MaterialHints = "\n I feel like getting more Dragon Nuts would help me..."        
+                endif
             endif
 ;ingots etc        
             ;if !ResearchFound
