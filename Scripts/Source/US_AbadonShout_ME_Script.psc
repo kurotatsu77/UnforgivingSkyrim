@@ -25,6 +25,7 @@ Idle Property IdleDef  Auto
 Sound Property dd_sound_moan Auto
 
 GlobalVariable Property AllowCreatureSex auto
+GlobalVariable Property AllowReverse auto
 
 int _ASResult = 0
 ;result of the shout
@@ -202,6 +203,9 @@ EndFunction
 ;At 100 arousal difference chance of reverse is 95%, i.e. aroused caster most likely would bind herself instead of completely unaroused target.
 ;If target's arousal higher than caster's - reversal chance is 5%. Maybe add MCM setting for it later, although sticking with 5% is essentially 1 on 1d20 throw, might be the best.
 bool Function ASReverse(Actor loc_target, Actor loc_caster)
+    if AllowReverse.GetValueInt() == 0
+        return false
+    endif
     int ReversalChance = UD_Native.Round(UDCDmain.UDmain.UDOM.getArousal(loc_caster) - UDCDmain.UDmain.UDOM.getArousal(loc_target))
     ; Reversal chance is 5-95%
     if ReversalChance < 5 

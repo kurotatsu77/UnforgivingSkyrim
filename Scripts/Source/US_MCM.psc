@@ -18,6 +18,7 @@ US_UragGRQ_Script Property UragGRQ Auto
 GlobalVariable Property AllowCreaturesPoison auto
 GlobalVariable Property AllowAbadonShout auto
 GlobalVariable Property AllowCreatureSex auto
+GlobalVariable Property AllowReverse auto
 GlobalVariable Property EventsSuspended auto
 
 bool WeaponsRegistered
@@ -25,6 +26,7 @@ int AllowSuitAbadonPlug_T
 int AllowCreaturesPoison_T
 int AllowAbadonShout_T
 int AllowCreatureSex_T
+int AllowReverse_T
 String _lastPage
 int WeaponsRegistered_T
 int ModVersion_T
@@ -96,6 +98,7 @@ Event OnPageReset(string page)
 		AddHeaderOption("Abadon Shout")
 		AllowAbadonShout_T = AddToggleOption("Allow Abadon Shout", ASAllowed())
 		AllowCreatureSex_T = AddToggleOption("Allow creature sex", CreatureSexAllowed())
+		AllowReverse_T = AddToggleOption("Allow shout reversal", ReverseAllowed())
 		
 		;AddToggleOption("$dtr_mcm_powers_nippleCum",DTActor.npcs_chastitynipplecum[slot],OPTION_FLAG_DISABLED)
 		;AddEmptyOption()   		
@@ -179,6 +182,15 @@ Event OnOptionSelect(Int Menu)
 			AllowCreatureSex.SetValueInt(1)
 		endif
 		SetToggleOptionValue(Menu, CreatureSexAllowed())
+		ForcePageReset()
+
+	elseif Menu == AllowReverse_T
+		if ReverseAllowed()
+			AllowReverse.SetValueInt(0)
+		else
+			AllowReverse.SetValueInt(1)
+		endif
+		SetToggleOptionValue(Menu, ReverseAllowed())
 		ForcePageReset()
 
 	elseif Menu == WeaponsRegistered_T
@@ -320,6 +332,8 @@ Event OnOptionHighlight(int option)
 			SetInfoText("Allow Abadon Shout for NPCs. Warning: you need to be hit by the shout with this enabled to learn it.")
 		elseif(option == AllowCreatureSex_T)
 			SetInfoText("Allows creature sex, for example by male draugrs when they shout at human females.")
+		elseif(option == AllowReverse_T)
+			SetInfoText("Allows reversal of shout, i.e. when too aroused female shouts at another female she has the chance to bind herself instead.")
 		endif
 	elseif (_lastPage == "Urag's Research")
 		if(option == UragBaseReward_S)
@@ -360,6 +374,14 @@ EndFunction
 
 bool Function CreatureSexAllowed()
 	if AllowCreatureSex.GetValueInt() == 0
+		return false
+	else
+		return true
+	endif
+EndFunction
+
+bool Function ReverseAllowed()
+	if AllowReverse.GetValueInt() == 0
 		return false
 	else
 		return true

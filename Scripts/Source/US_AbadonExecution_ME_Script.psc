@@ -47,13 +47,19 @@ Event OnEffectStart(Actor akTarget, Actor akCaster)
     if !UDCDMain.UDmain.ActorIsValidForUD(akTarget)
         return ;non valid actor, return
     endif
-    libsp.strip(akTarget,false)
+    ;libsp.strip(akTarget,false)
     if !akTarget.wornhaskeyword(libs.zad_DeviousPiercingsVaginal)
         libs.LockDevice(akTarget,UDlibs.PunisherPiercing)
     endif
     UDmain.ItemManager.equipAbadonFinisherSuit(akTarget)
-    if (!akTarget.WornhasKeyword(libs.zad_deviousPlugVaginal))
+    Utility.Wait(5)
+    if UD_AbadonQuest.IsCompleted()
+        if (akTarget.WornhasKeyword(libs.zad_deviousPlugVaginal))
+            Armor loc_plug
+            loc_plug = libs.getWornDevice(akTarget,libs.zad_deviousPlugVaginal) 
+            libs.UnlockDevice(akTarget, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_deviousPlugVaginal, destroydevice = true, genericonly = true)
+            Utility.Wait(0.5)
+        endif
         libs.LockDevice(akTarget,UDlibs.AbadonPlug)
     endif
-    libsp.strip(akTarget,false)
 EndEvent
