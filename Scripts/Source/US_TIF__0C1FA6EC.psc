@@ -21,43 +21,8 @@ Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;start lesbian sex scene
-USlibs.DHLPSuspend() 
-
-USlibs.UDCDmain.DisableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(true)
-
-Actor[] loc_SLActors = new Actor[2]
-sslBaseAnimation[] loc_SLAnim    
-loc_SLActors[0] = Game.GetPlayer()
-loc_SLActors[1] = akSpeaker
-
-If loc_SLAnim.Length == 0
-    loc_SLAnim = UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, false, "Lesbian")
-EndIf
-
-If loc_SLAnim.Length > 0
-    UDmain.libs.SexLab.StartSex(Positions = loc_SLActors, Anims = loc_SLAnim, Victim = Game.GetPlayer())
-endif
-
-while UDmain.libs.IsAnimating(Game.GetPlayer())
-    Utility.Wait(1)
-endwhile
-
-USlibs.UDCDmain.EnableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(false)
-USlibs.DHLPResume()
-
-int loc_relation = akSpeaker.GetRelationshipRank(Game.GetPlayer())
-if loc_relation < 4
-    akSpeaker.SetRelationshipRank(Game.GetPlayer(), loc_relation + 1)
-endif
-
-MasoSpell.Cast(Game.GetPlayer())
-UDmain.Print("You feel strangely invigorated by this encounter!")
-
-;akSpeaker.Say(Reward)
-ActorUtil.AddPackageOverride(akSpeaker,RewardFG,99)
-akSpeaker.EvaluatePackage()
+US_GRQ_Alchemy_Quest_script OQ = GetOwningQuest() as US_GRQ_Alchemy_Quest_script
+OQ.LezWhipReward(akSpeaker, 3)
 ;END CODE
 EndFunction
 ;END FRAGMENT

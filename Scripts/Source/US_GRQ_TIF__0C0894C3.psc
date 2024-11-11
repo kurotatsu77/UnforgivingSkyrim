@@ -7,46 +7,16 @@ Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;start lesbian sex scene
-Game.GetPlayer().EquipItem(BlackGoo)
-USlibs.DHLPSuspend() 
-Utility.Wait(3)
-USlibs.UDCDmain.DisableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(true)
-
-Actor[] loc_SLActors = new Actor[2]
-sslBaseAnimation[] loc_SLAnim    
-loc_SLActors[0] = Game.GetPlayer()
-loc_SLActors[1] = akSpeaker
-
-If loc_SLAnim.Length == 0
-    loc_SLAnim = UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, false, "Lesbian")
-EndIf
-
-If loc_SLAnim.Length > 0
-    UDmain.libs.SexLab.StartSex(Positions = loc_SLActors, Anims = loc_SLAnim, Victim = Game.GetPlayer())
-endif
-
-while UDmain.libs.IsAnimating(Game.GetPlayer())
-    Utility.Wait(1)
-endwhile
-
-USlibs.UDCDmain.EnableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(false)
-USlibs.DHLPResume()
-
-int loc_relation = akSpeaker.GetRelationshipRank(Game.GetPlayer())
-if loc_relation < 4
-    akSpeaker.SetRelationshipRank(Game.GetPlayer(), loc_relation + 1)
-endif
-
-MasoSpell.Cast(Game.GetPlayer())
-UDmain.Print("You feel strangely invigorated by this encounter!")
 
 GetOwningQuest().SetStage(2000)
 GetOwningQuest().SetObjectiveCompleted(20)
 GetOwningQuest().SetObjectiveDisplayed(30)
 Game.GetPlayer().RemoveItem(Gold,1000)
 AlStation.Enable()
+GRQ.Masochism = GRQ.Masochism + 1
+
+US_GRQ_Alchemy_Quest_script OQ = GetOwningQuest() as US_GRQ_Alchemy_Quest_script
+OQ.LezSex(akSpeaker, 1)
 
 ;akSpeaker.Say(Deliver)
 ;END CODE
@@ -58,19 +28,26 @@ Function Fragment_0(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;eat black goo
-GRQ.Masochism = GRQ.Masochism + 1
-USlibs.IncreaseSLFame(aiMasochist = 1, aiSlave = 1, aiSlut = 1, aiWhore = 1)
+Game.GetPlayer().EquipItem(BlackGoo)
+Utility.Wait(1)
 ;END CODE
 EndFunction
 ;END FRAGMENT
 
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
-UnforgivingDevicesMain Property UDmain auto
-US_libs Property USlibs auto
+;UnforgivingDevicesMain Property UDmain auto
+
+;US_libs Property USlibs auto
+
 Ingredient Property BlackGoo auto
+
 US_GooResearch_Script Property GRQ auto
+
 ObjectReference Property AlStation auto
+
 MiscObject Property Gold  Auto  
+
 Topic Property Deliver auto
-Spell Property MasoSpell auto
+
+;Spell Property MasoSpell auto

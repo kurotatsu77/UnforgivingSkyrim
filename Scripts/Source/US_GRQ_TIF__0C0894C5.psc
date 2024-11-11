@@ -7,8 +7,8 @@ Function Fragment_0(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;eat the conc goo
-GRQ.Masochism = GRQ.Masochism + 3
-USlibs.IncreaseSLFame(aiMasochist = 3, aiSlave = 3, aiSlut = 3, aiWhore = 3)
+Game.GetPlayer().EquipItem(ConcBlackGoo)
+Utility.Wait(3)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -18,54 +18,15 @@ Function Fragment_1(ObjectReference akSpeakerRef)
 Actor akSpeaker = akSpeakerRef as Actor
 ;BEGIN CODE
 ;start the whipping and aggresive sex scene
-Game.GetPlayer().EquipItem(ConcBlackGoo)
-USlibs.DHLPSuspend() 
-Utility.Wait(3)
-USlibs.UDCDmain.DisableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(true)
 
-USlibs.USWhip(Game.GetPlayer(), akSpeaker)
-
-Actor[] loc_SLActors = new Actor[2]
-sslBaseAnimation[] loc_SLAnim    
-loc_SLActors[0] = Game.GetPlayer()
-loc_SLActors[1] = akSpeaker
-
-; A bit of randomness for the sake of variety
-if Utility.randomInt(1,2) == 1
-    loc_SLAnim = UDmain.libs.SexLab.GetAnimationsByTag(2, "Aggressive", "Lesbian", RequireAll=true)
-else
-    loc_SLAnim = UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, true, "Lesbian")
-endif
-; fallback to consensual lesbian if nothing found
-If loc_SLAnim.Length == 0
-    loc_SLAnim = UDmain.libs.SelectValidDDAnimations(loc_SLActors, 2, false, "Lesbian")
-EndIf
-
-If loc_SLAnim.Length > 0
-    UDmain.libs.SexLab.StartSex(Positions = loc_SLActors, Anims = loc_SLAnim, Victim = Game.GetPlayer())
-endif
-
-while UDmain.libs.IsAnimating(Game.GetPlayer())
-    Utility.Wait(1)
-endwhile
-
-USlibs.UDCDmain.EnableActor(Game.GetPlayer())
-Game.SetPlayerAIDriven(false)
-USlibs.DHLPResume()
-
-int loc_relation = akSpeaker.GetRelationshipRank(Game.GetPlayer())
-if loc_relation < 4
-    akSpeaker.SetRelationshipRank(Game.GetPlayer(), loc_relation + 1)
-endif
-
-MasoSpell.Cast(Game.GetPlayer())
-UDmain.Print("You feel strangely invigorated by this encounter!")
-
+GRQ.Masochism = GRQ.Masochism + 3
 GetOwningQuest().SetStage(3000)
 GetOwningQuest().SetObjectiveCompleted(20)
 GetOwningQuest().SetObjectiveDisplayed(30)
 AlStation.Enable()
+
+US_GRQ_Alchemy_Quest_script OQ = GetOwningQuest() as US_GRQ_Alchemy_Quest_script
+OQ.LezWhip(akSpeaker, 3)
 
 ;akSpeaker.Say(Deliver)
 ;END CODE
@@ -75,9 +36,15 @@ EndFunction
 ;END FRAGMENT CODE - Do not edit anything between this and the begin comment
 
 UnforgivingDevicesMain Property UDmain auto
+
 US_libs Property USlibs auto
+
 Ingredient Property ConcBlackGoo auto
+
 US_GooResearch_Script Property GRQ auto
+
 ObjectReference Property AlStation auto
+
 Topic Property Deliver auto
+
 Spell Property MasoSpell auto

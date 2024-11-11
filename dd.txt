@@ -1,0 +1,10 @@
+;Get DD
+zadDeviceLists DD = (Game.GetFormFromFile(0x00CA01, "Devious Devices - Expansion.esm") as Quest) as zadDeviceLists
+    
+;something went wrong 
+If (!DD || !akTarget)
+return
+EndIf
+
+DD.EquipRandomDevice(akTarget, DD.zad_dev_heavyrestraints)
+DD.EquipRandomDevice(akTarget, DD.zad_dev_gags)

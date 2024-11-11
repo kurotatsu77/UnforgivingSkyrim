@@ -48,18 +48,20 @@ Event OnEffectStart(Actor akTarget, Actor akCaster)
         return ;non valid actor, return
     endif
     ;libsp.strip(akTarget,false)
-    if !akTarget.wornhaskeyword(libs.zad_DeviousPiercingsVaginal)
-        libs.LockDevice(akTarget,UDlibs.PunisherPiercing)
-    endif
+;    if !akTarget.wornhaskeyword(libs.zad_DeviousPiercingsVaginal)
+;        libs.LockDevice(akTarget,UDlibs.PunisherPiercing)
+;    endif
+    libs.SwapDevices(akTarget, UDlibs.PunisherPiercing, libs.zad_DeviousPiercingsVaginal)
     UDmain.ItemManager.equipAbadonFinisherSuit(akTarget)
     Utility.Wait(5)
     if UD_AbadonQuest.IsCompleted()
-        if (akTarget.WornhasKeyword(libs.zad_deviousPlugVaginal))
-            Armor loc_plug
-            loc_plug = libs.getWornDevice(akTarget,libs.zad_deviousPlugVaginal) 
-            libs.UnlockDevice(akTarget, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_deviousPlugVaginal, destroydevice = true, genericonly = true)
-            Utility.Wait(0.5)
-        endif
-        libs.LockDevice(akTarget,UDlibs.AbadonPlug)
+;        if (akTarget.WornhasKeyword(libs.zad_deviousPlugVaginal))
+;            Armor loc_plug
+;            loc_plug = libs.getWornDevice(akTarget, libs.zad_deviousPlugVaginal) 
+;            libs.UnlockDevice(akTarget, deviceInventory = loc_plug, zad_DeviousDevice = libs.zad_deviousPlugVaginal, destroydevice = true, genericonly = true)
+;            Utility.Wait(0.5)
+;        endif
+;        libs.LockDevice(akTarget, UDlibs.AbadonPlug)
+        libs.SwapDevices(akTarget, UDlibs.AbadonPlug, libs.zad_deviousPlugVaginal)
     endif
 EndEvent
