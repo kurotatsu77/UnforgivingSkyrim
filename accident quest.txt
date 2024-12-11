@@ -26,3 +26,32 @@ If we reward for actual effort - need to catch helper events with the result of 
 
 
 On other note - add research costs reduce for having good relationship with Nodaba.
+
+
+---
+This will depend on general bondage helper quest.
+Start game enabled, repeatable stages. Misc category.
+
+Stage 0 - initial, clear help target alias, reset all variables
+tied dialogue "Need help with this bondage?", check for zad_lockable worn, fills target alias, sets modevents listeners, makes switch to stage 100. Sets objective "Help %target name% escape" (read up on how to add here text of fly)
+Do they always agree to be helped or add some random chance to decline help? In this case has to make sure to blacklist them, rolling formlist?
+
+Stage 100 - main helper Stage
+tied dialogue "Here's some keys/lockpicks for you", keys are one at time, lockpicks in pack of 10.
+"I'll help you with this" - should kick off standard UD helper dialogue, starting with device select.
+"Rest is up to you" - should kick off to stage 200, but probably reduce accumulated reward in half.
+
+modevents listeners react to devices being removed, each time checking if any devices left.
+Also need some kind of clocktick modevent running, should check for devices left and also failsafe to reset this quest.
+Failsafes include:
+help target dead
+player being far away from help target longer than 24 ingame hours (value needs refining)
+
+tie dialogue here with another char who wears zad_lockable? this might alleviate need for clocktick
+
+No device left - mark objective to help complete, set new objective "Get your reward", set stage to 200
+
+stage 200 - reward stage, when switched to it - disable modevent listeners.
+tied dialogue "Now about my reward", give option to say "I don't need money for helping friends" to improve relationship (need to set some values cap or good enough as is?). 
+They always pay? Or give some random option of "You're so great but I don't have money to pay...". What player should be able to do in this case? "Then pay with your body" in addition for option above? "I'll get your items then" and open character's inventory to get anything? No limits in this case?
+after reward resolution mark objective complete, disable clocktick and switch to stage 0.

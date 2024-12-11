@@ -1,0 +1,21 @@
+new female NPC to act as warden, what race, what name? make her own wait marker to avoid weird things happening
+Look up for a good latex dominatrix outfit, use it as soft dependency, redress her into it after initial stage
+warden NPC lore: came from outside SKyrim, found info on some dwemer pervert who was running special prison for females. possibility to add a lot of books inside with stories and lore. 
+look for nice dwemer themed cells to copy and use with modifications
+entrance - dwemer doors in some rock around Morthal, look for remote enough place to avoid conflicts
+all areas are separate cells tied together with various load doors and elevators
+
+areas:
+design of first cell(intake area) - entrance corridor, two doors, one very near to entrance, controlled from inside only, maybe some window nearby to talk through, another door is near inmate shower. some kind of table, chairs and several control consoles, add sandboxing markers.
+inmate shower - cage with 2 doors, sprays black goo when button pressed. Buttons located inside intake and outside the cage. First outer door to the cage is closed, then after showering some kind of automation opens inside door and moves inmate into some kind of contraption, then inner door closes and outer door opens.
+some kind of bondage sex area, possible use for player going through their jail time
+area for struggling out of the Abadon restraints, thus producing more goods to sell and another path to spend jail time. will need some setup for buying initial things (goo, abadon plugs) and giving out the results of work (probably all items to be put into some chest and credit applied accordingly?)
+high security area with dwemer automaton stricly watching inmates and applying high security restraints. allow to sleep through the jail time, but apply some nasty consequences?
+some kind of sex doll production line? need some inspiring devices along Scriptor's ones
+
+start stage - NPC inside the entrance cell, asks player to go inside through inmate shower and open up doors from inside
+after that she will ask player to assist with uncovering more areas of the prison, opening more various actions
+
+research tying this into vanilla jails, maybe fire off something while player inside of one instead of catching jail send event? add soft dependency and intergration to DCL, DIN, POP? 
+make modevent to allow SS++ integration
+modevent should check the jail main quest status and start up quests to be completed for freedom as reward
