@@ -27,6 +27,14 @@ Weapon Property AbadonSword auto
 Weapon Property AbadonGreatsword auto
 Weapon Property AbadonBow auto
 
+LeveledItem[] Property LLPoisonWeak auto
+LeveledItem[] Property LLPoison auto
+LeveledItem[] Property LLPoisonStrong auto
+
+Potion Property PoisonWeak auto
+Potion Property Poison auto
+Potion Property PoisonStrong auto
+
 float Property LastTimeActivated = 0.0  auto
 int Property BaseReward = 500 auto      ; base reward, all rewards are done as multipliers of this
 int Property GoldAvailable = 500 auto   ; Amount of gold gathered by Urag to pay as additional research award
@@ -78,7 +86,7 @@ bool Property ControllablePlugsRecipes  = false auto conditional    ; make Contr
 bool Property ChargablePlugsRecipes     = false auto conditional    ; make Chargable Plugs
 bool Property ExecutionPotionRecipes    = false auto conditional    ; make Abadon Execution Potion
 bool Property AbadonShout               = false auto conditional    ; demonstrated Abadon Shout
-bool Property BoundCunt               = false auto conditional    ; demonstrated Bound Cunt items
+bool Property BoundCunt                 = false auto conditional    ; demonstrated Bound Cunt items
 
 ; Gives to player reward, afReward is multiplier to be applied to BaseReward, if abMakeProfit set - adds same amount of gold to available reward instead of deducting it
 Function GiveReward(float afReward, bool abMakeProfit = false)
@@ -572,4 +580,15 @@ Function AddAbadonWeaponsToLL()
     PatchLLL(LLGreatsword,loc_weapon)
     loc_weapon = AbadonBow as Form
     PatchLLL(LLBow,loc_weapon)
+EndFunction
+
+; Injects abadon poisons into leveled lists to be used by NPCs, mod like "NPC use potions" recommended
+Function AddAbadonPoisonsToLL()
+    Form loc_poison
+    loc_poison = PoisonWeak as Form
+    PatchLLL(LLPoisonWeak,loc_poison)
+    loc_poison = Poison as Form
+    PatchLLL(LLPoison,loc_poison)
+    loc_poison = PoisonStrong as Form
+    PatchLLL(LLPoisonStrong,loc_poison)
 EndFunction

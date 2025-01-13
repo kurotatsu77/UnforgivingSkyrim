@@ -9,6 +9,7 @@ Actor akSpeaker = akSpeakerRef as Actor
 UragGRQ.GiveReward(UragGRQ.ConcBlackGooReward * 4)
 UragGRQ.AncientSeed = true
 Player.GetActorRef().RemoveItem(AncientSeed, 1)
+UragGRQ.AddAbadonPoisonsToLL()
 ;END CODE
 EndFunction
 ;END FRAGMENT
