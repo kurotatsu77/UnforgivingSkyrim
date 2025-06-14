@@ -47,3 +47,4 @@ Quest to practice lockpicking, guy in Thief guild in Ragged Flagon Cistern (name
 Teacher's Pet piercings, fuck to learn skills (and maybe perks?), better when in bondage. Who would be the most fitting candidate to develop something like that?
 Use the new extreme hood as hypno hood, conditioning wearer into becoming bondage fuck toy. Add aphrodisiac effect like cursed gasmask, use particles with sexy images (learn from Audhol). Condition should slowly weaken with time without the hood. Telvanni guy seems like the best candidate as developer in need of tester.
 Improve on Nodaba's interaction - add repeatable dialogues with extended explanations. Possibly make player suffer some kind of bondage consequences, depending on what is available, i.e. eat goo normal or concentrated, wear BC set or Abadon Plug, etc.
+Possible flavor addition - when turning in Enchanting station quest while dressed up in BC outfit can have a bit different dialogue with Nodaba.

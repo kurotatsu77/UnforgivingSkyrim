@@ -7,6 +7,7 @@ ReferenceAlias Property Nodaba  Auto
 ReferenceAlias Property Hulda  Auto  
 Faction Property US_GRQFaction Auto
 Key Property HubKey Auto
+ObjectReference Property HubDoor Auto
 
 ;how infamous our player as masochist across Skyrim
 int Property Masochism = 0 auto conditional
