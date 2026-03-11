@@ -9,6 +9,8 @@ US_GooResearch_Script Property GRQ auto
 
 MiscObject Property Gold  Auto
 
+GlobalVariable Property BCCraftEnable auto
+
 Function LockBoundCuntCollar(Actor akActor)
     Actor loc_Player = Game.GetPlayer()
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousCollar) 
@@ -42,6 +44,12 @@ Function LockBoundCuntOutfit(Actor akActor)
     endif
     USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntBoxbinder)
 
+;mittens
+    if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousGloves) 
+        RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousGloves)
+    endif
+    USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntMittens)
+
 ;corset
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousCorset) 
         RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousCorset, USlibs.UDmain.libs.zad_DeviousHarness)
@@ -60,6 +68,12 @@ Function LockBoundCuntOutfit(Actor akActor)
     endif
     USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntGag)
     USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntBlindfold)
+
+;hood
+    if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousHood) 
+        RemoveRestraint(akActor, USlibs.UDmain.libs.zad_DeviousHood)
+    endif
+    USlibs.UDmain.libs.LockDevice(loc_Player,USlibs.BoundCuntHood)
 
 ;boots
     if loc_Player.wornhaskeyword(USlibs.UDmain.libs.zad_DeviousBoots) 
@@ -170,4 +184,8 @@ Function LockRandomArmRestraint(Actor akActor)
         string loc_restraint_name = loc_restraint.GetName()
         USlibs.UDmain.Print(UD_Native.GetActorName(akActor) + " locks " + loc_restraint_name + " on " + UD_Native.GetActorName(loc_Player))
     endif
+EndFunction
+
+Function BoundCuntCraftEnable()
+	BCCraftEnable.SetValueInt(1)
 EndFunction

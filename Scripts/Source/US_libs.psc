@@ -56,6 +56,7 @@ Armor Property BoundCuntBlindfold auto
 Armor Property BoundCuntGag auto
 Armor Property BoundCuntHood auto
 Armor Property BoundCuntCollar auto
+Armor Property BoundCuntMittens auto
 
 Weapon Property WeaponCane Auto
 zbfSlaveActions property zazActions auto
@@ -90,6 +91,7 @@ Message Property US_AS_MSG_Reversal_1 Auto
 Message Property US_AS_MSG_Reversal_2 Auto
 
 GlobalVariable Property EventsSuspended auto
+US_MCM Property USMCM Auto
 
 int AbadonShoutUnderstanding = 0
 int Property AbadonShoutMinReversal = 5 Auto
@@ -110,6 +112,11 @@ Function OnGameReload()
     UnRegisterForModEvent("DHLP-Resume")
     RegisterForModEvent("DHLP-Suspend", "DHLPSuspendDetect")
     RegisterForModEvent("DHLP-Resume", "DHLPResumeDetect")
+	;USMCM.Stop()
+	;Utility.Wait(1)
+	;USMCM.Reset()
+	;Utility.Wait(1)
+	;USMCM.Start()
 EndFunction
 
 ;deprecated, leaving it for reference, delete later
@@ -466,7 +473,7 @@ Function ASHook(Actor akTarget, Actor akCaster, int aiMagnitude, int aiResult)
                 endif
             elseif akTarget == Game.GetPlayer() && aiMagnitude < 3
                 UDmain.Print("This Shout was too weak to learn anything from it")
-            elseif akCaster == Game.GetPlayer() && aiMagnitude == 2
+            elseif akCaster == Game.GetPlayer() && aiMagnitude > 1
                 if aiResult == 10
                     AbadonShoutUnderstanding += 10
                     UDmain.Print("You reflect on the reflected Shout, it works!")

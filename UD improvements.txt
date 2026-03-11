@@ -15,5 +15,6 @@
 - how to clear them? they should have some strength, with each activation should lose some. Add probablity of activation and of fail? Make it emit black goo? Maybe add some temple services to cleanse?
 - audio cues for crits
 - random restraints UDRRM improvement allowing suits to be removed for adding straitjackets
+- reset key uses counter when key removed
 
 - new modifiers, maybe wait till ivanw finishes his pr. 1. Binding helper, 2. Electrocute both wearer and helper(what's better? stagger, ragdoll drop, paralyze like a wood?). Both are probability based.

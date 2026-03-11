@@ -48,3 +48,18 @@ Teacher's Pet piercings, fuck to learn skills (and maybe perks?), better when in
 Use the new extreme hood as hypno hood, conditioning wearer into becoming bondage fuck toy. Add aphrodisiac effect like cursed gasmask, use particles with sexy images (learn from Audhol). Condition should slowly weaken with time without the hood. Telvanni guy seems like the best candidate as developer in need of tester.
 Improve on Nodaba's interaction - add repeatable dialogues with extended explanations. Possibly make player suffer some kind of bondage consequences, depending on what is available, i.e. eat goo normal or concentrated, wear BC set or Abadon Plug, etc.
 Possible flavor addition - when turning in Enchanting station quest while dressed up in BC outfit can have a bit different dialogue with Nodaba.
+Possible end quest item - book with all crafting recipes in it for the reference. Nodaba can give it when quest complete and/or sell it.
+Bring that book to Urag and he will use it to tell you about things have not shared with him? Or simply make him buy it for hefty sum to mark it all as shared?
+Add to debug menu kickstart for Goo Research quest.
+Possible quick research bypass - use Belethor? Hint at him wanting to talk after research end, bring that book, he tells he knows it all already and player should've came to him. If come to him before research ends - he will offer all the knowledge either for huge sum of gold or some naughty bondage sexy times. Bound attraction at his store, use contraptions?
+Alternative ways to learn Abadon Shout via Greybeards: 1 - buy book from Angeir(the only talking one), 2 - Add another Greybeard(name?), which knows the Shout and uses it without target's consent, always full power, maybe tie it to his arousal. Design some small interior cell, access via trapdoor in some corner? Need to make sure no clash with overhauls...
+
+Abadon Living Latex/Abadon Slime (same thing, just flavour names although could be different things)
+A new custom enemy/NPC (just humanoid equipped with full latex suit/gloves/hood to look as doll like as possible) that can randomly spawn either in the wild or in same way as thugs/assassins that target you. 
+When it does spawn it can have multiple versions; 
+it can just be hostile, attacking with Abadon shout or with 'perfect' Abadon weapons that will always bind you (or at least high chance)
+it can be 'friendly' and initiate conversation with you like hired thugs and equip you with any of the things you've unlocked with Urag including extreme stuff like execution potion. It can reward you with a large amount of things like gold/abadon gems/ingots etc to compensate player but the main point of it is that the player doesn't have a choice, you WILL be getting bound.
+If you are bound already when you come across a living latex then they would have some fun with you, using you and could potentially add extra gear depending on how you are bound already.
+and finally it can 'encase' you, absorbing you into it, turning you into a doll and equipping itself to you as a new Living Latex outfit, with some new living latex tentacle plugs that fill your holes and latex tentacle gag filling your mouth (just custom plugs with flavour text/effects mostly, not expecting new models or anything to that extreme)
+like the execution set, this would be extremely hard to remove and would be regularly morphing its shape, equiping various latex restraints to bind you tightly. a living latex sample would also be something you can research or show to urag to test too  
+
